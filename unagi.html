@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -612,15 +613,22 @@ footer{background:var(--black);color:var(--white);padding:60px 40px 40px}
 </div>
 
 <script>
-// ── Storage layer (sessionStorage for demo; replace with backend in production)
-const STORAGE_KEY = 'unagi_messages';
+<script>
+// ── Supabase setup
+const SUPABASE_URL = 'https://mpxxeqrvckrcrecauglb.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHhlcXJ2Y2tyY3JlY2F1Z2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2Nzg0OTEsImV4cCI6MjA5NzI1NDQ5MX0.UYU6MffOdlazMFoQ-Al7YrezaNYOOyPg0Qex-EHN8NU';
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const ADMIN_PW = 'unagi2024';
 
-function getMsgs(){
-  try{ return JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'[]') }
-  catch(e){ return [] }
+async function getMsgs(){
+  const { data, error } = await supabaseClient
+    .from('messages')
+    .select('*')
+    .order('created_at', { ascending: false });
+  if(error){ console.error('Erro ao carregar mensagens:', error); return []; }
+  return data || [];
 }
-function saveMsgs(msgs){ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(msgs)) }
+
 
 // ── Routing: detect /admin path or hash
 function checkRoute(){
@@ -658,7 +666,7 @@ function goHome(){ location.hash=''; }
 function goContact(){ document.getElementById('contacto').scrollIntoView({behavior:'smooth'}) }
 
 // ── Form submission
-function submitForm(){
+async function submitForm(){
   const name = document.getElementById('f-name').value.trim();
   const email = document.getElementById('f-email').value.trim();
   const company = document.getElementById('f-company').value.trim();
@@ -668,15 +676,24 @@ function submitForm(){
     alert('Por favor preenche o nome, email e mensagem.');
     return;
   }
-  const msgs = getMsgs();
-  msgs.unshift({
-    id: Date.now(),
-    name, email, company, service, message,
-    date: new Date().toLocaleDateString('pt-PT',{day:'2-digit',month:'short',year:'numeric'}),
-    timestamp: Date.now(),
-    read: false
-  });
-  saveMsgs(msgs);
+  const btn = document.querySelector('.form-submit');
+  const originalText = btn.textContent;
+  btn.textContent = 'A enviar...';
+  btn.disabled = true;
+
+  const { error } = await supabaseClient
+    .from('messages')
+    .insert([{ name, email, company, service, message, read: false }]);
+
+  btn.textContent = originalText;
+  btn.disabled = false;
+
+  if(error){
+    console.error('Erro ao enviar mensagem:', error);
+    alert('Ocorreu um erro ao enviar a mensagem. Tenta novamente.');
+    return;
+  }
+
   document.getElementById('f-name').value='';
   document.getElementById('f-email').value='';
   document.getElementById('f-company').value='';
@@ -687,12 +704,14 @@ function submitForm(){
 }
 
 // ── Admin render
-function renderAdmin(){
-  const msgs = getMsgs();
+async function renderAdmin(){
+  document.getElementById('admin-msg-list').innerHTML = '<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">A carregar mensagens...</div>';
+  const msgs = await getMsgs();
+  window._msgs = msgs; // cache for modal access
   const unread = msgs.filter(m=>!m.read).length;
   const now = new Date();
   const thisMonth = msgs.filter(m=>{
-    const d = new Date(m.timestamp);
+    const d = new Date(m.created_at);
     return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
   }).length;
   const svcCount = {};
@@ -720,24 +739,31 @@ function renderAdmin(){
         <div class="admin-msg-preview">${m.message}</div>
       </div>
       <div class="admin-msg-right">
-        <div class="admin-msg-date">${m.date}</div>
+        <div class="admin-msg-date">${formatDate(m.created_at)}</div>
         ${!m.read?'<div class="admin-msg-unread-badge"></div>':''}
       </div>
     </div>
   `).join('');
 }
 
-function openMsg(i){
-  const msgs = getMsgs();
+function formatDate(iso){
+  const d = new Date(iso);
+  return d.toLocaleDateString('pt-PT',{day:'2-digit',month:'short',year:'numeric'});
+}
+
+async function openMsg(i){
+  const msgs = window._msgs;
   const m = msgs[i];
-  msgs[i].read = true;
-  saveMsgs(msgs);
-  renderAdmin();
+  if(!m.read){
+    await supabaseClient.from('messages').update({ read: true }).eq('id', m.id);
+    m.read = true;
+    renderAdmin();
+  }
   document.getElementById('modal-content').innerHTML=`
     <div class="admin-modal-field"><div class="admin-modal-label">De</div><div class="admin-modal-val">${m.name}${m.company?' ('+m.company+')':''}</div></div>
     <div class="admin-modal-field"><div class="admin-modal-label">Email</div><div class="admin-modal-val"><a href="mailto:${m.email}" style="color:var(--black)">${m.email}</a></div></div>
     ${m.service?`<div class="admin-modal-field"><div class="admin-modal-label">Área de interesse</div><div class="admin-modal-val">${m.service}</div></div>`:''}
-    <div class="admin-modal-field"><div class="admin-modal-label">Data</div><div class="admin-modal-val">${m.date}</div></div>
+    <div class="admin-modal-field"><div class="admin-modal-label">Data</div><div class="admin-modal-val">${formatDate(m.created_at)}</div></div>
     <div class="admin-modal-field"><div class="admin-modal-label">Mensagem</div><div class="admin-modal-msg">${m.message.replace(/\n/g,'<br>')}</div></div>
     <div class="admin-actions">
       <a href="mailto:${m.email}?subject=Re: UNAGI." class="admin-btn primary">Responder por email →</a>
@@ -749,11 +775,11 @@ function openMsg(i){
 
 function closeModal(){ document.getElementById('msg-modal').classList.remove('open') }
 
-function deleteMsg(i){
+async function deleteMsg(i){
   if(!confirm('Tens a certeza que queres eliminar esta mensagem?')) return;
-  const msgs = getMsgs();
-  msgs.splice(i,1);
-  saveMsgs(msgs);
+  const m = window._msgs[i];
+  const { error } = await supabaseClient.from('messages').delete().eq('id', m.id);
+  if(error){ alert('Erro ao eliminar mensagem.'); console.error(error); return; }
   closeModal();
   renderAdmin();
 }
