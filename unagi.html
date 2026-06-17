@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNAGI. — For modern markets, with a bit of fun</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;
+  --white:#f5f4f0;
+  --gray:#888;
+  --light:#e8e7e2;
+  --accent:#0a0a0a;
+  --serif:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:64px;background:var(--white);border-bottom:1px solid var(--light)}
+.nav-logo{font-size:20px;font-weight:900;letter-spacing:-0.5px;text-decoration:none;color:var(--black)}
+.nav-links{display:flex;gap:32px;align-items:center}
+.nav-links a{text-decoration:none;color:var(--black);font-size:14px;font-weight:400;opacity:0.6;transition:opacity 0.2s}
+.nav-links a:hover{opacity:1}
+.nav-cta{background:var(--black);color:var(--white)!important;opacity:1!important;padding:10px 20px;border-radius:2px;font-size:13px;font-weight:600;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;transition:opacity 0.2s}
+.nav-cta:hover{opacity:0.85!important}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;opacity:0.4;margin-bottom:24px}
+.hero-title{font-size:clamp(72px,12vw,160px);font-weight:900;line-height:0.9;letter-spacing:-4px;margin-bottom:40px}
+.hero-title span{display:block}
+.hero-bottom{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.hero-desc{max-width:400px;font-size:16px;line-height:1.7;opacity:0.6;font-weight:300}
+.hero-cta{flex-shrink:0;background:var(--black);color:var(--white);padding:16px 32px;border-radius:2px;text-decoration:none;font-size:14px;font-weight:600;letter-spacing:0.5px;display:flex;align-items:center;gap:12px;transition:transform 0.2s}
+.hero-cta:hover{transform:translateX(4px)}
+.hero-line{position:absolute;top:0;right:160px;width:1px;height:100%;background:var(--light);opacity:0.8}
+
+/* SECTIONS */
+section{padding:100px 40px}
+.section-tag{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;opacity:0.35;margin-bottom:20px}
+.section-title{font-size:clamp(36px,5vw,60px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:48px}
+
+/* SOBRE NÓS — split */
+#sobre{background:var(--white);border-top:1px solid var(--light)}
+.sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.sobre-left .section-title{margin-bottom:24px}
+.sobre-left p{font-size:16px;line-height:1.8;opacity:0.6;font-weight:300;max-width:420px}
+.sobre-right{display:flex;flex-direction:column;gap:0}
+.sobre-stat{padding:28px 0;border-top:1px solid var(--light)}
+.sobre-stat:last-child{border-bottom:1px solid var(--light)}
+.sobre-stat-num{font-size:48px;font-weight:900;letter-spacing:-2px;line-height:1}
+.sobre-stat-label{font-size:13px;opacity:0.45;margin-top:6px;font-weight:400}
+
+/* QUEM SOMOS */
+#quem{background:var(--black);color:var(--white)}
+#quem .section-tag{color:var(--white);opacity:0.3}
+#quem .section-title{color:var(--white)}
+.quem-grid{display:grid;grid-template-columns:360px 1fr;gap:80px;align-items:start}
+.quem-photo{width:100%;aspect-ratio:3/4;background:#1a1a1a;border-radius:2px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.quem-photo-initials{font-size:80px;font-weight:900;color:#333;letter-spacing:-3px}
+.quem-photo-badge{position:absolute;bottom:20px;left:20px;background:var(--white);color:var(--black);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:1px}
+.quem-content{padding-top:8px}
+.quem-name{font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:8px;color:var(--white)}
+.quem-role{font-size:14px;font-weight:500;letter-spacing:2px;text-transform:uppercase;opacity:0.4;color:var(--white);margin-bottom:36px}
+.quem-bio{font-size:16px;line-height:1.8;font-weight:300;color:rgba(255,255,255,0.6);margin-bottom:40px}
+.quem-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px}
+.quem-tag{border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);font-size:12px;font-weight:500;letter-spacing:0.5px;padding:6px 14px;border-radius:1px}
+.quem-links{display:flex;gap:20px}
+.quem-link{color:var(--white);text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.3);padding-bottom:2px;opacity:0.7;transition:opacity 0.2s}
+.quem-link:hover{opacity:1}
+
+/* ÁREAS */
+#areas{background:var(--white);border-top:1px solid var(--light)}
+.areas-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:72px}
+.areas-intro p{font-size:16px;line-height:1.8;opacity:0.55;font-weight:300;margin-top:56px}
+.areas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--light)}
+.area-card{background:var(--white);padding:48px 40px;position:relative;cursor:default;transition:background 0.25s}
+.area-card:hover{background:#f0efe9}
+.area-num{font-size:11px;font-weight:600;letter-spacing:2px;opacity:0.25;margin-bottom:32px}
+.area-icon{font-size:36px;margin-bottom:20px;line-height:1}
+.area-name{font-size:24px;font-weight:900;letter-spacing:-0.8px;margin-bottom:16px;line-height:1.1}
+.area-desc{font-size:14px;line-height:1.75;opacity:0.55;font-weight:300}
+.area-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:24px}
+.area-tag{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:0.3;border:1px solid currentColor;padding:4px 10px}
+
+/* TRABALHOS */
+#trabalhos{background:var(--black);color:var(--white)}
+#trabalhos .section-tag{color:var(--white);opacity:0.25}
+#trabalhos .section-title{color:var(--white)}
+.trab-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px}
+.trab-link{color:rgba(255,255,255,0.4);text-decoration:none;font-size:13px;font-weight:500;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;transition:color 0.2s}
+.trab-link:hover{color:var(--white)}
+.trab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1a1a1a}
+.trab-card{background:var(--black);padding:0;position:relative;overflow:hidden;aspect-ratio:4/5;cursor:pointer}
+.trab-img{width:100%;height:100%;object-fit:cover;background:#111;display:flex;align-items:center;justify-content:center;transition:transform 0.4s}
+.trab-card:hover .trab-img{transform:scale(1.03)}
+.trab-img-inner{font-size:40px;font-weight:900;color:#222;letter-spacing:-2px}
+.trab-overlay{position:absolute;bottom:0;left:0;right:0;padding:28px;background:linear-gradient(transparent,rgba(0,0,0,0.85))}
+.trab-overlay-name{font-size:20px;font-weight:900;color:var(--white);letter-spacing:-0.5px}
+.trab-overlay-type{font-size:12px;font-weight:500;color:rgba(255,255,255,0.4);margin-top:4px;text-transform:uppercase;letter-spacing:1.5px}
+
+/* INSIGHTS */
+#insights{background:var(--white);border-top:1px solid var(--light)}
+.ins-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:56px}
+.ins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--light)}
+.ins-card{background:var(--white);padding:40px 32px;display:flex;flex-direction:column}
+.ins-date{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:0.3;margin-bottom:20px}
+.ins-title{font-size:20px;font-weight:900;letter-spacing:-0.5px;line-height:1.2;margin-bottom:auto}
+.ins-cta{margin-top:32px;font-size:13px;font-weight:600;letter-spacing:0.5px;text-decoration:none;color:var(--black);display:flex;align-items:center;gap:8px;border-top:1px solid var(--light);padding-top:20px;transition:gap 0.2s}
+.ins-cta:hover{gap:12px}
+
+/* CTA BANNER */
+#cta-banner{background:var(--black);color:var(--white);padding:100px 40px;display:flex;align-items:center;justify-content:space-between;gap:40px}
+.cta-banner-text{font-size:clamp(36px,5vw,64px);font-weight:900;letter-spacing:-2px;line-height:1.05;max-width:600px;color:var(--white)}
+.cta-banner-right{flex-shrink:0;text-align:right}
+.cta-banner-right p{font-size:15px;opacity:0.45;color:var(--white);margin-bottom:24px;max-width:300px;line-height:1.6;font-weight:300}
+.cta-banner-btn{display:inline-flex;align-items:center;gap:12px;background:var(--white);color:var(--black);padding:16px 32px;border-radius:2px;font-size:14px;font-weight:700;letter-spacing:0.5px;text-decoration:none;transition:transform 0.2s}
+.cta-banner-btn:hover{transform:translateX(4px)}
+
+/* CONTACTO */
+#contacto{background:var(--white);border-top:1px solid var(--light)}
+.contacto-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+.contacto-left p{font-size:16px;line-height:1.8;opacity:0.55;font-weight:300;margin-bottom:40px}
+.contacto-info{display:flex;flex-direction:column;gap:0}
+.contacto-info-row{padding:20px 0;border-top:1px solid var(--light);display:flex;justify-content:space-between;align-items:center}
+.contacto-info-row:last-child{border-bottom:1px solid var(--light)}
+.contacto-info-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:0.3}
+.contacto-info-val{font-size:14px;font-weight:500}
+.contacto-form{display:flex;flex-direction:column;gap:20px}
+.form-group{display:flex;flex-direction:column;gap:8px}
+.form-group label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.4}
+.form-group input,.form-group textarea,.form-group select{width:100%;border:1px solid var(--light);background:transparent;padding:14px 16px;font-family:'Inter',sans-serif;font-size:15px;border-radius:2px;outline:none;color:var(--black);transition:border-color 0.2s;-webkit-appearance:none}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--black)}
+.form-group textarea{min-height:140px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-submit{background:var(--black);color:var(--white);border:none;padding:16px 32px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.5px;cursor:pointer;border-radius:2px;display:flex;align-items:center;gap:12px;transition:opacity 0.2s;width:100%;justify-content:center}
+.form-submit:hover{opacity:0.85}
+.form-success{display:none;background:#f0efe9;border:1px solid var(--light);padding:20px 24px;border-radius:2px;font-size:14px;line-height:1.6;color:var(--black);margin-top:8px}
+
+/* FOOTER */
+footer{background:var(--black);color:var(--white);padding:60px 40px 40px}
+.footer-top{display:grid;grid-template-columns:240px 1fr 1fr 1fr;gap:60px;padding-bottom:60px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.footer-brand{font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:10px;color:var(--white)}
+.footer-tagline{font-size:13px;opacity:0.35;line-height:1.6;font-weight:300;color:var(--white)}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.3;margin-bottom:20px;color:var(--white)}
+.footer-col a,.footer-col p{display:block;color:rgba(255,255,255,0.5);text-decoration:none;font-size:14px;margin-bottom:12px;transition:color 0.2s;font-weight:300}
+.footer-col a:hover{color:var(--white)}
+.footer-bottom{padding-top:32px;display:flex;align-items:center;justify-content:space-between}
+.footer-bottom p{font-size:12px;opacity:0.25;color:var(--white)}
+.footer-bottom a{color:rgba(255,255,255,0.25);text-decoration:none;font-size:12px;transition:color 0.2s}
+.footer-bottom a:hover{color:rgba(255,255,255,0.6)}
+
+/* ADMIN — hidden page */
+#admin-page{display:none;min-height:100vh;background:#f5f4f0;font-family:'Inter',sans-serif}
+.admin-nav{background:var(--black);color:var(--white);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.admin-nav-title{font-size:16px;font-weight:900;letter-spacing:-0.3px;color:var(--white)}
+.admin-nav-tag{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:0.4;color:var(--white)}
+.admin-nav-exit{background:rgba(255,255,255,0.1);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:2px;cursor:pointer;transition:background 0.2s}
+.admin-nav-exit:hover{background:rgba(255,255,255,0.18)}
+.admin-body{max-width:1100px;margin:0 auto;padding:48px 40px}
+.admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
+.admin-stat{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px}
+.admin-stat-num{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.admin-stat-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.35;margin-top:6px}
+.admin-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--light)}
+.admin-msg-list{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
+.admin-msg{background:var(--white);padding:24px 28px;cursor:pointer;transition:background 0.15s;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
+.admin-msg:hover{background:#f8f7f3}
+.admin-msg.unread{border-left:3px solid var(--black)}
+.admin-msg-left{display:flex;flex-direction:column;gap:4px}
+.admin-msg-name{font-size:15px;font-weight:700;letter-spacing:-0.3px}
+.admin-msg-preview{font-size:13px;opacity:0.45;font-weight:300;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:600px}
+.admin-msg-meta{display:flex;gap:12px;align-items:center}
+.admin-msg-service{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:#f0efe9;padding:3px 8px;border-radius:1px;opacity:0.7}
+.admin-msg-right{text-align:right}
+.admin-msg-date{font-size:11px;opacity:0.3;font-weight:400}
+.admin-msg-unread-badge{display:inline-block;width:8px;height:8px;background:var(--black);border-radius:50%;margin-top:6px}
+.admin-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;padding:40px}
+.admin-modal.open{display:flex}
+.admin-modal-inner{background:var(--white);border-radius:2px;max-width:600px;width:100%;padding:40px;position:relative;max-height:80vh;overflow-y:auto}
+.admin-modal-close{position:absolute;top:20px;right:20px;background:none;border:none;font-size:20px;cursor:pointer;opacity:0.4;font-family:'Inter',sans-serif}
+.admin-modal-close:hover{opacity:1}
+.admin-modal-field{margin-bottom:20px}
+.admin-modal-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:6px}
+.admin-modal-val{font-size:15px;font-weight:400;line-height:1.7}
+.admin-modal-msg{background:#f8f7f3;padding:20px;border-radius:2px;font-size:15px;line-height:1.75;color:var(--black);font-weight:300}
+.admin-actions{display:flex;gap:12px;margin-top:28px}
+.admin-btn{padding:10px 20px;border-radius:2px;border:1px solid var(--light);font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all 0.2s;background:transparent}
+.admin-btn:hover{background:var(--light)}
+.admin-btn.primary{background:var(--black);color:var(--white);border-color:var(--black)}
+.admin-btn.primary:hover{opacity:0.85}
+.admin-btn.danger{border-color:#e24b4a;color:#e24b4a}
+.admin-btn.danger:hover{background:#fcebeb}
+.admin-login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--black)}
+.admin-login-box{background:var(--white);padding:48px;border-radius:2px;width:100%;max-width:380px}
+.admin-login-title{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:8px}
+.admin-login-sub{font-size:13px;opacity:0.4;margin-bottom:36px;font-weight:300}
+.admin-login-error{color:#e24b4a;font-size:13px;margin-top:12px;display:none}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .nav-links{display:none}
+  #hero{padding:100px 20px 60px}
+  .hero-bottom{flex-direction:column;align-items:flex-start}
+  section{padding:72px 20px}
+  .sobre-grid,.quem-grid,.areas-intro,.contacto-grid,.trab-grid{grid-template-columns:1fr;gap:40px}
+  .areas-grid{grid-template-columns:1fr}
+  .ins-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+  #cta-banner{flex-direction:column;align-items:flex-start}
+  .cta-banner-right{text-align:left}
+  .admin-stats{grid-template-columns:repeat(2,1fr)}
+  .admin-body{padding:32px 20px}
+}
+</style>
+</head>
+<body>
+
+<!-- MAIN WEBSITE -->
+<div id="main-site">
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="goHome()">UNAGI.</a>
+  <div class="nav-links">
+    <a href="#sobre">Sobre</a>
+    <a href="#areas">Serviços</a>
+    <a href="#quem">Equipa</a>
+    <a href="#insights">Insights</a>
+    <a href="#contacto">Contacto</a>
+    <a href="#" class="nav-cta" onclick="goContact()">Vamos falar →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-line"></div>
+  <div class="hero-eyebrow">Lisboa · Portugal · 2024</div>
+  <h1 class="hero-title">
+    <span>UNAGI.</span>
+  </h1>
+  <div class="hero-bottom">
+    <p class="hero-desc">Transformamos marcas em histórias que conectam, inspiram e geram impacto — com estratégia, criatividade e um toque de irreverência.</p>
+    <a href="#contacto" class="hero-cta">Vamos falar →</a>
+  </div>
+</section>
+
+<!-- SOBRE NÓS -->
+<section id="sobre">
+  <div class="section-tag">Sobre nós</div>
+  <div class="sobre-grid">
+    <div class="sobre-left">
+      <h2 class="section-title">Criamos ideias relevantes que geram impacto.</h2>
+      <p>Acreditamos em ideias com propósito, executadas com criatividade, estratégia e atenção ao detalhe. Do branding ao digital, da formação à consultoria, ajudamos marcas e pessoas a destacarem-se e a crescerem de forma sustentável.</p>
+      <br>
+      <p>Somos uma agência ágil, com visão estratégica e execução criativa. Sem estruturas pesadas. Sem promessas vazias. Com resultados que ficam.</p>
+    </div>
+    <div class="sobre-right">
+      <div class="sobre-stat">
+        <div class="sobre-stat-num">+12</div>
+        <div class="sobre-stat-label">Anos de experiência em marketing e comunicação</div>
+      </div>
+      <div class="sobre-stat">
+        <div class="sobre-stat-num">+60</div>
+        <div class="sobre-stat-label">Projetos desenvolvidos para marcas e organizações</div>
+      </div>
+      <div class="sobre-stat">
+        <div class="sobre-stat-num">4</div>
+        <div class="sobre-stat-label">Áreas de atuação complementares</div>
+      </div>
+      <div class="sobre-stat">
+        <div class="sobre-stat-num">∞</div>
+        <div class="sobre-stat-label">Compromisso com resultados reais e sustentáveis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUEM SOMOS -->
+<section id="quem">
+  <div class="section-tag">Quem somos</div>
+  <div class="quem-grid">
+    <div class="quem-photo">
+      <div class="quem-photo-initials">AT</div>
+      <div class="quem-photo-badge">Founder</div>
+    </div>
+    <div class="quem-content">
+      <h2 class="quem-name">André Arrátel Torrão</h2>
+      <p class="quem-role">Founder & Estratega</p>
+      <p class="quem-bio">Com mais de uma década de experiência em marketing, comunicação e desenvolvimento de negócios, André Arrátel Torrão construiu o seu percurso entre agências, consultoras e projetos de referência em Portugal.</p>
+      <p class="quem-bio">Passou por The Square e The Ad Store Portugal, onde desenvolveu competências em estratégia criativa e comunicação de marca. Mais recentemente, enquanto Head of Business Development na Addapters, reforçou a sua visão sobre o cruzamento entre tecnologia, inovação e marketing.</p>
+      <p class="quem-bio">A UNAGI nasce dessa experiência acumulada e de uma convicção simples: <strong style="font-weight:700;color:var(--white)">as melhores marcas não se constroem por acaso</strong>. Constroem-se com estratégia, criatividade e a coragem de ser diferentes.</p>
+      <div class="quem-tags">
+        <span class="quem-tag">Estratégia de Marca</span>
+        <span class="quem-tag">Marketing Digital</span>
+        <span class="quem-tag">Inteligência Artificial</span>
+        <span class="quem-tag">Formação</span>
+        <span class="quem-tag">Consultoria</span>
+        <span class="quem-tag">Business Development</span>
+      </div>
+      <div class="quem-links">
+        <a href="https://www.linkedin.com/in/andr%C3%A9-arr%C3%A1tel-torr%C3%A3o/" target="_blank" class="quem-link">LinkedIn →</a>
+        <a href="#contacto" class="quem-link">Fala comigo →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ÁREAS DE TRABALHO -->
+<section id="areas">
+  <div class="areas-intro">
+    <div>
+      <div class="section-tag">O que fazemos</div>
+      <h2 class="section-title">Quatro áreas. Um só propósito.</h2>
+    </div>
+    <p>Não somos uma agência tradicional. Somos um parceiro estratégico que atua onde a tua marca mais precisa — seja no posicionamento, na tecnologia, nas pessoas ou na transformação do negócio.</p>
+  </div>
+
+  <div class="areas-grid">
+    <div class="area-card">
+      <div class="area-num">01</div>
+      <div class="area-icon">◐</div>
+      <h3 class="area-name">Marketing &amp; Comunicação</h3>
+      <p class="area-desc">Estratégia de marca, branding, conteúdo, gestão de redes sociais e campanhas digitais. Criamos narrativas que conectam a tua marca ao público certo, com consistência e impacto mensurável.</p>
+      <div class="area-tags">
+        <span class="area-tag">Branding</span>
+        <span class="area-tag">Conteúdo</span>
+        <span class="area-tag">Social Media</span>
+        <span class="area-tag">Estratégia</span>
+      </div>
+    </div>
+    <div class="area-card">
+      <div class="area-num">02</div>
+      <div class="area-icon">◈</div>
+      <h3 class="area-name">Inteligência Artificial</h3>
+      <p class="area-desc">Implementação de ferramentas de IA aplicadas ao marketing, comunicação e operações. Automação de processos, criação de conteúdo assistida e integração de IA generativa no dia a dia das empresas.</p>
+      <div class="area-tags">
+        <span class="area-tag">IA Generativa</span>
+        <span class="area-tag">Automação</span>
+        <span class="area-tag">Prompt Design</span>
+        <span class="area-tag">Ferramentas</span>
+      </div>
+    </div>
+    <div class="area-card">
+      <div class="area-num">03</div>
+      <div class="area-icon">◎</div>
+      <h3 class="area-name">Formação &amp; Consultoria</h3>
+      <p class="area-desc">Workshops, sessões de formação e consultoria personalizada para equipas e organizações. Do marketing digital à IA, capacitamos pessoas para os desafios do mercado atual com conhecimento aplicado e prático.</p>
+      <div class="area-tags">
+        <span class="area-tag">Workshops</span>
+        <span class="area-tag">Mentoria</span>
+        <span class="area-tag">Empresas</span>
+        <span class="area-tag">Equipas</span>
+      </div>
+    </div>
+    <div class="area-card">
+      <div class="area-num">04</div>
+      <div class="area-icon">◉</div>
+      <h3 class="area-name">Transição Digital</h3>
+      <p class="area-desc">Acompanhamos empresas na sua jornada de transformação digital — desde o diagnóstico estratégico à implementação de novas ferramentas, processos e culturas digitais. Com foco em resultados, não em tecnologia pela tecnologia.</p>
+      <div class="area-tags">
+        <span class="area-tag">Diagnóstico</span>
+        <span class="area-tag">Implementação</span>
+        <span class="area-tag">Processos</span>
+        <span class="area-tag">Roadmap</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRABALHOS -->
+<section id="trabalhos" style="padding-bottom:0">
+  <div class="trab-header">
+    <div>
+      <div class="section-tag">Trabalhos</div>
+      <h2 class="section-title" style="margin-bottom:0">Ideias que falam.<br>Resultados que ficam.</h2>
+    </div>
+    <a href="#contacto" class="trab-link">Ver todos os trabalhos →</a>
+  </div>
+  <div class="trab-grid">
+    <div class="trab-card">
+      <div class="trab-img"><div class="trab-img-inner">SÁUD</div></div>
+      <div class="trab-overlay">
+        <div class="trab-overlay-name">Sáud</div>
+        <div class="trab-overlay-type">Branding · Marketing</div>
+      </div>
+    </div>
+    <div class="trab-card">
+      <div class="trab-img"><div class="trab-img-inner">BIKEUP</div></div>
+      <div class="trab-overlay">
+        <div class="trab-overlay-name">BikeUp</div>
+        <div class="trab-overlay-type">Digital · Estratégia</div>
+      </div>
+    </div>
+    <div class="trab-card">
+      <div class="trab-img"><div class="trab-img-inner">MIRÁ</div></div>
+      <div class="trab-overlay">
+        <div class="trab-overlay-name">Mirá</div>
+        <div class="trab-overlay-type">Branding · Conteúdo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSIGHTS -->
+<section id="insights">
+  <div class="ins-header">
+    <div>
+      <div class="section-tag">Insights</div>
+      <h2 class="section-title" style="margin-bottom:0">Ideias frescas,<br>pensamentos afiados.</h2>
+    </div>
+    <a href="#" class="trab-link" style="color:var(--black);border-color:var(--light)">Ver todos os artigos →</a>
+  </div>
+  <div class="ins-grid">
+    <div class="ins-card">
+      <div class="ins-date">07 Mai 2024</div>
+      <h3 class="ins-title">Branding: muito mais do que um logo bonito</h3>
+      <a href="#" class="ins-cta">Ler artigo →</a>
+    </div>
+    <div class="ins-card">
+      <div class="ins-date">22 Abr 2024</div>
+      <h3 class="ins-title">Como a IA está a mudar o marketing — e o que isso significa para a tua marca</h3>
+      <a href="#" class="ins-cta">Ler artigo →</a>
+    </div>
+    <div class="ins-card">
+      <div class="ins-date">10 Abr 2024</div>
+      <h3 class="ins-title">Transição digital: por onde começar sem perder o foco no negócio</h3>
+      <a href="#" class="ins-cta">Ler artigo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<div id="cta-banner">
+  <div class="cta-banner-text">Pronto para criar algo incrível?</div>
+  <div class="cta-banner-right">
+    <p>Vamos conversar sobre o que a tua marca precisa para chegar mais longe.</p>
+    <a href="#contacto" class="cta-banner-btn">Vamos falar →</a>
+  </div>
+</div>
+
+<!-- CONTACTO -->
+<section id="contacto">
+  <div class="section-tag">Contacto</div>
+  <div class="contacto-grid">
+    <div class="contacto-left">
+      <h2 class="section-title">Fala connosco.</h2>
+      <p>Tens um projeto, uma ideia ou simplesmente queres perceber como podemos ajudar? Envia-nos uma mensagem e entraremos em contacto em breve.</p>
+      <div class="contacto-info">
+        <div class="contacto-info-row">
+          <span class="contacto-info-label">Email</span>
+          <span class="contacto-info-val">ola@unagi.pt</span>
+        </div>
+        <div class="contacto-info-row">
+          <span class="contacto-info-label">Telefone</span>
+          <span class="contacto-info-val">+351 000 000 000</span>
+        </div>
+        <div class="contacto-info-row">
+          <span class="contacto-info-label">Localização</span>
+          <span class="contacto-info-val">Lisboa, Portugal</span>
+        </div>
+        <div class="contacto-info-row">
+          <span class="contacto-info-label">LinkedIn</span>
+          <span class="contacto-info-val">linkedin.com/company/unagi</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="contacto-form" id="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="f-name" placeholder="O teu nome">
+          </div>
+          <div class="form-group">
+            <label>Empresa</label>
+            <input type="text" id="f-company" placeholder="A tua empresa">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="f-email" placeholder="email@exemplo.com">
+        </div>
+        <div class="form-group">
+          <label>Área de interesse</label>
+          <select id="f-service">
+            <option value="">Seleciona uma área</option>
+            <option>Marketing &amp; Comunicação</option>
+            <option>Inteligência Artificial</option>
+            <option>Formação &amp; Consultoria</option>
+            <option>Transição Digital</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Mensagem</label>
+          <textarea id="f-message" placeholder="Conta-nos um pouco sobre o teu projeto ou desafio..."></textarea>
+        </div>
+        <button class="form-submit" onclick="submitForm()">Enviar mensagem →</button>
+        <div class="form-success" id="form-success">
+          ✓ &nbsp;Mensagem enviada com sucesso! Entraremos em contacto em breve.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">UNAGI.</div>
+      <div class="footer-tagline">For modern markets,<br>with a bit of fun</div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Navegação</div>
+      <a href="#sobre">Sobre</a>
+      <a href="#areas">Serviços</a>
+      <a href="#quem">Equipa</a>
+      <a href="#insights">Insights</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Serviços</div>
+      <a href="#areas">Marketing &amp; Comunicação</a>
+      <a href="#areas">Inteligência Artificial</a>
+      <a href="#areas">Formação &amp; Consultoria</a>
+      <a href="#areas">Transição Digital</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Vamos conversar</div>
+      <p>ola@unagi.pt</p>
+      <p>+351 000 000 000</p>
+      <p>Lisboa, Portugal</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© UNAGI. 2024</p>
+    <div style="display:flex;gap:24px">
+      <a href="#">Política de Privacidade</a>
+      <a href="#">Termos e Condições</a>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /main-site -->
+
+<!-- ADMIN LOGIN -->
+<div id="admin-login" style="display:none">
+  <div class="admin-login">
+    <div class="admin-login-box">
+      <div class="admin-login-title">UNAGI. Admin</div>
+      <p class="admin-login-sub">Acesso restrito. Introduz a palavra-passe para continuar.</p>
+      <div class="form-group">
+        <label style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.4;display:block;margin-bottom:8px">Palavra-passe</label>
+        <input type="password" id="admin-pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkLogin()" style="width:100%;border:1px solid #e8e7e2;background:transparent;padding:14px 16px;font-family:Inter,sans-serif;font-size:15px;border-radius:2px;outline:none;color:#0a0a0a">
+      </div>
+      <p class="admin-login-error" id="login-error">Palavra-passe incorreta.</p>
+      <button class="form-submit" onclick="checkLogin()" style="margin-top:20px;width:100%;justify-content:center">Entrar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-page">
+  <nav class="admin-nav">
+    <div>
+      <span class="admin-nav-title">UNAGI. Admin</span>
+      &nbsp;&nbsp;
+      <span class="admin-nav-tag">Painel de mensagens</span>
+    </div>
+    <button class="admin-nav-exit" onclick="exitAdmin()">← Sair</button>
+  </nav>
+  <div class="admin-body">
+    <div class="admin-stats">
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-total">0</div>
+        <div class="admin-stat-label">Total de mensagens</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-unread">0</div>
+        <div class="admin-stat-label">Não lidas</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-this-month">0</div>
+        <div class="admin-stat-label">Este mês</div>
+      </div>
+      <div class="admin-stat">
+        <div class="admin-stat-num" id="stat-services">—</div>
+        <div class="admin-stat-label">Serviço mais pedido</div>
+      </div>
+    </div>
+    <div class="admin-section-title">Mensagens recebidas</div>
+    <div class="admin-msg-list" id="admin-msg-list">
+      <div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">Ainda não há mensagens.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MESSAGE MODAL -->
+<div class="admin-modal" id="msg-modal">
+  <div class="admin-modal-inner">
+    <button class="admin-modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── Storage layer (sessionStorage for demo; replace with backend in production)
+const STORAGE_KEY = 'unagi_messages';
+const ADMIN_PW = 'unagi2024';
+
+function getMsgs(){
+  try{ return JSON.parse(sessionStorage.getItem(STORAGE_KEY)||'[]') }
+  catch(e){ return [] }
+}
+function saveMsgs(msgs){ sessionStorage.setItem(STORAGE_KEY, JSON.stringify(msgs)) }
+
+// ── Routing: detect /admin path or hash
+function checkRoute(){
+  const hash = location.hash;
+  const path = location.pathname;
+  if(hash==='#/admin' || path.endsWith('/admin')){
+    showAdminLogin();
+  }
+}
+
+function showAdminLogin(){
+  document.getElementById('main-site').style.display='none';
+  document.getElementById('admin-login').style.display='block';
+  document.getElementById('admin-page').style.display='none';
+}
+
+function checkLogin(){
+  const pw = document.getElementById('admin-pw').value;
+  if(pw === ADMIN_PW){
+    document.getElementById('admin-login').style.display='none';
+    document.getElementById('admin-page').style.display='block';
+    renderAdmin();
+  } else {
+    document.getElementById('login-error').style.display='block';
+  }
+}
+
+function exitAdmin(){
+  document.getElementById('admin-page').style.display='none';
+  document.getElementById('main-site').style.display='block';
+  location.hash='';
+}
+
+function goHome(){ location.hash=''; }
+function goContact(){ document.getElementById('contacto').scrollIntoView({behavior:'smooth'}) }
+
+// ── Form submission
+function submitForm(){
+  const name = document.getElementById('f-name').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const company = document.getElementById('f-company').value.trim();
+  const service = document.getElementById('f-service').value;
+  const message = document.getElementById('f-message').value.trim();
+  if(!name||!email||!message){
+    alert('Por favor preenche o nome, email e mensagem.');
+    return;
+  }
+  const msgs = getMsgs();
+  msgs.unshift({
+    id: Date.now(),
+    name, email, company, service, message,
+    date: new Date().toLocaleDateString('pt-PT',{day:'2-digit',month:'short',year:'numeric'}),
+    timestamp: Date.now(),
+    read: false
+  });
+  saveMsgs(msgs);
+  document.getElementById('f-name').value='';
+  document.getElementById('f-email').value='';
+  document.getElementById('f-company').value='';
+  document.getElementById('f-service').value='';
+  document.getElementById('f-message').value='';
+  document.getElementById('form-success').style.display='block';
+  setTimeout(()=>{ document.getElementById('form-success').style.display='none' }, 5000);
+}
+
+// ── Admin render
+function renderAdmin(){
+  const msgs = getMsgs();
+  const unread = msgs.filter(m=>!m.read).length;
+  const now = new Date();
+  const thisMonth = msgs.filter(m=>{
+    const d = new Date(m.timestamp);
+    return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();
+  }).length;
+  const svcCount = {};
+  msgs.forEach(m=>{ if(m.service){ svcCount[m.service]=(svcCount[m.service]||0)+1 } });
+  const topSvc = Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
+
+  document.getElementById('stat-total').textContent = msgs.length;
+  document.getElementById('stat-unread').textContent = unread;
+  document.getElementById('stat-this-month').textContent = thisMonth;
+  document.getElementById('stat-services').textContent = topSvc ? topSvc[0].split(' ')[0] : '—';
+
+  const list = document.getElementById('admin-msg-list');
+  if(!msgs.length){
+    list.innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">Ainda não há mensagens.</div>';
+    return;
+  }
+  list.innerHTML = msgs.map((m,i)=>`
+    <div class="admin-msg${m.read?'':' unread'}" onclick="openMsg(${i})">
+      <div class="admin-msg-left">
+        <div class="admin-msg-name">${m.name}${m.company?' <span style="font-weight:400;opacity:0.45">· '+m.company+'</span>':''}</div>
+        <div class="admin-msg-meta">
+          ${m.service?`<span class="admin-msg-service">${m.service}</span>`:''}
+          <span class="admin-msg-preview">${m.email}</span>
+        </div>
+        <div class="admin-msg-preview">${m.message}</div>
+      </div>
+      <div class="admin-msg-right">
+        <div class="admin-msg-date">${m.date}</div>
+        ${!m.read?'<div class="admin-msg-unread-badge"></div>':''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function openMsg(i){
+  const msgs = getMsgs();
+  const m = msgs[i];
+  msgs[i].read = true;
+  saveMsgs(msgs);
+  renderAdmin();
+  document.getElementById('modal-content').innerHTML=`
+    <div class="admin-modal-field"><div class="admin-modal-label">De</div><div class="admin-modal-val">${m.name}${m.company?' ('+m.company+')':''}</div></div>
+    <div class="admin-modal-field"><div class="admin-modal-label">Email</div><div class="admin-modal-val"><a href="mailto:${m.email}" style="color:var(--black)">${m.email}</a></div></div>
+    ${m.service?`<div class="admin-modal-field"><div class="admin-modal-label">Área de interesse</div><div class="admin-modal-val">${m.service}</div></div>`:''}
+    <div class="admin-modal-field"><div class="admin-modal-label">Data</div><div class="admin-modal-val">${m.date}</div></div>
+    <div class="admin-modal-field"><div class="admin-modal-label">Mensagem</div><div class="admin-modal-msg">${m.message.replace(/\n/g,'<br>')}</div></div>
+    <div class="admin-actions">
+      <a href="mailto:${m.email}?subject=Re: UNAGI." class="admin-btn primary">Responder por email →</a>
+      <button class="admin-btn danger" onclick="deleteMsg(${i})">Eliminar</button>
+    </div>
+  `;
+  document.getElementById('msg-modal').classList.add('open');
+}
+
+function closeModal(){ document.getElementById('msg-modal').classList.remove('open') }
+
+function deleteMsg(i){
+  if(!confirm('Tens a certeza que queres eliminar esta mensagem?')) return;
+  const msgs = getMsgs();
+  msgs.splice(i,1);
+  saveMsgs(msgs);
+  closeModal();
+  renderAdmin();
+}
+
+// ── Hash-based routing
+window.addEventListener('hashchange', ()=>{
+  if(location.hash==='#/admin') showAdminLogin();
+});
+
+// Intercept nav-cta click properly
+document.querySelector('.nav-cta').addEventListener('click', function(e){
+  e.preventDefault();
+  document.getElementById('contacto').scrollIntoView({behavior:'smooth'});
+});
+
+checkRoute();
+</script>
+</body>
+</html>
