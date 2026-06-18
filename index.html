@@ -29,6 +29,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 .nav-links a:hover{opacity:1}
 .nav-cta{background:var(--black);color:var(--white)!important;opacity:1!important;padding:10px 20px;border-radius:2px;font-size:13px;font-weight:600;letter-spacing:0.3px;display:flex;align-items:center;gap:8px;transition:opacity 0.2s}
 .nav-cta:hover{opacity:0.85!important}
+.nav-burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:32px;height:32px;background:none;border:none;cursor:pointer;padding:0}
+.nav-burger span{display:block;width:24px;height:2px;background:var(--black);transition:transform 0.25s,opacity 0.25s}
+.nav-burger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-burger.open span:nth-child(2){opacity:0}
+.nav-burger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-nav{display:none;position:fixed;top:64px;left:0;right:0;bottom:0;background:var(--white);z-index:99;flex-direction:column;padding:32px 28px;gap:4px;overflow-y:auto}
+.mobile-nav.open{display:flex}
+.mobile-nav a{text-decoration:none;color:var(--black);font-size:24px;font-weight:700;letter-spacing:-0.5px;padding:18px 0;border-bottom:1px solid var(--light)}
+.mobile-nav-cta{margin-top:20px;background:var(--black);color:var(--white)!important;text-align:center;border-radius:2px;border-bottom:none!important;padding:18px 0!important;font-size:16px!important}
 
 /* HERO */
 #hero{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:120px 56px 96px;position:relative;overflow:hidden;background:var(--black);color:var(--white)}
@@ -50,8 +59,8 @@ section{padding:120px 56px}
 .sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .sobre-left .section-title{margin-bottom:24px}
 .sobre-left p{font-size:16px;line-height:1.8;opacity:0.6;font-weight:300;max-width:420px}
-.sobre-graphic{width:160px;margin-top:56px;opacity:0.9}
-.sobre-graphic svg{width:100%;height:auto}
+.sobre-image{margin-top:48px;border-radius:2px;overflow:hidden;aspect-ratio:16/10}
+.sobre-image img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(100%) contrast(1.05)}
 .sobre-right{display:flex;flex-direction:column;gap:0}
 .sobre-stat{padding:28px 0;border-top:1px solid var(--light)}
 .sobre-stat:last-child{border-bottom:1px solid var(--light)}
@@ -77,8 +86,8 @@ section{padding:120px 56px}
 /* ÁREAS */
 #areas{background:var(--white);border-top:1px solid var(--light)}
 .areas-intro{display:grid;grid-template-columns:1fr 1fr;gap:80px;margin-bottom:56px}
-.areas-graphic{margin-bottom:56px;opacity:0.8}
-.areas-graphic svg{width:100%;height:auto;display:block}
+.areas-image{width:100%;aspect-ratio:21/9;border-radius:2px;overflow:hidden;margin-bottom:56px}
+.areas-image img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(100%) contrast(1.05)}
 .areas-intro p{font-size:16px;line-height:1.8;opacity:0.55;font-weight:300;margin-top:56px}
 .areas-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--light)}
 .area-card{background:var(--white);padding:48px 40px;position:relative;cursor:default;transition:background 0.25s}
@@ -167,21 +176,58 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .admin-login-sub{font-size:13px;opacity:0.4;margin-bottom:36px;font-weight:300}
 .admin-login-error{color:#e24b4a;font-size:13px;margin-top:12px;display:none}
 
+/* TABLET */
+@media(max-width:1024px){
+  .quem-grid{grid-template-columns:280px 1fr;gap:48px}
+  section{padding:96px 40px}
+}
+
 /* MOBILE */
 @media(max-width:768px){
   nav{padding:0 20px}
   .nav-links{display:none}
-  #hero{padding:100px 20px 60px}
-  .hero-bottom{flex-direction:column;align-items:flex-start}
-  section{padding:72px 20px}
-  .sobre-grid,.quem-grid,.areas-intro{grid-template-columns:1fr;gap:40px}
+  .nav-burger{display:flex}
+  #hero{padding:96px 20px 56px;min-height:92vh}
+  .hero-title{letter-spacing:-2px}
+  .hero-bottom{flex-direction:column;align-items:flex-start;gap:28px}
+  .hero-desc{max-width:100%}
+  .hero-cta{width:100%;justify-content:center}
+  section{padding:64px 20px}
+  .section-title{letter-spacing:-1px}
+  .sobre-grid{grid-template-columns:1fr;gap:48px}
+  .sobre-image{margin-top:36px}
+  .quem-grid{grid-template-columns:1fr;gap:32px}
+  .quem-photo{max-width:280px;margin:0 auto}
+  .quem-content{padding-top:0;text-align:left}
+  .areas-intro{grid-template-columns:1fr;gap:24px;margin-bottom:40px}
+  .areas-intro p{margin-top:0}
+  .areas-image{aspect-ratio:4/3;margin-bottom:40px}
   .areas-grid{grid-template-columns:1fr}
-  .form-row{grid-template-columns:1fr}
-  .form-submit{width:100%}
-  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
-  #cta-banner{padding:80px 24px}
+  .area-card{padding:36px 28px}
+  #cta-banner{padding:72px 24px}
+  .cta-banner-text{letter-spacing:-1px}
+  .contacto-header{margin-bottom:40px}
+  .form-row{grid-template-columns:1fr;gap:16px}
+  .form-group input,.form-group textarea,.form-group select{padding:15px 16px;font-size:15px}
+  .form-submit{width:100%;padding:18px 32px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px;padding-bottom:40px}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:16px}
   .admin-stats{grid-template-columns:repeat(2,1fr)}
   .admin-body{padding:32px 20px}
+  .admin-nav{padding:0 20px}
+  .admin-msg{grid-template-columns:1fr;gap:8px}
+  .admin-msg-right{text-align:left;display:flex;align-items:center;gap:8px}
+  .admin-modal{padding:20px}
+  .admin-modal-inner{padding:28px 24px}
+  .admin-actions{flex-direction:column}
+  .admin-login-box{padding:36px 28px;margin:0 16px}
+}
+
+/* SMALL MOBILE */
+@media(max-width:420px){
+  .hero-title{font-size:clamp(56px,18vw,90px)}
+  .footer-top{grid-template-columns:1fr;gap:28px}
+  .form-row{gap:14px}
 }
 </style>
 </head>
@@ -200,7 +246,19 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <a href="#contacto">Contacto</a>
     <a href="#" class="nav-cta" onclick="goContact()">Vamos falar →</a>
   </div>
+  <button class="nav-burger" id="nav-burger" onclick="toggleMobileNav()" aria-label="Abrir menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav" id="mobile-nav">
+  <a href="#sobre" onclick="closeMobileNav()">Sobre</a>
+  <a href="#areas" onclick="closeMobileNav()">Serviços</a>
+  <a href="#quem" onclick="closeMobileNav()">Equipa</a>
+  <a href="#contacto" onclick="closeMobileNav()">Contacto</a>
+  <a href="#contacto" class="mobile-nav-cta" onclick="closeMobileNav()">Vamos falar →</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -222,13 +280,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       <p>Acreditamos em ideias com propósito, executadas com criatividade, estratégia e atenção ao detalhe. Do branding ao digital, da formação à consultoria, ajudamos marcas e pessoas a destacarem-se e a crescerem de forma sustentável.</p>
       <br>
       <p>Somos uma agência ágil, com visão estratégica e execução criativa. Sem estruturas pesadas. Sem promessas vazias. Com resultados que ficam.</p>
-      <div class="sobre-graphic">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="120" cy="120" r="118" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.08"/>
-          <circle cx="120" cy="120" r="86" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.14"/>
-          <circle cx="120" cy="120" r="54" fill="none" stroke="#0a0a0a" stroke-width="1" opacity="0.22"/>
-          <circle cx="120" cy="120" r="10" fill="#0a0a0a"/>
-        </svg>
+      <div class="sobre-image">
+        <img src="https://images.unsplash.com/photo-1649182785115-eb5bd1c4cd45?auto=format&fit=crop&w=900&q=80" alt="Padrão abstrato minimalista">
       </div>
     </div>
     <div class="sobre-right">
@@ -258,7 +311,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     </div>
     <div class="quem-content">
       <h2 class="quem-name">André Arrátel Torrão</h2>
-      <p class="quem-role">Founder & Estratega — Joga na defesa, no ataque e ainda vai à baliza</p>
+      <p class="quem-role">Founder & Joga na defesa, no ataque e ainda vai à baliza</p>
       <p class="quem-bio">Com mais de uma década de experiência em marketing, comunicação e desenvolvimento de negócios, André Arrátel Torrão construiu o seu percurso entre agências, consultoras e projetos de referência em Portugal.</p>
       <p class="quem-bio">Passou por The Square e The Ad Store Portugal, onde desenvolveu competências em estratégia criativa e comunicação de marca. Mais recentemente, enquanto Head of Business Development na Addapters, reforçou a sua visão sobre o cruzamento entre tecnologia, inovação e marketing.</p>
       <p class="quem-bio">A UNAGI nasce dessa experiência acumulada e de uma convicção simples: <strong style="font-weight:700;color:var(--white)">as melhores marcas não se constroem por acaso</strong>. Constroem-se com estratégia, criatividade e a coragem de ser diferentes.</p>
@@ -279,16 +332,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <p>Não somos uma agência tradicional. Somos um parceiro estratégico que atua onde a tua marca mais precisa — seja no posicionamento, na tecnologia, nas pessoas ou na transformação do negócio.</p>
   </div>
 
-  <div class="areas-graphic">
-    <svg viewBox="0 0 600 80" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="40" r="6" fill="#0a0a0a"/>
-      <circle cx="220" cy="40" r="6" fill="#0a0a0a" opacity="0.6"/>
-      <circle cx="400" cy="40" r="6" fill="#0a0a0a" opacity="0.35"/>
-      <circle cx="580" cy="40" r="6" fill="#0a0a0a" opacity="0.15"/>
-      <line x1="46" y1="40" x2="214" y2="40" stroke="#0a0a0a" stroke-width="1" opacity="0.12"/>
-      <line x1="226" y1="40" x2="394" y2="40" stroke="#0a0a0a" stroke-width="1" opacity="0.12"/>
-      <line x1="406" y1="40" x2="574" y2="40" stroke="#0a0a0a" stroke-width="1" opacity="0.12"/>
-    </svg>
+  <div class="areas-image">
+    <img src="https://images.unsplash.com/photo-1645433395129-25f8c7a4b05b?auto=format&fit=crop&w=1600&q=80" alt="Padrão abstrato">
   </div>
 
   <div class="areas-grid">
@@ -519,6 +564,17 @@ function exitAdmin(){
 
 function goHome(){ location.hash=''; }
 function goContact(){ document.getElementById('contacto').scrollIntoView({behavior:'smooth'}) }
+
+function toggleMobileNav(){
+  document.getElementById('nav-burger').classList.toggle('open');
+  document.getElementById('mobile-nav').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('mobile-nav').classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileNav(){
+  document.getElementById('nav-burger').classList.remove('open');
+  document.getElementById('mobile-nav').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ── Form submission
 async function submitForm(){
