@@ -135,6 +135,9 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .admin-nav-btn{background:none;border:none;color:rgba(255,255,255,0.4);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;cursor:pointer;transition:color 0.2s;border-radius:2px}
 .admin-nav-btn:hover{color:var(--white)}
 .admin-nav-btn.active{color:var(--white);background:rgba(255,255,255,0.1)}
+.admin-nav-btn-light{background:none;border:1px solid var(--light);color:var(--black);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;border-radius:2px;opacity:0.5}
+.admin-nav-btn-light:hover{opacity:1}
+.admin-nav-btn-light.active{opacity:1;background:var(--black);color:var(--white);border-color:var(--black)}
 .admin-body{max-width:1100px;margin:0 auto;padding:48px 40px}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
 .admin-stat{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px}
@@ -437,6 +440,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   <div class="footer-bottom">
     <p>© UNAGI. 2024</p>
     <div style="display:flex;gap:24px">
+      <a href="#/portal">Área de Cliente</a>
       <a href="#">Política de Privacidade</a>
       <a href="#">Termos e Condições</a>
     </div>
@@ -465,39 +469,61 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 <!-- ADMIN PANEL -->
 <div id="admin-page">
   <nav class="admin-nav">
-    <div style="display:flex;align-items:center;gap:16px">
+    <div style="display:flex;align-items:center;gap:20px">
       <span class="admin-nav-title">UNAGI. Backoffice</span>
+      <div style="display:flex;gap:8px">
+        <button class="admin-nav-btn active" id="admin-tablink-messages" onclick="showAdminTab('messages')">Mensagens</button>
+        <button class="admin-nav-btn" id="admin-tablink-projects" onclick="showAdminTab('projects')">Projetos</button>
+      </div>
       <span class="admin-nav-tag" id="admin-unread-badge" style="display:none;background:var(--white);color:var(--black);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;opacity:1"></span>
     </div>
-    <div style="display:flex;gap:12px;align-items:center">
-      <button class="admin-nav-btn" id="btn-filter-all" onclick="setFilter('all')" style="opacity:1">Todas</button>
-      <button class="admin-nav-btn" id="btn-filter-unread" onclick="setFilter('unread')">Não lidas</button>
-      <button class="admin-nav-exit" onclick="exitAdmin()">← Sair do backoffice</button>
-    </div>
+    <button class="admin-nav-exit" onclick="exitAdmin()">← Sair do backoffice</button>
   </nav>
   <div class="admin-body">
-    <div class="admin-stats">
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="stat-total">—</div>
-        <div class="admin-stat-label">Total de mensagens</div>
+
+    <!-- MESSAGES TAB -->
+    <div id="admin-tab-messages">
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="stat-total">—</div>
+          <div class="admin-stat-label">Total de mensagens</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="stat-unread" style="color:#0a0a0a">—</div>
+          <div class="admin-stat-label">Por ler</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="stat-this-month">—</div>
+          <div class="admin-stat-label">Este mês</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
+          <div class="admin-stat-label">Serviço mais pedido</div>
+        </div>
       </div>
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="stat-unread" style="color:#0a0a0a">—</div>
-        <div class="admin-stat-label">Por ler</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="admin-section-title" id="admin-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Mensagens recebidas</div>
+        <div style="display:flex;gap:8px">
+          <button class="admin-nav-btn-light active" id="btn-filter-all" onclick="setFilter('all')">Todas</button>
+          <button class="admin-nav-btn-light" id="btn-filter-unread" onclick="setFilter('unread')">Não lidas</button>
+        </div>
       </div>
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="stat-this-month">—</div>
-        <div class="admin-stat-label">Este mês</div>
-      </div>
-      <div class="admin-stat">
-        <div class="admin-stat-num" id="stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
-        <div class="admin-stat-label">Serviço mais pedido</div>
+      <div class="admin-msg-list" id="admin-msg-list">
+        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
     </div>
-    <div class="admin-section-title" id="admin-list-title">Mensagens recebidas</div>
-    <div class="admin-msg-list" id="admin-msg-list">
-      <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+
+    <!-- PROJECTS TAB -->
+    <div id="admin-tab-projects" style="display:none">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Projetos de clientes</div>
+        <button class="portal-btn" onclick="openCreateProject()">+ Novo projeto</button>
+      </div>
+      <div class="admin-msg-list" id="admin-projects-list">
+        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+      </div>
     </div>
+
   </div>
 </div>
 
@@ -1221,3 +1247,5 @@ async function uploadPortalFile(projectId){
 checkRoute();
 </script>
 
+</body>
+</html>
