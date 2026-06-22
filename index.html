@@ -3,9 +3,44 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNAGI. — For modern markets, with a bit of fun</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- SEO básico -->
+<title>UNAGI. — Agência de Comunicação, Marketing e IA | Lisboa, Portugal</title>
+<meta name="description" content="UNAGI. é uma agência de comunicação para mercados modernos. Marketing & Comunicação, Inteligência Artificial, Formação & Consultoria e Transição Digital. Pede o teu orçamento.">
+<meta name="keywords" content="agência de comunicação, marketing digital Lisboa, inteligência artificial empresas, consultoria marketing, transição digital, branding Portugal, UNAGI">
+<meta name="author" content="UNAGI.">
+<link rel="canonical" href="https://unagi-communication.vercel.app/">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (Facebook, LinkedIn, WhatsApp) -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://unagi-communication.vercel.app/">
+<meta property="og:title" content="UNAGI. — For modern markets, with a bit of fun">
+<meta property="og:description" content="Agência de comunicação que transforma marcas em histórias que conectam, inspiram e geram impacto. Marketing, IA, Formação e Transição Digital.">
+<meta property="og:locale" content="pt_PT">
+<meta property="og:site_name" content="UNAGI.">
+
+<!-- Twitter / X Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UNAGI. — For modern markets, with a bit of fun">
+<meta name="twitter:description" content="Agência de comunicação que transforma marcas em histórias que conectam, inspiram e geram impacto.">
+
+<!-- Dados estruturados (Schema.org) para o Google entender o negócio -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "UNAGI.",
+  "description": "Agência de comunicação especializada em Marketing & Comunicação, Inteligência Artificial, Formação & Consultoria e Transição Digital.",
+  "url": "https://unagi-communication.vercel.app/",
+  "areaServed": "PT",
+  "founder": {
+    "@type": "Person",
+    "name": "André Arrátel Torrão"
+  }
+}
+</script>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
@@ -246,6 +281,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <a href="#sobre">Sobre</a>
     <a href="#areas">Serviços</a>
     <a href="#quem">Equipa</a>
+    <a href="#orcamento">Orçamento</a>
     <a href="#contacto">Contacto</a>
     <a href="#" class="nav-cta" onclick="goContact()">Vamos falar →</a>
   </div>
@@ -259,6 +295,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   <a href="#sobre" onclick="closeMobileNav()">Sobre</a>
   <a href="#areas" onclick="closeMobileNav()">Serviços</a>
   <a href="#quem" onclick="closeMobileNav()">Equipa</a>
+  <a href="#orcamento" onclick="closeMobileNav()">Orçamento</a>
   <a href="#contacto" onclick="closeMobileNav()">Contacto</a>
   <a href="#contacto" class="mobile-nav-cta" onclick="closeMobileNav()">Vamos falar →</a>
 </div>
@@ -365,6 +402,67 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   <div class="cta-banner-text">Pronto para criar algo incrível?</div>
 </div>
 
+<!-- ORÇAMENTO -->
+<section id="orcamento">
+  <div class="section-tag">Pedir orçamento</div>
+  <div class="contacto-header">
+    <h2 class="section-title">Vamos falar do teu projeto.</h2>
+    <p class="contacto-solo-desc">Conta-nos o que precisas e em quanto tempo. Respondemos com uma proposta personalizada, sem compromisso.</p>
+  </div>
+  <div class="contacto-form" id="quote-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nome</label>
+        <input type="text" id="q-name" placeholder="O teu nome">
+      </div>
+      <div class="form-group">
+        <label>Empresa</label>
+        <input type="text" id="q-company" placeholder="A tua empresa (opcional)">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="q-email" placeholder="email@exemplo.com">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" id="q-phone" placeholder="+351 000 000 000">
+      </div>
+      <div class="form-group">
+        <label>Área de interesse</label>
+        <select id="q-service">
+          <option value="">Seleciona uma área</option>
+          <option>Marketing &amp; Comunicação</option>
+          <option>Inteligência Artificial</option>
+          <option>Formação &amp; Consultoria</option>
+          <option>Transição Digital</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Orçamento estimado</label>
+        <select id="q-budget">
+          <option value="">Seleciona uma faixa</option>
+          <option>Até 1.000€</option>
+          <option>1.000€ – 5.000€</option>
+          <option>5.000€ – 15.000€</option>
+          <option>Mais de 15.000€</option>
+          <option>Ainda não sei</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Descreve o que procuras</label>
+      <textarea id="q-description" placeholder="Conta-nos sobre o projeto, objetivos, prazos e tudo o que considerares relevante para te darmos uma proposta o mais ajustada possível..."></textarea>
+    </div>
+    <button class="form-submit" onclick="submitQuote()">Pedir orçamento →</button>
+    <div class="form-success" id="quote-success">
+      ✓ &nbsp;Pedido enviado com sucesso! Vamos analisar e responder em breve com uma proposta.
+    </div>
+  </div>
+</section>
+
 <!-- CONTACTO -->
 <section id="contacto">
   <div class="section-tag">Contacto</div>
@@ -421,6 +519,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       <a href="#sobre">Sobre</a>
       <a href="#areas">Serviços</a>
       <a href="#quem">Equipa</a>
+      <a href="#orcamento">Orçamento</a>
       <a href="#contacto">Contacto</a>
     </div>
     <div class="footer-col">
@@ -473,6 +572,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       <span class="admin-nav-title">UNAGI. Backoffice</span>
       <div style="display:flex;gap:8px">
         <button class="admin-nav-btn active" id="admin-tablink-messages" onclick="showAdminTab('messages')">Mensagens</button>
+        <button class="admin-nav-btn" id="admin-tablink-quotes" onclick="showAdminTab('quotes')">Orçamentos</button>
         <button class="admin-nav-btn" id="admin-tablink-projects" onclick="showAdminTab('projects')">Projetos</button>
       </div>
       <span class="admin-nav-tag" id="admin-unread-badge" style="display:none;background:var(--white);color:var(--black);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;opacity:1"></span>
@@ -509,6 +609,38 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
         </div>
       </div>
       <div class="admin-msg-list" id="admin-msg-list">
+        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+      </div>
+    </div>
+
+    <!-- QUOTES TAB -->
+    <div id="admin-tab-quotes" style="display:none">
+      <div class="admin-stats">
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="quote-stat-total">—</div>
+          <div class="admin-stat-label">Total de pedidos</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="quote-stat-unread" style="color:#0a0a0a">—</div>
+          <div class="admin-stat-label">Por ler</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="quote-stat-this-month">—</div>
+          <div class="admin-stat-label">Este mês</div>
+        </div>
+        <div class="admin-stat">
+          <div class="admin-stat-num" id="quote-stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
+          <div class="admin-stat-label">Área mais pedida</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div class="admin-section-title" id="quote-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Pedidos de orçamento</div>
+        <div style="display:flex;gap:8px">
+          <button class="admin-nav-btn-light active" id="btn-qfilter-all" onclick="setQuoteFilter('all')">Todos</button>
+          <button class="admin-nav-btn-light" id="btn-qfilter-unread" onclick="setQuoteFilter('unread')">Não lidos</button>
+        </div>
+      </div>
+      <div class="admin-msg-list" id="admin-quotes-list">
         <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
     </div>
@@ -738,6 +870,31 @@ async function submitForm(){
   setTimeout(()=>{ document.getElementById('form-success').style.display='none'; },5000);
 }
 
+async function submitQuote(){
+  const name=document.getElementById('q-name').value.trim();
+  const company=document.getElementById('q-company').value.trim();
+  const email=document.getElementById('q-email').value.trim();
+  const phone=document.getElementById('q-phone').value.trim();
+  const service=document.getElementById('q-service').value;
+  const budget=document.getElementById('q-budget').value;
+  const description=document.getElementById('q-description').value.trim();
+  if(!name||!email||!description){ alert('Por favor preenche o nome, email e a descrição do projeto.'); return; }
+  const btn=document.querySelector('#quote-form .form-submit');
+  btn.textContent='A enviar...'; btn.disabled=true;
+  const {error}=await sb.from('quote_requests').insert([{name,company,email,phone,service,budget,description,read:false}]);
+  btn.textContent='Pedir orçamento →'; btn.disabled=false;
+  if(error){ alert('Erro ao enviar. Tenta novamente.'); console.error(error); return; }
+  document.getElementById('q-name').value='';
+  document.getElementById('q-company').value='';
+  document.getElementById('q-email').value='';
+  document.getElementById('q-phone').value='';
+  document.getElementById('q-service').value='';
+  document.getElementById('q-budget').value='';
+  document.getElementById('q-description').value='';
+  document.getElementById('quote-success').style.display='block';
+  setTimeout(()=>{ document.getElementById('quote-success').style.display='none'; },5000);
+}
+
 // ══════════════════════════════════════════════
 // ADMIN — LOGIN
 // ══════════════════════════════════════════════
@@ -776,10 +933,13 @@ async function renderAdmin(){
 
 function showAdminTab(tab){
   document.getElementById('admin-tab-messages').style.display = tab==='messages'?'block':'none';
+  document.getElementById('admin-tab-quotes').style.display = tab==='quotes'?'block':'none';
   document.getElementById('admin-tab-projects').style.display = tab==='projects'?'block':'none';
   document.getElementById('admin-tablink-messages').classList.toggle('active',tab==='messages');
+  document.getElementById('admin-tablink-quotes').classList.toggle('active',tab==='quotes');
   document.getElementById('admin-tablink-projects').classList.toggle('active',tab==='projects');
   if(tab==='messages') loadAdminMessages();
+  if(tab==='quotes') loadAdminQuotes();
   if(tab==='projects') loadAdminProjects();
 }
 
@@ -854,6 +1014,101 @@ async function deleteMsg(i){
   window._msgs.splice(i,1);
   closeModal(); renderMsgList(window._msgs);
   document.getElementById('stat-total').textContent=window._msgs.length;
+}
+
+// ══════════════════════════════════════════════
+// ADMIN — QUOTE REQUESTS
+// ══════════════════════════════════════════════
+let _currentQuoteFilter='all';
+
+function setQuoteFilter(filter){
+  _currentQuoteFilter=filter;
+  document.getElementById('btn-qfilter-all').classList.toggle('active',filter==='all');
+  document.getElementById('btn-qfilter-unread').classList.toggle('active',filter==='unread');
+  renderQuoteList(window._quotes||[]);
+}
+
+async function getQuotes(){
+  const {data,error}=await sb.from('quote_requests').select('*').order('created_at',{ascending:false});
+  if(error){ console.error(error); return []; }
+  return data||[];
+}
+
+async function loadAdminQuotes(){
+  document.getElementById('admin-quotes-list').innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+  const quotes=await getQuotes();
+  window._quotes=quotes;
+  const unread=quotes.filter(q=>!q.read).length;
+  const now=new Date();
+  const thisMonth=quotes.filter(q=>{ const d=new Date(q.created_at); return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear(); }).length;
+  const svcCount={};
+  quotes.forEach(q=>{ if(q.service){ svcCount[q.service]=(svcCount[q.service]||0)+1; } });
+  const topSvc=Object.entries(svcCount).sort((a,b)=>b[1]-a[1])[0];
+  document.getElementById('quote-stat-total').textContent=quotes.length;
+  document.getElementById('quote-stat-unread').textContent=unread;
+  document.getElementById('quote-stat-this-month').textContent=thisMonth;
+  document.getElementById('quote-stat-services').textContent=topSvc?topSvc[0].split(' ')[0]:'—';
+  document.getElementById('btn-qfilter-all').classList.add('active');
+  document.getElementById('btn-qfilter-unread').classList.remove('active');
+  _currentQuoteFilter='all';
+  renderQuoteList(quotes);
+}
+
+function renderQuoteList(allQuotes){
+  const quotes=_currentQuoteFilter==='unread'?allQuotes.filter(q=>!q.read):allQuotes;
+  const title=_currentQuoteFilter==='unread'?`Pedidos não lidos (${quotes.length})`:`Todos os pedidos (${allQuotes.length})`;
+  document.getElementById('quote-list-title').textContent=title;
+  const list=document.getElementById('admin-quotes-list');
+  if(!quotes.length){ list.innerHTML=`<div style="padding:56px;text-align:center;opacity:0.3;font-size:14px">${_currentQuoteFilter==='unread'?'Não tens pedidos por ler.':'Ainda não há pedidos de orçamento.'}</div>`; return; }
+  list.innerHTML=quotes.map(q=>{ const origIdx=window._quotes.indexOf(q); return `
+    <div class="admin-msg${q.read?'':' unread'}" onclick="openQuote(${origIdx})">
+      <div class="admin-msg-left">
+        <div class="admin-msg-name">${escHtml(q.name)}${q.company?` <span style="font-weight:400;opacity:0.45">· ${escHtml(q.company)}</span>`:''}${!q.read?'<span class="admin-msg-unread-badge" style="display:inline-block;vertical-align:middle;margin-left:8px"></span>':''}</div>
+        <div class="admin-msg-meta">
+          ${q.service?`<span class="admin-msg-service">${escHtml(q.service)}</span>`:''}
+          ${q.budget?`<span class="admin-msg-service" style="background:#e8f4e8;color:#2d7a2d">${escHtml(q.budget)}</span>`:''}
+          <span class="admin-msg-preview">${escHtml(q.email)}</span>
+        </div>
+        <div class="admin-msg-preview" style="margin-top:4px">${escHtml(q.description.substring(0,120))}${q.description.length>120?'…':''}</div>
+      </div>
+      <div class="admin-msg-right">
+        <div class="admin-msg-date">${formatDate(q.created_at)}</div>
+        <div style="margin-top:8px;display:flex;gap:6px;justify-content:flex-end">
+          ${q.read?`<button class="admin-btn-small" onclick="event.stopPropagation();markQuoteUnread(${origIdx})" title="Marcar como não lido">↩</button>`:''}
+          <button class="admin-btn-small danger" onclick="event.stopPropagation();deleteQuote(${origIdx})" title="Eliminar">✕</button>
+        </div>
+      </div>
+    </div>`; }).join('');
+}
+
+async function openQuote(i){
+  const q=window._quotes[i];
+  if(!q.read){ await sb.from('quote_requests').update({read:true}).eq('id',q.id); q.read=true; renderQuoteList(window._quotes); }
+  document.getElementById('modal-content').innerHTML=`
+    <div style="margin-bottom:28px">
+      <div style="font-size:20px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px">${escHtml(q.name)}${q.company?` <span style="font-weight:400;opacity:0.5;font-size:16px">· ${escHtml(q.company)}</span>`:''}</div>
+      <div style="font-size:13px;opacity:0.4">${formatDate(q.created_at)}${q.service?' · '+escHtml(q.service):''}</div>
+    </div>
+    <div class="admin-modal-field"><div class="admin-modal-label">Email</div><div class="admin-modal-val"><a href="mailto:${q.email}" style="color:var(--black);text-decoration:underline">${escHtml(q.email)}</a></div></div>
+    ${q.phone?`<div class="admin-modal-field"><div class="admin-modal-label">Telefone</div><div class="admin-modal-val">${escHtml(q.phone)}</div></div>`:''}
+    ${q.budget?`<div class="admin-modal-field"><div class="admin-modal-label">Orçamento estimado</div><div class="admin-modal-val">${escHtml(q.budget)}</div></div>`:''}
+    <div class="admin-modal-field"><div class="admin-modal-label">Descrição do projeto</div><div class="admin-modal-msg">${escHtml(q.description).replace(/\n/g,'<br>')}</div></div>
+    <div class="admin-actions">
+      <a href="mailto:${q.email}?subject=Re: Pedido de Or%C3%A7amento UNAGI.&body=Ol%C3%A1 ${encodeURIComponent(q.name)},%0A%0A" class="admin-btn primary">Responder por email →</a>
+      <button class="admin-btn" onclick="markQuoteUnread(${i});closeModal()">Marcar como não lido</button>
+      <button class="admin-btn danger" onclick="deleteQuote(${i})">Eliminar</button>
+    </div>`;
+  document.getElementById('msg-modal').classList.add('open');
+}
+
+async function markQuoteUnread(i){ const q=window._quotes[i]; await sb.from('quote_requests').update({read:false}).eq('id',q.id); q.read=false; renderQuoteList(window._quotes); }
+async function deleteQuote(i){
+  if(!confirm('Eliminar este pedido de orçamento?')) return;
+  const q=window._quotes[i];
+  await sb.from('quote_requests').delete().eq('id',q.id);
+  window._quotes.splice(i,1);
+  closeModal(); renderQuoteList(window._quotes);
+  document.getElementById('quote-stat-total').textContent=window._quotes.length;
 }
 
 // ══════════════════════════════════════════════
