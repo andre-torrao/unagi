@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /portal
+
+Sitemap: https://unagi-communication.vercel.app/sitemap.xml
