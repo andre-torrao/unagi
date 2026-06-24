@@ -659,8 +659,19 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
     <!-- CLIENTS & BRAND TAB -->
     <div id="admin-tab-clients" style="display:none">
-      <div class="admin-section-title">Clientes &amp; Identidade de Marca</div>
-      <p style="font-size:13px;opacity:0.4;margin-bottom:24px;margin-top:-8px">Gere os ficheiros de identidade visual (logótipo, manual de normas, fonte) que cada cliente vê no seu portal.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Clientes</div>
+        <button class="portal-btn secondary" onclick="toggleClientHelpBox()">Como adicionar um novo cliente?</button>
+      </div>
+      <div id="client-help-box" style="display:none;background:#fff;border:1px solid #e8e7e2;border-radius:2px;padding:20px 24px;margin:16px 0;font-size:13px;line-height:1.8">
+        <strong>Passo 1 —</strong> No painel do Supabase, vai a <em>Authentication → Users → Add user</em> e cria o email + password do cliente.<br>
+        <strong>Passo 2 —</strong> Volta aqui e clica em "Atualizar lista" abaixo. O cliente aparece automaticamente (é criado um perfil sem precisares de fazer mais nada).<br>
+        <strong>Passo 3 —</strong> Clica no cliente para associar orçamento, identidade de marca e projetos.
+      </div>
+      <p style="font-size:13px;opacity:0.4;margin-bottom:20px">Gere orçamento, identidade de marca e projetos de cada cliente.</p>
+      <div style="margin-bottom:16px">
+        <button class="admin-nav-btn-light" onclick="loadAdminClients()">↻ Atualizar lista</button>
+      </div>
       <div class="admin-msg-list" id="admin-clients-list">
         <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
@@ -1314,6 +1325,8 @@ async function openCreateProject(){
   // Load clients for dropdown
   const {data:clients}=await sb.from('profiles').select('id,full_name,company').eq('role','client');
   _adminClients=clients||[];
+  const preselect=window._preselectClientId||'';
+  window._preselectClientId=null;
   document.getElementById('project-modal-content').innerHTML=`
     <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:28px">Novo projeto</div>
     <label class="admin-label">Nome do projeto</label>
@@ -1323,7 +1336,7 @@ async function openCreateProject(){
     <label class="admin-label">Cliente</label>
     <select id="pm-client" class="admin-select">
       <option value="">Seleciona um cliente</option>
-      ${_adminClients.map(c=>`<option value="${c.id}">${escHtml(c.full_name)}${c.company?' ('+escHtml(c.company)+')':''}</option>`).join('')}
+      ${_adminClients.map(c=>`<option value="${c.id}" ${String(c.id)===String(preselect)?'selected':''}>${escHtml(c.full_name)}${c.company?' ('+escHtml(c.company)+')':''}</option>`).join('')}
     </select>
     <label class="admin-label">Estado</label>
     <select id="pm-status" class="admin-select">
@@ -1374,7 +1387,8 @@ async function saveNewProject(){
   const client_id=document.getElementById('pm-client').value||null;
   const status=document.getElementById('pm-status').value;
   if(!name){ alert('Introduz um nome para o projeto.'); return; }
-  await sb.from('projects').insert([{name,description,client_id,status}]);
+  const {error}=await sb.from('projects').insert([{name,description,client_id,status}]);
+  if(error){ alert('Erro ao criar projeto: '+error.message); console.error(error); return; }
   closeProjectModal(); loadAdminProjects();
 }
 
@@ -1430,48 +1444,141 @@ function closeMilestoneModal(){ document.getElementById('milestone-modal').class
 // ══════════════════════════════════════════════
 let _adminClientsFull=[];
 
+function toggleClientHelpBox(){
+  const box=document.getElementById('client-help-box');
+  box.style.display = box.style.display==='none' ? 'block' : 'none';
+}
+
 async function loadAdminClients(){
   const list=document.getElementById('admin-clients-list');
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:clients}=await sb.from('profiles').select('*').eq('role','client').order('full_name');
+  const {data:clients,error}=await sb.from('profiles').select('*').eq('role','client').order('full_name');
+  if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar clientes: ${escHtml(error.message)}</div>`; console.error(error); return; }
   _adminClientsFull=clients||[];
   if(!_adminClientsFull.length){
-    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente registado ainda.</div>';
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente registado ainda. Cria a conta no Supabase e depois clica em "Atualizar lista".</div>';
     return;
   }
   list.innerHTML=_adminClientsFull.map((c,i)=>`
-    <div class="admin-msg" onclick="openClientBrand(${i})" style="cursor:pointer">
+    <div class="admin-msg" onclick="openClientProfile(${i})" style="cursor:pointer">
       <div class="admin-msg-left">
         <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')}</div>
         <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}</span></div>
       </div>
       <div class="admin-msg-right">
-        <button class="admin-btn-small">Gerir marca →</button>
+        <button class="admin-btn-small">Abrir perfil →</button>
       </div>
     </div>`).join('');
 }
 
-async function openClientBrand(i){
+async function openClientProfile(i){
   const c=_adminClientsFull[i];
-  const {data:docs}=await sb.from('brand_documents').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
-  window._adminBrandDocs=docs||[];
   document.getElementById('project-modal-content').innerHTML=`
     <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">${escHtml(c.full_name)}</div>
-    <div style="font-size:13px;opacity:0.4;margin-bottom:28px">${c.company?escHtml(c.company):'Sem empresa associada'}</div>
+    <div style="font-size:13px;opacity:0.4;margin-bottom:24px">${c.company?escHtml(c.company):'Sem empresa associada'}</div>
+    <div style="display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid #e8e7e2">
+      <button class="portal-subtab active" id="cptab-budget" onclick="switchClientProfileTab('budget',${i})">Orçamento</button>
+      <button class="portal-subtab" id="cptab-brand" onclick="switchClientProfileTab('brand',${i})">Identidade de Marca</button>
+      <button class="portal-subtab" id="cptab-projects" onclick="switchClientProfileTab('projects',${i})">Projetos</button>
+    </div>
+    <div id="client-profile-tab-content"></div>`;
+  document.getElementById('project-modal').classList.add('open');
+  switchClientProfileTab('budget',i);
+}
+
+async function switchClientProfileTab(tab,clientIdx){
+  ['budget','brand','projects'].forEach(t=>{
+    document.getElementById('cptab-'+t).classList.toggle('active',t===tab);
+  });
+  const content=document.getElementById('client-profile-tab-content');
+  content.innerHTML='<div style="padding:32px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+  if(tab==='budget') return renderAdminClientBudget(clientIdx);
+  if(tab==='brand') return renderAdminClientBrand(clientIdx);
+  if(tab==='projects') return renderAdminClientProjects(clientIdx);
+}
+
+// ── ORÇAMENTO (texto editável com data da última edição)
+async function renderAdminClientBudget(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const {data:budget,error}=await sb.from('client_budgets').select('*').eq('client_id',c.id).maybeSingle();
+  const content=document.getElementById('client-profile-tab-content');
+  if(error){
+    content.innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar orçamento: ${escHtml(error.message)}<br>Confirma que correste o script SQL "supabase_client_budget.sql".</div>`;
+    return;
+  }
+  content.innerHTML=`
+    <label class="admin-label">Texto do orçamento (visível ao cliente)</label>
+    <textarea id="admin-budget-text" class="portal-textarea" style="min-height:240px">${budget?escHtml(budget.content):''}</textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
+      <span style="font-size:12px;opacity:0.4">${budget&&budget.updated_at?'Última edição: '+formatDate(budget.updated_at)+(budget.updated_by_name?' · '+escHtml(budget.updated_by_name):''):'Ainda não editado'}</span>
+      <button class="portal-btn" onclick="saveClientBudget(${c.id},${clientIdx})">Guardar orçamento</button>
+    </div>
+    <div id="budget-save-status" style="font-size:13px;opacity:0.5;margin-top:8px;display:none"></div>`;
+}
+
+async function saveClientBudget(clientId,clientIdx){
+  const content=document.getElementById('admin-budget-text').value;
+  const {data:existing}=await sb.from('client_budgets').select('id').eq('client_id',clientId).maybeSingle();
+  const payload={content,updated_at:new Date().toISOString(),updated_by_name:'André Arrátel Torrão'};
+  let error;
+  if(existing){
+    ({error}=await sb.from('client_budgets').update(payload).eq('client_id',clientId));
+  } else {
+    payload.client_id=clientId;
+    ({error}=await sb.from('client_budgets').insert([payload]));
+  }
+  if(error){ alert('Erro ao guardar orçamento: '+error.message); console.error(error); return; }
+  renderAdminClientBudget(clientIdx);
+}
+
+// ── PROJETOS DO CLIENTE
+async function renderAdminClientProjects(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const {data:projects,error}=await sb.from('projects').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
+  const content=document.getElementById('client-profile-tab-content');
+  if(error){ content.innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar projetos: ${escHtml(error.message)}</div>`; return; }
+  content.innerHTML=`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+      <button class="portal-btn" onclick="openCreateProjectFor(${c.id})">+ Novo projeto para este cliente</button>
+    </div>
+    ${(projects||[]).length?(projects||[]).map(p=>`
+      <div class="admin-msg">
+        <div class="admin-msg-left">
+          <div class="admin-msg-name">${escHtml(p.name)}</div>
+          ${p.description?`<div class="admin-msg-preview">${escHtml(p.description)}</div>`:''}
+        </div>
+        <div class="admin-msg-right"><span class="status-badge status-${p.status}">${statusLabel(p.status)}</span></div>
+      </div>`).join(''):'<div style="opacity:0.3;font-size:13px;padding:24px 0;text-align:center">Este cliente ainda não tem projetos. Cria um, ou vai à aba "Projetos" para gerir o cronograma de um projeto existente.</div>'}`;
+}
+
+function openCreateProjectFor(clientId){
+  window._preselectClientId=clientId;
+  closeProjectModal();
+  showAdminTab('projects');
+  openCreateProject();
+}
+
+// ── IDENTIDADE DE MARCA (dentro do perfil do cliente)
+async function renderAdminClientBrand(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const {data:docs,error}=await sb.from('brand_documents').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
+  if(error){ document.getElementById('client-profile-tab-content').innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar documentos: ${escHtml(error.message)}</div>`; return; }
+  window._adminBrandDocs=docs||[];
+  const content=document.getElementById('client-profile-tab-content');
+  content.innerHTML=`
     <div id="admin-brand-categories"></div>
-    <div style="margin-top:28px;padding-top:20px;border-top:1px solid #e8e7e2">
+    <div style="margin-top:20px;padding-top:20px;border-top:1px solid #e8e7e2">
       <label class="admin-label">Carregar novo documento para o cliente</label>
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center">
         <select id="admin-brand-category" class="admin-select" style="margin-bottom:0;max-width:220px">
           ${BRAND_CATEGORIES.map(cat=>`<option value="${cat.key}">${cat.label}</option>`).join('')}
         </select>
-        <input type="file" id="admin-brand-file-input" style="display:none" onchange="uploadAdminBrandDoc(${c.id},${i})">
+        <input type="file" id="admin-brand-file-input" style="display:none" onchange="uploadAdminBrandDoc(${c.id},${clientIdx})">
         <button class="admin-btn-small" onclick="document.getElementById('admin-brand-file-input').click()">Carregar ficheiro</button>
       </div>
       <div id="brand-upload-status" style="font-size:13px;opacity:0.5;margin-top:10px;display:none"></div>
     </div>`;
-  document.getElementById('project-modal').classList.add('open');
-  renderAdminBrandCategories(i);
+  renderAdminBrandCategories(clientIdx);
 }
 
 function renderAdminBrandCategories(clientIdx){
@@ -1506,21 +1613,23 @@ async function uploadAdminBrandDoc(clientId,clientIdx){
   statusEl.style.display='block'; statusEl.textContent='A carregar...';
   const path=`${clientId}/${category}/${Date.now()}_${file.name}`;
   const {error:upErr}=await sb.storage.from('brand-assets').upload(path,file);
-  if(upErr){ statusEl.textContent='Erro ao carregar ficheiro.'; return; }
-  await sb.from('brand_documents').insert([{
+  if(upErr){ statusEl.textContent='Erro ao carregar ficheiro: '+upErr.message; console.error(upErr); return; }
+  const {error:insErr}=await sb.from('brand_documents').insert([{
     client_id:clientId,category,file_name:file.name,file_path:path,
     file_size:file.size,mime_type:file.type,uploaded_by:null,
     uploaded_by_name:'UNAGI',uploaded_by_role:'admin'
   }]);
+  if(insErr){ statusEl.textContent='Erro ao guardar registo: '+insErr.message; console.error(insErr); return; }
   statusEl.textContent='Ficheiro carregado com sucesso.';
   fileInput.value='';
-  setTimeout(()=>openClientBrand(clientIdx),600);
+  setTimeout(()=>renderAdminClientBrand(clientIdx),600);
 }
 
 async function deleteAdminBrandDoc(docId,clientIdx){
   if(!confirm('Eliminar este documento?')) return;
-  await sb.from('brand_documents').delete().eq('id',docId);
-  openClientBrand(clientIdx);
+  const {error}=await sb.from('brand_documents').delete().eq('id',docId);
+  if(error){ alert('Erro ao eliminar: '+error.message); return; }
+  renderAdminClientBrand(clientIdx);
 }
 
 // ══════════════════════════════════════════════
@@ -1601,16 +1710,27 @@ function showPortalSection(section){
 async function loadPortalBrand(){
   const content=document.getElementById('portal-brand-content');
   content.innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:docs}=await sb.from('brand_documents').select('*').eq('client_id',_portalUser.id).order('created_at',{ascending:false});
+  const [{data:docs},{data:budget}]=await Promise.all([
+    sb.from('brand_documents').select('*').eq('client_id',_portalUser.id).order('created_at',{ascending:false}),
+    sb.from('client_budgets').select('*').eq('client_id',_portalUser.id).maybeSingle()
+  ]);
   window._portalBrandDocs=docs||[];
   content.innerHTML=`
-    <div style="margin-bottom:40px">
+    <div style="margin-bottom:32px">
       <div style="font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;opacity:0.35;margin-bottom:12px">Identidade de marca</div>
       <h2 style="font-size:32px;font-weight:900;letter-spacing:-1px">A tua marca.</h2>
-      <p style="margin-top:10px;font-size:14px;opacity:0.5;line-height:1.6">Documentos da tua identidade de marca. Podes carregar os teus próprios ficheiros, ou consultar os que a UNAGI partilhou contigo.</p>
     </div>
+
+    <div class="portal-section-title">Orçamento</div>
+    ${budget&&budget.content?`
+      <div style="background:#fff;border-radius:2px;padding:24px;font-size:14px;line-height:1.8;white-space:pre-wrap">${escHtml(budget.content)}</div>
+      <div style="font-size:12px;opacity:0.35;margin-top:8px">Última atualização: ${formatDate(budget.updated_at)}</div>
+    `:`<div style="opacity:0.3;font-size:13px;padding:16px 0">O orçamento será partilhado aqui em breve pela equipa UNAGI.</div>`}
+
+    <div class="portal-section-title" style="margin-top:32px">Documentos</div>
+    <p style="font-size:14px;opacity:0.5;line-height:1.6;margin-bottom:20px;margin-top:-8px">Podes carregar os teus próprios ficheiros, ou consultar os que a UNAGI partilhou contigo.</p>
     <div id="brand-categories-list"></div>
-    <div style="margin-top:32px;padding-top:24px;border-top:1px solid #e8e7e2">
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid #e8e7e2">
       <label class="admin-label">Carregar novo documento</label>
       <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
         <select id="portal-brand-category" class="admin-select" style="margin-bottom:0;max-width:220px">
