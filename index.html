@@ -162,12 +162,12 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
 /* ADMIN — hidden page */
 #admin-page{display:none;min-height:100vh;background:#f5f4f0;font-family:'Inter',sans-serif}
-.admin-nav{background:var(--black);color:var(--white);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between}
-.admin-nav-title{font-size:16px;font-weight:900;letter-spacing:-0.3px;color:var(--white)}
+.admin-nav{background:var(--black);color:var(--white);padding:0 40px;height:76px;display:flex;align-items:center;justify-content:space-between}
+.admin-nav-title{font-size:18px;font-weight:900;letter-spacing:-0.3px;color:var(--white)}
 .admin-nav-tag{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:0.4;color:var(--white)}
-.admin-nav-exit{background:rgba(255,255,255,0.1);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 16px;border-radius:2px;cursor:pointer;transition:background 0.2s}
+.admin-nav-exit{background:rgba(255,255,255,0.1);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 18px;border-radius:2px;cursor:pointer;transition:background 0.2s}
 .admin-nav-exit:hover{background:rgba(255,255,255,0.18)}
-.admin-nav-btn{background:none;border:none;color:rgba(255,255,255,0.4);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:8px 12px;cursor:pointer;transition:color 0.2s;border-radius:2px}
+.admin-nav-btn{background:none;border:none;color:rgba(255,255,255,0.4);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 16px;cursor:pointer;transition:color 0.2s;border-radius:2px}
 .admin-nav-btn:hover{color:var(--white)}
 .admin-nav-btn.active{color:var(--white);background:rgba(255,255,255,0.1)}
 .admin-nav-btn-light{background:none;border:1px solid var(--light);color:var(--black);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;border-radius:2px;opacity:0.5}
@@ -571,10 +571,10 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <div style="display:flex;align-items:center;gap:20px">
       <span class="admin-nav-title">UNAGI. Backoffice</span>
       <div style="display:flex;gap:8px">
-        <button class="admin-nav-btn active" id="admin-tablink-messages" onclick="showAdminTab('messages')">Mensagens</button>
-        <button class="admin-nav-btn" id="admin-tablink-quotes" onclick="showAdminTab('quotes')">Orçamentos</button>
+        <button class="admin-nav-btn active" id="admin-tablink-dashboard" onclick="showAdminTab('dashboard')">Dashboard</button>
+        <button class="admin-nav-btn" id="admin-tablink-clients" onclick="showAdminTab('clients')">Cliente</button>
         <button class="admin-nav-btn" id="admin-tablink-projects" onclick="showAdminTab('projects')">Projetos</button>
-        <button class="admin-nav-btn" id="admin-tablink-clients" onclick="showAdminTab('clients')">Clientes &amp; Marca</button>
+        <button class="admin-nav-btn" id="admin-tablink-messages" onclick="showAdminTab('messages')">Mensagens</button>
       </div>
       <span class="admin-nav-tag" id="admin-unread-badge" style="display:none;background:var(--white);color:var(--black);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;opacity:1"></span>
     </div>
@@ -582,79 +582,59 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   </nav>
   <div class="admin-body">
 
-    <!-- MESSAGES TAB -->
-    <div id="admin-tab-messages" style="margin-top:32px">
+    <!-- DASHBOARD TAB -->
+    <div id="admin-tab-dashboard" style="margin-top:32px">
       <div class="admin-stats">
         <div class="admin-stat">
-          <div class="admin-stat-num" id="stat-total">—</div>
-          <div class="admin-stat-label">Total de mensagens</div>
+          <div class="admin-stat-num" id="dash-stat-projects-active">—</div>
+          <div class="admin-stat-label">Projetos em curso</div>
         </div>
         <div class="admin-stat">
-          <div class="admin-stat-num" id="stat-unread" style="color:#0a0a0a">—</div>
-          <div class="admin-stat-label">Por ler</div>
+          <div class="admin-stat-num" id="dash-stat-mensal" style="font-size:22px">—</div>
+          <div class="admin-stat-label">Valor mensal recorrente (aceite)</div>
         </div>
         <div class="admin-stat">
-          <div class="admin-stat-num" id="stat-this-month">—</div>
-          <div class="admin-stat-label">Este mês</div>
+          <div class="admin-stat-num" id="dash-stat-pontual" style="font-size:22px">—</div>
+          <div class="admin-stat-label">Valor pontual a receber (aceite)</div>
         </div>
         <div class="admin-stat">
-          <div class="admin-stat-num" id="stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
-          <div class="admin-stat-label">Serviço mais pedido</div>
+          <div class="admin-stat-num" id="dash-stat-unread" style="color:#0a0a0a">—</div>
+          <div class="admin-stat-label">Mensagens por ler</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="admin-section-title" id="admin-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Mensagens recebidas</div>
-        <div style="display:flex;gap:8px">
-          <button class="admin-nav-btn-light active" id="btn-filter-all" onclick="setFilter('all')">Todas</button>
-          <button class="admin-nav-btn-light" id="btn-filter-unread" onclick="setFilter('unread')">Não lidas</button>
-        </div>
-      </div>
-      <div class="admin-msg-list" id="admin-msg-list">
+      <div class="admin-section-title" style="margin-bottom:16px">Projetos em curso</div>
+      <div class="admin-msg-list" id="dash-projects-list">
         <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
     </div>
 
-    <!-- QUOTES TAB -->
-    <div id="admin-tab-quotes" style="display:none;margin-top:32px">
+    <!-- CLIENT TAB -->
+    <div id="admin-tab-clients" style="display:none;margin-top:32px">
       <div style="display:flex;gap:8px;margin-bottom:28px;border-bottom:1px solid #e8e7e2">
-        <button class="portal-subtab active" id="qsub-requests" onclick="switchQuotesSubtab('requests')">Pedidos recebidos</button>
-        <button class="portal-subtab" id="qsub-contracted" onclick="switchQuotesSubtab('contracted')">Orçamentos contratados</button>
+        <button class="portal-subtab active" id="csub-list" onclick="switchClientsSubtab('list')">Clientes</button>
+        <button class="portal-subtab" id="csub-budgets" onclick="switchClientsSubtab('budgets')">Orçamentos</button>
       </div>
 
-      <!-- SUB-TAB: PEDIDOS RECEBIDOS (quote_requests, do formulário do site) -->
-      <div id="quotes-sub-requests">
-        <div class="admin-stats">
-          <div class="admin-stat">
-            <div class="admin-stat-num" id="quote-stat-total">—</div>
-            <div class="admin-stat-label">Total de pedidos</div>
-          </div>
-          <div class="admin-stat">
-            <div class="admin-stat-num" id="quote-stat-unread" style="color:#0a0a0a">—</div>
-            <div class="admin-stat-label">Por ler</div>
-          </div>
-          <div class="admin-stat">
-            <div class="admin-stat-num" id="quote-stat-this-month">—</div>
-            <div class="admin-stat-label">Este mês</div>
-          </div>
-          <div class="admin-stat">
-            <div class="admin-stat-num" id="quote-stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
-            <div class="admin-stat-label">Área mais pedida</div>
-          </div>
+      <!-- SUB-TAB: LISTA DE CLIENTES -->
+      <div id="clients-sub-list">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Clientes</div>
+          <button class="portal-btn" onclick="openCreateClient()">+ Novo cliente</button>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-          <div class="admin-section-title" id="quote-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Pedidos de orçamento</div>
-          <div style="display:flex;gap:8px">
-            <button class="admin-nav-btn-light active" id="btn-qfilter-all" onclick="setQuoteFilter('all')">Todos</button>
-            <button class="admin-nav-btn-light" id="btn-qfilter-unread" onclick="setQuoteFilter('unread')">Não lidos</button>
-          </div>
+        <p style="font-size:13px;opacity:0.4;margin-bottom:20px">Cria a conta de acesso e a ficha do cliente (faturação, orçamento, identidade de marca) num só passo.</p>
+        <div style="margin-bottom:16px;display:flex;gap:8px">
+          <button class="admin-nav-btn-light" onclick="loadAdminClients()">↻ Atualizar lista</button>
+          <button class="admin-nav-btn-light active" id="btn-clientfilter-active" onclick="setClientFilter('active')">Ativos</button>
+          <button class="admin-nav-btn-light" id="btn-clientfilter-inactive" onclick="setClientFilter('inactive')">Inativos</button>
+          <button class="admin-nav-btn-light" id="btn-clientfilter-all" onclick="setClientFilter('all')">Todos</button>
         </div>
-        <div class="admin-msg-list" id="admin-quotes-list">
+        <div class="admin-msg-list" id="admin-clients-list">
           <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
         </div>
       </div>
 
-      <!-- SUB-TAB: ORÇAMENTOS CONTRATADOS (client_budgets, por cliente) -->
-      <div id="quotes-sub-contracted" style="display:none">
+      <!-- SUB-TAB: TODOS OS ORÇAMENTOS (vista global) -->
+      <div id="clients-sub-budgets" style="display:none">
         <div class="admin-stats">
           <div class="admin-stat">
             <div class="admin-stat-num" id="cb-stat-total">—</div>
@@ -669,13 +649,16 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
             <div class="admin-stat-label">Enviados (a aguardar)</div>
           </div>
           <div class="admin-stat">
-            <div class="admin-stat-num" id="cb-stat-mensal" style="font-size:22px">—</div>
-            <div class="admin-stat-label">Total contratado/mês (aceites)</div>
+            <div class="admin-stat-num" id="cb-stat-mensal" style="font-size:20px">—</div>
+            <div class="admin-stat-label">Recorrente/mês + pontual (aceites)</div>
           </div>
+        </div>
+        <div style="background:#fff;border:1px solid #e8e7e2;border-radius:2px;padding:14px 18px;margin-bottom:20px;font-size:12px;opacity:0.55;line-height:1.6">
+          <strong>Como funcionam os valores:</strong> cada orçamento tem linhas mensais. Um orçamento <strong>recorrente</strong> soma o valor do mês atual de todos os orçamentos aceites (a receita mensal estável). Um orçamento <strong>pontual</strong> conta o valor total da linha única, independentemente do mês.
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
           <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Todos os orçamentos</div>
-          <div style="display:flex;gap:8px">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
             <button class="admin-nav-btn-light active" id="btn-cbfilter-all" onclick="setBudgetFilter('all')">Todos</button>
             <button class="admin-nav-btn-light" id="btn-cbfilter-rascunho" onclick="setBudgetFilter('rascunho')">Rascunho</button>
             <button class="admin-nav-btn-light" id="btn-cbfilter-enviado" onclick="setBudgetFilter('enviado')">Enviado</button>
@@ -689,7 +672,6 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       </div>
     </div>
 
-
     <!-- PROJECTS TAB -->
     <div id="admin-tab-projects" style="display:none;margin-top:32px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
@@ -701,20 +683,102 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       </div>
     </div>
 
-    <!-- CLIENTS & BRAND TAB -->
-    <div id="admin-tab-clients" style="display:none;margin-top:32px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-        <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Clientes</div>
-        <button class="portal-btn" onclick="openCreateClient()">+ Novo cliente</button>
+    <!-- MESSAGES TAB -->
+    <div id="admin-tab-messages" style="display:none;margin-top:32px">
+      <div style="display:flex;gap:8px;margin-bottom:28px;border-bottom:1px solid #e8e7e2">
+        <button class="portal-subtab active" id="msub-chats" onclick="switchMessagesSubtab('chats')">Conversas com clientes</button>
+        <button class="portal-subtab" id="msub-requests" onclick="switchMessagesSubtab('requests')">Pedidos do site</button>
       </div>
-      <p style="font-size:13px;opacity:0.4;margin-bottom:20px">Cria a conta de acesso e a ficha do cliente (faturação, orçamento, identidade de marca) num só passo.</p>
-      <div style="margin-bottom:16px">
-        <button class="admin-nav-btn-light" onclick="loadAdminClients()">↻ Atualizar lista</button>
+
+      <!-- SUB-TAB: CONVERSAS (comments, agregadas de todos os projetos) -->
+      <div id="messages-sub-chats">
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="chat-stat-conversations">—</div>
+            <div class="admin-stat-label">Conversas ativas</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="chat-stat-unanswered" style="color:#0a0a0a">—</div>
+            <div class="admin-stat-label">Por responder</div>
+          </div>
+        </div>
+        <div class="admin-section-title" style="margin-bottom:16px">Conversas por projeto</div>
+        <div class="admin-msg-list" id="admin-chats-list">
+          <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+        </div>
       </div>
-      <div class="admin-msg-list" id="admin-clients-list">
-        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+
+      <!-- SUB-TAB: PEDIDOS DO SITE (messages + quote_requests) -->
+      <div id="messages-sub-requests" style="display:none">
+        <div style="display:flex;gap:8px;margin-bottom:24px">
+          <button class="admin-nav-btn-light active" id="rsub-messages" onclick="switchRequestsInnerTab('messages')">Contacto</button>
+          <button class="admin-nav-btn-light" id="rsub-quotes" onclick="switchRequestsInnerTab('quotes')">Pedidos de orçamento</button>
+        </div>
+
+        <div id="requests-sub-messages">
+          <div class="admin-stats">
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="stat-total">—</div>
+              <div class="admin-stat-label">Total de mensagens</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="stat-unread" style="color:#0a0a0a">—</div>
+              <div class="admin-stat-label">Por ler</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="stat-this-month">—</div>
+              <div class="admin-stat-label">Este mês</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
+              <div class="admin-stat-label">Serviço mais pedido</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div class="admin-section-title" id="admin-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Mensagens de contacto</div>
+            <div style="display:flex;gap:8px">
+              <button class="admin-nav-btn-light active" id="btn-filter-all" onclick="setFilter('all')">Todas</button>
+              <button class="admin-nav-btn-light" id="btn-filter-unread" onclick="setFilter('unread')">Não lidas</button>
+            </div>
+          </div>
+          <div class="admin-msg-list" id="admin-msg-list">
+            <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+          </div>
+        </div>
+
+        <div id="requests-sub-quotes" style="display:none">
+          <div class="admin-stats">
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="quote-stat-total">—</div>
+              <div class="admin-stat-label">Total de pedidos</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="quote-stat-unread" style="color:#0a0a0a">—</div>
+              <div class="admin-stat-label">Por ler</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="quote-stat-this-month">—</div>
+              <div class="admin-stat-label">Este mês</div>
+            </div>
+            <div class="admin-stat">
+              <div class="admin-stat-num" id="quote-stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
+              <div class="admin-stat-label">Área mais pedida</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <div class="admin-section-title" id="quote-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Pedidos de orçamento</div>
+            <div style="display:flex;gap:8px">
+              <button class="admin-nav-btn-light active" id="btn-qfilter-all" onclick="setQuoteFilter('all')">Todos</button>
+              <button class="admin-nav-btn-light" id="btn-qfilter-unread" onclick="setQuoteFilter('unread')">Não lidos</button>
+            </div>
+          </div>
+          <div class="admin-msg-list" id="admin-quotes-list">
+            <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+          </div>
+        </div>
       </div>
     </div>
+
 
 
   </div>
@@ -1072,34 +1136,56 @@ function setFilter(filter){
 }
 
 async function renderAdmin(){
-  // Show messages tab by default
-  showAdminTab('messages');
+  // Show dashboard tab by default
+  showAdminTab('dashboard');
 }
 
 function showAdminTab(tab){
+  document.getElementById('admin-tab-dashboard').style.display = tab==='dashboard'?'block':'none';
   document.getElementById('admin-tab-messages').style.display = tab==='messages'?'block':'none';
-  document.getElementById('admin-tab-quotes').style.display = tab==='quotes'?'block':'none';
   document.getElementById('admin-tab-projects').style.display = tab==='projects'?'block':'none';
   document.getElementById('admin-tab-clients').style.display = tab==='clients'?'block':'none';
+  document.getElementById('admin-tablink-dashboard').classList.toggle('active',tab==='dashboard');
   document.getElementById('admin-tablink-messages').classList.toggle('active',tab==='messages');
-  document.getElementById('admin-tablink-quotes').classList.toggle('active',tab==='quotes');
   document.getElementById('admin-tablink-projects').classList.toggle('active',tab==='projects');
   document.getElementById('admin-tablink-clients').classList.toggle('active',tab==='clients');
-  if(tab==='messages') loadAdminMessages();
-  if(tab==='quotes') switchQuotesSubtab(_quotesSubtab||'requests');
+  if(tab==='dashboard') loadAdminDashboard();
+  if(tab==='messages') switchMessagesSubtab(_messagesSubtab||'chats');
   if(tab==='projects') loadAdminProjects();
-  if(tab==='clients') loadAdminClients();
+  if(tab==='clients') switchClientsSubtab(_clientsSubtab||'list');
 }
 
-let _quotesSubtab='requests';
-function switchQuotesSubtab(sub){
-  _quotesSubtab=sub;
-  document.getElementById('qsub-requests').classList.toggle('active',sub==='requests');
-  document.getElementById('qsub-contracted').classList.toggle('active',sub==='contracted');
-  document.getElementById('quotes-sub-requests').style.display = sub==='requests'?'block':'none';
-  document.getElementById('quotes-sub-contracted').style.display = sub==='contracted'?'block':'none';
-  if(sub==='requests') loadAdminQuotes();
-  if(sub==='contracted') loadAdminBudgets();
+let _clientsSubtab='list';
+function switchClientsSubtab(sub){
+  _clientsSubtab=sub;
+  document.getElementById('csub-list').classList.toggle('active',sub==='list');
+  document.getElementById('csub-budgets').classList.toggle('active',sub==='budgets');
+  document.getElementById('clients-sub-list').style.display = sub==='list'?'block':'none';
+  document.getElementById('clients-sub-budgets').style.display = sub==='budgets'?'block':'none';
+  if(sub==='list') loadAdminClients();
+  if(sub==='budgets') loadAdminBudgets();
+}
+
+let _messagesSubtab='chats';
+function switchMessagesSubtab(sub){
+  _messagesSubtab=sub;
+  document.getElementById('msub-chats').classList.toggle('active',sub==='chats');
+  document.getElementById('msub-requests').classList.toggle('active',sub==='requests');
+  document.getElementById('messages-sub-chats').style.display = sub==='chats'?'block':'none';
+  document.getElementById('messages-sub-requests').style.display = sub==='requests'?'block':'none';
+  if(sub==='chats') loadAdminAllChats();
+  if(sub==='requests') switchRequestsInnerTab(_requestsInnerTab||'messages');
+}
+
+let _requestsInnerTab='messages';
+function switchRequestsInnerTab(sub){
+  _requestsInnerTab=sub;
+  document.getElementById('rsub-messages').classList.toggle('active',sub==='messages');
+  document.getElementById('rsub-quotes').classList.toggle('active',sub==='quotes');
+  document.getElementById('requests-sub-messages').style.display = sub==='messages'?'block':'none';
+  document.getElementById('requests-sub-quotes').style.display = sub==='quotes'?'block':'none';
+  if(sub==='messages') loadAdminMessages();
+  if(sub==='quotes') loadAdminQuotes();
 }
 
 async function loadAdminMessages(){
@@ -1306,6 +1392,168 @@ function renderAdminProjects(){
 }
 
 function statusLabel(s){ return {em_curso:'Em curso',em_revisao:'Em revisão',concluido:'Concluído',pausado:'Pausado'}[s]||s; }
+
+// ══════════════════════════════════════════════
+// ADMIN — DASHBOARD
+// ══════════════════════════════════════════════
+async function loadAdminDashboard(){
+  const list=document.getElementById('dash-projects-list');
+  list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+
+  const [{data:projects,error:pErr},{data:budgets},{data:messages},{data:quotes}]=await Promise.all([
+    sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false}),
+    sb.from('client_budgets').select('id,estado,tipo,project_id'),
+    sb.from('messages').select('id,read'),
+    sb.from('quote_requests').select('id,read')
+  ]);
+
+  if(pErr){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar projetos: ${escHtml(pErr.message)}</div>`; console.error(pErr); return; }
+
+  const allProjects=projects||[];
+  const activeProjects=allProjects.filter(p=>p.status==='em_curso'||p.status==='em_revisao');
+
+  // Valor mensal recorrente + pontual: só orçamentos ACEITES, ligados (ou não) a projetos
+  const aceites=(budgets||[]).filter(b=>b.estado==='aceite');
+  const aceitesRecorrentesIds=aceites.filter(b=>b.tipo!=='pontual').map(b=>b.id);
+  const aceitesPontuaisIds=aceites.filter(b=>b.tipo==='pontual').map(b=>b.id);
+
+  let mensalTotal=0, pontualTotal=0;
+  if(aceitesRecorrentesIds.length||aceitesPontuaisIds.length){
+    const allAceiteIds=[...aceitesRecorrentesIds,...aceitesPontuaisIds];
+    const {data:lines}=await sb.from('client_budget_lines').select('budget_id,valor,mes_referencia').in('budget_id',allAceiteIds);
+    const now=new Date();
+    const currentMonthPrefix=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+    const recSet=new Set(aceitesRecorrentesIds);
+    const ponSet=new Set(aceitesPontuaisIds);
+    (lines||[]).forEach(l=>{
+      if(recSet.has(l.budget_id) && l.mes_referencia.startsWith(currentMonthPrefix)) mensalTotal+=Number(l.valor);
+      if(ponSet.has(l.budget_id)) pontualTotal+=Number(l.valor);
+    });
+  }
+
+  const unreadMessages=(messages||[]).filter(m=>!m.read).length;
+  const unreadQuotes=(quotes||[]).filter(q=>!q.read).length;
+
+  document.getElementById('dash-stat-projects-active').textContent=activeProjects.length;
+  document.getElementById('dash-stat-mensal').textContent=mensalTotal.toFixed(2).replace('.',',')+' €';
+  document.getElementById('dash-stat-pontual').textContent=pontualTotal.toFixed(2).replace('.',',')+' €';
+  document.getElementById('dash-stat-unread').textContent=unreadMessages+unreadQuotes;
+
+  if(!activeProjects.length){
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum projeto em curso neste momento.</div>';
+    return;
+  }
+
+  // Buscar a próxima fase com deadline de cada projeto ativo
+  const activeIds=activeProjects.map(p=>p.id);
+  const {data:phases}=await sb.from('project_phases').select('*').in('project_id',activeIds).order('deadline',{ascending:true,nullsFirst:false});
+  const nextPhaseByProject={};
+  (phases||[]).forEach(ph=>{
+    if(ph.status==='concluido') return;
+    if(!nextPhaseByProject[ph.project_id] && ph.deadline){
+      nextPhaseByProject[ph.project_id]=ph;
+    }
+  });
+
+  list.innerHTML=activeProjects.map(p=>{
+    const nextPhase=nextPhaseByProject[p.id];
+    return `
+    <div class="admin-msg">
+      <div class="admin-msg-left">
+        <div class="admin-msg-name">${escHtml(p.name)}</div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${p.profiles?escHtml(p.profiles.full_name)+(p.profiles.company?' · '+escHtml(p.profiles.company):''):'Sem cliente'}</span></div>
+        ${nextPhase?`<div style="font-size:12px;opacity:0.5;margin-top:4px">Próxima entrega: <strong>${escHtml(nextPhase.name)}</strong> · ${formatDateShort(nextPhase.deadline)}</div>`:'<div style="font-size:12px;opacity:0.3;margin-top:4px">Sem fases com deadline definido</div>'}
+      </div>
+      <div class="admin-msg-right">
+        <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// ADMIN — CONVERSAS COM CLIENTES (agregadas de todos os projetos)
+// ══════════════════════════════════════════════
+let _adminAllChats=[];
+
+async function loadAdminAllChats(){
+  const list=document.getElementById('admin-chats-list');
+  list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+  const {data:projects,error:pErr}=await sb.from('projects').select('id,name,client_id,profiles(full_name,company)');
+  if(pErr){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar projetos: ${escHtml(pErr.message)}</div>`; console.error(pErr); return; }
+  const projectIds=(projects||[]).map(p=>p.id);
+  if(!projectIds.length){
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Ainda não há projetos com conversas.</div>';
+    document.getElementById('chat-stat-conversations').textContent='0';
+    document.getElementById('chat-stat-unanswered').textContent='0';
+    return;
+  }
+  const {data:comments,error:cErr}=await sb.from('comments').select('*').in('project_id',projectIds).order('created_at',{ascending:false});
+  if(cErr){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar mensagens: ${escHtml(cErr.message)}</div>`; console.error(cErr); return; }
+
+  // Agrupar por projeto, mantendo só projetos com pelo menos 1 mensagem
+  const byProject={};
+  (comments||[]).forEach(c=>{
+    if(!byProject[c.project_id]) byProject[c.project_id]=[];
+    byProject[c.project_id].push(c);
+  });
+
+  _adminAllChats=Object.keys(byProject).map(pid=>{
+    const project=(projects||[]).find(p=>String(p.id)===String(pid));
+    const msgs=byProject[pid]; // já ordenado desc por created_at
+    return {project,messages:msgs,lastMessage:msgs[0]};
+  }).filter(c=>c.project).sort((a,b)=>new Date(b.lastMessage.created_at)-new Date(a.lastMessage.created_at));
+
+  const unanswered=_adminAllChats.filter(c=>c.lastMessage.author_role==='client').length;
+  document.getElementById('chat-stat-conversations').textContent=_adminAllChats.length;
+  document.getElementById('chat-stat-unanswered').textContent=unanswered;
+
+  if(!_adminAllChats.length){
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Ainda não há conversas com clientes.</div>';
+    return;
+  }
+
+  list.innerHTML=_adminAllChats.map((c,i)=>`
+    <div class="admin-msg" onclick="openAdminChatThread(${i})" style="cursor:pointer">
+      <div class="admin-msg-left">
+        <div class="admin-msg-name">${escHtml(c.project.name)} ${c.lastMessage.author_role==='client'?'<span class="status-badge status-em_revisao">Por responder</span>':''}</div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${c.project.profiles?escHtml(c.project.profiles.full_name):'Cliente'} · ${escHtml(c.lastMessage.content.substring(0,90))}${c.lastMessage.content.length>90?'…':''}</span></div>
+      </div>
+      <div class="admin-msg-right">
+        <div class="admin-msg-date">${formatDate(c.lastMessage.created_at)}</div>
+      </div>
+    </div>`).join('');
+}
+
+async function openAdminChatThread(i){
+  const c=_adminAllChats[i];
+  const project=c.project;
+  const messages=[...c.messages].reverse(); // ordem cronológica ascendente para o chat
+  document.getElementById('budget-modal-content').innerHTML=`
+    <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px">${escHtml(project.name)}</div>
+    <div style="font-size:12px;opacity:0.4;margin-bottom:20px">${project.profiles?escHtml(project.profiles.full_name):'Cliente'}</div>
+    <div style="max-height:360px;overflow-y:auto;margin-bottom:16px">
+      ${messages.map(m=>`<div class="comment-bubble ${m.author_role==='admin'?'admin-comment':''}"><div class="comment-meta ${m.author_role==='admin'?'admin-meta':''}">${escHtml(m.author_name)} · ${m.author_role==='admin'?'UNAGI':'Cliente'} · ${formatDate(m.created_at)}</div><div class="comment-text ${m.author_role==='admin'?'admin-text':''}">${escHtml(m.content).replace(/\n/g,'<br>')}</div></div>`).join('')}
+    </div>
+    <textarea id="chat-reply-input" class="portal-textarea" placeholder="Escreve uma resposta..."></textarea>
+    <div style="display:flex;gap:12px;margin-top:10px">
+      <button class="portal-btn" onclick="sendAdminChatReply(${project.id},${i})">Enviar resposta</button>
+      <button class="portal-btn secondary" onclick="closeBudgetModal()">Fechar</button>
+    </div>`;
+  document.getElementById('budget-modal').classList.add('open');
+  setTimeout(()=>{ const box=document.querySelector('#budget-modal-content > div[style*="max-height"]'); if(box) box.scrollTop=box.scrollHeight; },50);
+}
+
+async function sendAdminChatReply(projectId,chatIdx){
+  const input=document.getElementById('chat-reply-input');
+  const content=input.value.trim();
+  if(!content) return;
+  const {error}=await sb.from('comments').insert([{project_id:projectId,author_id:null,author_name:'André Arrátel Torrão',author_role:'admin',content}]);
+  if(error){ alert('Erro ao enviar mensagem: '+error.message); return; }
+  await loadAdminAllChats();
+  const newIdx=_adminAllChats.findIndex(c=>c.project.id===projectId);
+  openAdminChatThread(newIdx>=0?newIdx:chatIdx);
+}
 
 async function openAdminProject(i){
   const p=_adminProjects[i];
@@ -1518,26 +1766,62 @@ function closeMilestoneModal(){ document.getElementById('milestone-modal').class
 // ══════════════════════════════════════════════
 let _adminClientsFull=[];
 
+let _clientFilter='active';
+
 async function loadAdminClients(){
   const list=document.getElementById('admin-clients-list');
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
   const {data:clients,error}=await sb.from('profiles').select('*').eq('role','client').order('full_name');
   if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar clientes: ${escHtml(error.message)}</div>`; console.error(error); return; }
   _adminClientsFull=clients||[];
-  if(!_adminClientsFull.length){
-    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente registado ainda. Clica em "+ Novo cliente" para criar o primeiro.</div>';
+  renderAdminClientsList();
+}
+
+function setClientFilter(filter){
+  _clientFilter=filter;
+  ['active','inactive','all'].forEach(f=>{
+    document.getElementById('btn-clientfilter-'+f).classList.toggle('active',f===filter);
+  });
+  renderAdminClientsList();
+}
+
+function renderAdminClientsList(){
+  const list=document.getElementById('admin-clients-list');
+  let filtered=_adminClientsFull;
+  if(_clientFilter==='active') filtered=_adminClientsFull.filter(c=>c.ativo!==false);
+  if(_clientFilter==='inactive') filtered=_adminClientsFull.filter(c=>c.ativo===false);
+  if(!filtered.length){
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente encontrado neste filtro.</div>';
     return;
   }
-  list.innerHTML=_adminClientsFull.map((c,i)=>`
-    <div class="admin-msg" onclick="openClientProfile(${i})" style="cursor:pointer">
-      <div class="admin-msg-left">
-        <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')}</div>
+  list.innerHTML=filtered.map(c=>{
+    const i=_adminClientsFull.indexOf(c);
+    return `
+    <div class="admin-msg">
+      <div class="admin-msg-left" onclick="openClientProfile(${i})" style="cursor:pointer">
+        <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')} ${c.ativo===false?'<span class="status-badge status-pausado">Inativo</span>':''}</div>
         <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}${c.nif?' · NIF '+escHtml(c.nif):''}</span></div>
       </div>
-      <div class="admin-msg-right">
-        <button class="admin-btn-small">Abrir ficha →</button>
+      <div class="admin-msg-right" style="display:flex;gap:6px;align-items:center" onclick="event.stopPropagation()">
+        <button class="admin-btn-small" onclick="openClientProfile(${i})">Abrir ficha</button>
+        <button class="admin-btn-small" onclick="toggleClientActive('${c.id}',${c.ativo===false})">${c.ativo===false?'Reativar':'Inativar'}</button>
+        <button class="admin-btn-small danger" onclick="confirmDeleteClient('${c.id}','${escHtml(c.full_name||'')}')">Eliminar</button>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+
+async function toggleClientActive(clientId,setActive){
+  const {error}=await sb.from('profiles').update({ativo:setActive}).eq('id',clientId);
+  if(error){ alert('Erro ao atualizar estado do cliente: '+error.message); return; }
+  loadAdminClients();
+}
+
+async function confirmDeleteClient(clientId,clientName){
+  if(!confirm(`Eliminar definitivamente "${clientName}"?\n\nIsto remove a conta de acesso, a ficha, e tudo o que depende dela (orçamentos, pagamentos, projetos associados). Esta ação não pode ser desfeita.\n\nSe preferires manter o histórico, usa "Inativar" em vez de eliminar.`)) return;
+  const {error}=await sb.rpc('admin_delete_client',{p_client_id:clientId});
+  if(error){ alert('Erro ao eliminar cliente: '+error.message); console.error(error); return; }
+  loadAdminClients();
 }
 
 // ── CRIAR NOVO CLIENTE (Auth + ficha, num só passo) ──
@@ -1753,12 +2037,24 @@ function formatMonthLabel(dateStr){
 // ── Criar novo orçamento (cabeçalho + linhas mensais) ──
 let _budgetLineDraft=[];
 
-function openCreateBudget(clientIdx){
+async function openCreateBudget(clientIdx){
   _budgetLineDraft=[];
+  const c=_adminClientsFull[clientIdx];
+  const {data:projects}=await sb.from('projects').select('id,name').eq('client_id',c.id).order('name');
   document.getElementById('budget-modal-content').innerHTML=`
     <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px;margin-bottom:24px">Novo orçamento</div>
     <label class="admin-label">Referência</label>
     <input id="nb-ref" class="admin-input" placeholder="Ex: Orçamento Marketing 360 - 2026">
+    <label class="admin-label">Projeto associado (opcional)</label>
+    <select id="nb-project" class="admin-select">
+      <option value="">Sem projeto associado</option>
+      ${(projects||[]).map(p=>`<option value="${p.id}">${escHtml(p.name)}</option>`).join('')}
+    </select>
+    <label class="admin-label">Tipo</label>
+    <select id="nb-tipo" class="admin-select">
+      <option value="recorrente">Recorrente (mensal, ao longo do tempo)</option>
+      <option value="pontual">Pontual (valor único, à cabeça)</option>
+    </select>
     <label class="admin-label">Estado</label>
     <select id="nb-estado" class="admin-select">
       <option value="rascunho">Rascunho</option>
@@ -1770,7 +2066,7 @@ function openCreateBudget(clientIdx){
     <input id="nb-notas" class="admin-input" placeholder="Detalhes adicionais">
 
     <div class="admin-section-title" style="font-size:13px;margin:20px 0 12px;border-bottom:none;padding-bottom:0">Linhas mensais</div>
-    <p style="font-size:12px;opacity:0.4;margin-bottom:12px">Adiciona uma linha por mês. Para um valor fixo recorrente, repete o mesmo valor em cada mês; para valores variáveis, ajusta cada linha.</p>
+    <p style="font-size:12px;opacity:0.4;margin-bottom:12px" id="nb-lines-help">Para orçamento <strong>recorrente</strong>: adiciona uma linha por mês (repete o valor se for fixo). Para orçamento <strong>pontual</strong>: adiciona só uma linha, com o mês em que o valor é cobrado.</p>
     <div id="nb-lines-list"></div>
     <div style="display:flex;gap:8px;align-items:flex-end;margin-top:8px;flex-wrap:wrap">
       <div style="flex:1;min-width:140px">
@@ -1832,6 +2128,8 @@ function renderBudgetLineDraft(){
 async function submitCreateBudget(clientIdx){
   const c=_adminClientsFull[clientIdx];
   const referencia=document.getElementById('nb-ref').value.trim()||null;
+  const project_id=document.getElementById('nb-project').value||null;
+  const tipo=document.getElementById('nb-tipo').value;
   const estado=document.getElementById('nb-estado').value;
   const notas=document.getElementById('nb-notas').value.trim()||null;
   const statusEl=document.getElementById('nb-status');
@@ -1842,7 +2140,7 @@ async function submitCreateBudget(clientIdx){
   }
   statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar orçamento...';
 
-  const {data:budget,error}=await sb.from('client_budgets').insert([{client_id:c.id,referencia,estado,notas}]).select().single();
+  const {data:budget,error}=await sb.from('client_budgets').insert([{client_id:c.id,referencia,project_id,tipo,estado,notas}]).select().single();
   if(error){ statusEl.style.color='#b02020'; statusEl.textContent='Erro ao criar orçamento: '+error.message; console.error(error); return; }
 
   const lines=_budgetLineDraft.map(l=>({budget_id:budget.id,mes_referencia:l.mes_referencia,valor:l.valor,descricao:l.descricao}));
@@ -2054,7 +2352,7 @@ let _budgetFilter='all';
 async function loadAdminBudgets(){
   const list=document.getElementById('admin-budgets-list');
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:budgets,error}=await sb.from('client_budgets').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
+  const {data:budgets,error}=await sb.from('client_budgets').select('*,profiles(full_name,company),projects(name)').order('created_at',{ascending:false});
   if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar orçamentos: ${escHtml(error.message)}</div>`; console.error(error); return; }
 
   const budgetIds=(budgets||[]).map(b=>b.id);
@@ -2073,17 +2371,23 @@ async function loadAdminBudgets(){
   const total=_adminAllBudgets.length;
   const aceites=_adminAllBudgets.filter(b=>b.estado==='aceite');
   const aceitesIds=new Set(aceites.map(b=>b.id));
+  const aceitesRecorrentesIds=new Set(aceites.filter(b=>b.tipo!=='pontual').map(b=>b.id));
+  const aceitesPontuaisIds=new Set(aceites.filter(b=>b.tipo==='pontual').map(b=>b.id));
   const pendentes=_adminAllBudgets.filter(b=>b.estado==='enviado').length;
-  // Total contratado/mês = soma das linhas DO MÊS ATUAL, só de orçamentos aceites
+  // Recorrente/mês = soma das linhas DO MÊS ATUAL, só de orçamentos aceites do tipo recorrente
   const now=new Date();
   const currentMonthPrefix=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
   const mensalAceite=allLines
-    .filter(l=>aceitesIds.has(l.budget_id) && l.mes_referencia.startsWith(currentMonthPrefix))
+    .filter(l=>aceitesRecorrentesIds.has(l.budget_id) && l.mes_referencia.startsWith(currentMonthPrefix))
+    .reduce((s,l)=>s+Number(l.valor),0);
+  // Pontual = soma de TODAS as linhas de orçamentos aceites do tipo pontual (não depende do mês)
+  const pontualAceite=allLines
+    .filter(l=>aceitesPontuaisIds.has(l.budget_id))
     .reduce((s,l)=>s+Number(l.valor),0);
   document.getElementById('cb-stat-total').textContent=total;
   document.getElementById('cb-stat-aceites').textContent=aceites.length;
   document.getElementById('cb-stat-pendentes').textContent=pendentes;
-  document.getElementById('cb-stat-mensal').textContent=mensalAceite.toFixed(2).replace('.',',')+' €';
+  document.getElementById('cb-stat-mensal').textContent=mensalAceite.toFixed(2).replace('.',',')+' €/mês + '+pontualAceite.toFixed(2).replace('.',',')+' € pontual';
 
   renderAdminBudgetsList();
 }
@@ -2106,8 +2410,8 @@ function renderAdminBudgetsList(){
   list.innerHTML=filtered.map(b=>`
     <div class="admin-msg" onclick="openBudgetFromGlobalList('${b.id}')" style="cursor:pointer">
       <div class="admin-msg-left">
-        <div class="admin-msg-name">${escHtml(b.referencia||'Orçamento sem referência')}</div>
-        <div class="admin-msg-meta"><span class="admin-msg-preview">${b.profiles?escHtml(b.profiles.full_name)+(b.profiles.company?' · '+escHtml(b.profiles.company):''):'Cliente removido'}</span></div>
+        <div class="admin-msg-name">${escHtml(b.referencia||'Orçamento sem referência')} <span style="font-size:10px;opacity:0.4;font-weight:600;text-transform:uppercase;letter-spacing:0.5px">${b.tipo==='pontual'?'· Pontual':'· Recorrente'}</span></div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${b.profiles?escHtml(b.profiles.full_name)+(b.profiles.company?' · '+escHtml(b.profiles.company):''):'Cliente removido'}${b.projects?' · Projeto: '+escHtml(b.projects.name):''}</span></div>
       </div>
       <div class="admin-msg-right">
         <div class="admin-msg-date">Total: ${b.total.toFixed(2).replace('.',',')} €</div>
