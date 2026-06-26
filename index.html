@@ -215,6 +215,42 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   .dash-project-row{grid-template-columns:1fr;gap:6px}
 }
 
+/* CARTÕES — Projetos e Conversas (grid) */
+.proj-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+.proj-card{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.proj-card:hover{border-color:#0a0a0a;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.proj-card-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+.proj-card-donut{flex-shrink:0;width:64px;height:64px}
+.proj-card-info{flex:1;min-width:0}
+.proj-card-name{font-size:15px;font-weight:700;letter-spacing:-0.3px;line-height:1.3}
+.proj-card-client{font-size:12px;opacity:0.4;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* DASHBOARD — linha de donuts com legenda */
+.dash-donuts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:36px;margin-bottom:36px}
+.dash-donut-body{display:flex;align-items:center;gap:24px}
+.dash-donut-legend{flex:1;display:flex;flex-direction:column;gap:10px}
+.dash-donut-legend-item{display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.dash-donut-legend-left{display:flex;align-items:center;gap:8px}
+.dash-donut-legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dash-donut-legend-label{opacity:0.55}
+.dash-donut-legend-num{font-weight:700}
+@media (max-width:768px){ .dash-donuts-row{grid-template-columns:1fr} }
+.proj-card-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #f0efe9}
+.proj-card-deadline{font-size:12px;font-weight:600;opacity:0.5}
+@media (max-width:1024px){ .proj-cards-grid{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){ .proj-cards-grid{grid-template-columns:1fr} }
+
+/* CARTÕES — Conversas com clientes */
+.chat-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:48px}
+.chat-card{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:22px 24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
+.chat-card:hover{border-color:#0a0a0a;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chat-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px}
+.chat-card-name{font-size:14px;font-weight:700;letter-spacing:-0.2px}
+.chat-card-client{font-size:12px;opacity:0.4;margin-top:3px}
+.chat-card-preview{font-size:13px;opacity:0.55;line-height:1.5;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-card-date{font-size:11px;opacity:0.35;margin-top:12px}
+@media (max-width:768px){ .chat-cards-grid{grid-template-columns:1fr} }
+
 .admin-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--light)}
 .admin-msg-list{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
 .admin-msg{background:var(--white);padding:24px 28px;cursor:pointer;transition:background 0.15s;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
@@ -647,7 +683,18 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
         </div>
       </div>
 
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:36px">
+      <div class="dash-donuts-row">
+        <div class="proj-card" style="cursor:default" id="dash-donut-projects">
+          <div class="admin-section-title" style="margin-bottom:16px">Projetos por estado</div>
+          <div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">A carregar...</div>
+        </div>
+        <div class="proj-card" style="cursor:default" id="dash-donut-budgets">
+          <div class="admin-section-title" style="margin-bottom:16px">Orçamentos por estado</div>
+          <div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">A carregar...</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:8px">
         <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Projetos ativos</div>
         <button class="admin-nav-btn-light" onclick="loadAdminDashboard()">↻ Atualizar</button>
       </div>
@@ -726,8 +773,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
         <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Projetos de clientes</div>
         <button class="portal-btn" onclick="openCreateProject()">+ Novo projeto</button>
       </div>
-      <div class="admin-msg-list" id="admin-projects-list">
-        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+      <div class="proj-cards-grid" id="admin-projects-list">
+        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px;grid-column:1/-1">A carregar...</div>
       </div>
     </div>
 
@@ -751,8 +798,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
           </div>
         </div>
         <div class="admin-section-title" style="margin-bottom:16px">Conversas por projeto</div>
-        <div class="admin-msg-list" id="admin-chats-list">
-          <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+        <div class="chat-cards-grid" id="admin-chats-list">
+          <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px;grid-column:1/-1">A carregar...</div>
         </div>
       </div>
 
@@ -1408,12 +1455,31 @@ async function deleteQuote(i){
 // ADMIN — PROJECTS
 // ══════════════════════════════════════════════
 let _adminProjects=[];
+let _adminProjectsProgress={};
 let _adminClients=[];
 
 async function loadAdminProjects(){
   document.getElementById('admin-projects-list').innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
   const {data:projects}=await sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
   _adminProjects=projects||[];
+
+  // Progresso: % de fases concluídas por projeto
+  _adminProjectsProgress={};
+  if(_adminProjects.length){
+    const ids=_adminProjects.map(p=>p.id);
+    const {data:phases}=await sb.from('project_phases').select('project_id,status,deadline').in('project_id',ids);
+    const byProject={};
+    (phases||[]).forEach(ph=>{
+      if(!byProject[ph.project_id]) byProject[ph.project_id]={total:0,done:0,nextDeadline:null};
+      byProject[ph.project_id].total++;
+      if(ph.status==='concluido') byProject[ph.project_id].done++;
+      else if(ph.deadline && (!byProject[ph.project_id].nextDeadline || ph.deadline<byProject[ph.project_id].nextDeadline)){
+        byProject[ph.project_id].nextDeadline=ph.deadline;
+      }
+    });
+    _adminProjectsProgress=byProject;
+  }
+
   renderAdminProjects();
 }
 
@@ -1422,21 +1488,77 @@ function renderAdminProjects(){
   if(!_adminProjects.length){
     container.innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">Nenhum projeto criado ainda.</div>'; return;
   }
-  container.innerHTML=_adminProjects.map((p,i)=>`
-    <div class="admin-msg" onclick="openAdminProject(${i})" style="cursor:pointer">
-      <div class="admin-msg-left">
-        <div class="admin-msg-name">${escHtml(p.name)}</div>
-        <div class="admin-msg-meta">
-          <span class="admin-msg-service">${statusLabel(p.status)}</span>
-          <span class="admin-msg-preview">${p.profiles?escHtml(p.profiles.full_name)+(p.profiles.company?' · '+escHtml(p.profiles.company):''):'Sem cliente'}</span>
+  container.innerHTML=_adminProjects.map((p,i)=>{
+    const prog=_adminProjectsProgress[p.id];
+    const hasPhases=prog&&prog.total>0;
+    const pct=hasPhases?Math.round((prog.done/prog.total)*100):null;
+    return `
+    <div class="proj-card" onclick="openAdminProject(${i})">
+      <div class="proj-card-top">
+        <div class="proj-card-donut">${donutSvg(pct)}</div>
+        <div class="proj-card-info">
+          <div class="proj-card-name">${escHtml(p.name)}</div>
+          <div class="proj-card-client">${p.profiles?escHtml(p.profiles.full_name)+(p.profiles.company?' · '+escHtml(p.profiles.company):''):'Sem cliente'}</div>
         </div>
-        ${p.description?`<div class="admin-msg-preview" style="margin-top:4px">${escHtml(p.description.substring(0,100))}</div>`:''}
       </div>
-      <div class="admin-msg-right">
-        <div class="admin-msg-date">${formatDate(p.created_at)}</div>
+      <div class="proj-card-bottom">
         <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
+        <span class="proj-card-deadline">${prog&&prog.nextDeadline?formatDateShort(prog.nextDeadline):(hasPhases?'Sem deadline':'Sem fases')}</span>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+
+function donutSvg(pct){
+  if(pct===null||pct===undefined){
+    return `<svg width="64" height="64" viewBox="0 0 64 64">
+      <circle cx="32" cy="32" r="26" fill="none" stroke="#e8e7e2" stroke-width="6"/>
+      <text x="32" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#0a0a0a" opacity="0.3" font-family="Inter,sans-serif">—</text>
+    </svg>`;
+  }
+  const r=26, c=2*Math.PI*r, offset=c-(c*pct/100);
+  return `<svg width="64" height="64" viewBox="0 0 64 64">
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#e8e7e2" stroke-width="6"/>
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#0a0a0a" stroke-width="6" stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+    <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="900" fill="#0a0a0a" font-family="Inter,sans-serif">${pct}%</text>
+  </svg>`;
+}
+
+// Donut multi-segmento: items = [{label, value, color}], tons de cinza/preto
+function multiDonutSvg(items,total){
+  const r=40, cx=56, cy=56, sw=14;
+  const c=2*Math.PI*r;
+  let acc=0;
+  const segments=items.filter(it=>it.value>0).map(it=>{
+    const frac=total?it.value/total:0;
+    const dash=c*frac;
+    const seg=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${it.color}" stroke-width="${sw}" stroke-dasharray="${dash} ${c-dash}" stroke-dashoffset="${-acc}" transform="rotate(-90 ${cx} ${cy})"/>`;
+    acc+=dash;
+    return seg;
+  }).join('');
+  return `<svg width="112" height="112" viewBox="0 0 112 112">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f0efe9" stroke-width="${sw}"/>
+    ${segments}
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="24" font-weight="900" fill="#0a0a0a" font-family="Inter,sans-serif">${total}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" font-weight="600" fill="#0a0a0a" opacity="0.4" font-family="Inter,sans-serif" letter-spacing="1">TOTAL</text>
+  </svg>`;
+}
+
+function donutCardWithLegend(items){
+  const total=items.reduce((s,it)=>s+it.value,0);
+  return `<div class="dash-donut-body">
+    ${multiDonutSvg(items,total)}
+    <div class="dash-donut-legend">
+      ${items.map(it=>`
+        <div class="dash-donut-legend-item">
+          <div class="dash-donut-legend-left">
+            <span class="dash-donut-legend-dot" style="background:${it.color}"></span>
+            <span class="dash-donut-legend-label">${escHtml(it.label)}</span>
+          </div>
+          <span class="dash-donut-legend-num">${it.value}</span>
+        </div>`).join('')}
+    </div>
+  </div>`;
 }
 
 function statusLabel(s){ return {em_curso:'Em curso',em_revisao:'Em revisão',concluido:'Concluído',pausado:'Pausado'}[s]||s; }
@@ -1486,6 +1608,38 @@ async function loadAdminDashboard(){
   document.getElementById('dash-stat-mensal').textContent=mensalTotal.toFixed(2).replace('.',',')+' €';
   document.getElementById('dash-stat-pontual').textContent=pontualTotal.toFixed(2).replace('.',',')+' €';
   document.getElementById('dash-stat-unread').textContent=unreadMessages+unreadQuotes;
+
+  // ── Donut: Projetos por estado ──
+  const projectStatusCounts={em_curso:0,em_revisao:0,pausado:0,concluido:0};
+  allProjects.forEach(p=>{ if(projectStatusCounts[p.status]!==undefined) projectStatusCounts[p.status]++; });
+  const projDonutEl=document.getElementById('dash-donut-projects');
+  if(allProjects.length){
+    projDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Projetos por estado</div>`+
+      donutCardWithLegend([
+        {label:'Em curso',value:projectStatusCounts.em_curso,color:'#0a0a0a'},
+        {label:'Em revisão',value:projectStatusCounts.em_revisao,color:'#6b6a64'},
+        {label:'Pausado',value:projectStatusCounts.pausado,color:'#b8b6ac'},
+        {label:'Concluído',value:projectStatusCounts.concluido,color:'#e8e7e2'}
+      ]);
+  } else {
+    projDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Projetos por estado</div><div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">Ainda sem projetos.</div>`;
+  }
+
+  // ── Donut: Orçamentos por estado ──
+  const budgetStatusCounts={rascunho:0,enviado:0,aceite:0,recusado:0};
+  (budgets||[]).forEach(b=>{ if(budgetStatusCounts[b.estado]!==undefined) budgetStatusCounts[b.estado]++; });
+  const budgetDonutEl=document.getElementById('dash-donut-budgets');
+  if((budgets||[]).length){
+    budgetDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Orçamentos por estado</div>`+
+      donutCardWithLegend([
+        {label:'Aceite',value:budgetStatusCounts.aceite,color:'#0a0a0a'},
+        {label:'Enviado',value:budgetStatusCounts.enviado,color:'#6b6a64'},
+        {label:'Rascunho',value:budgetStatusCounts.rascunho,color:'#b8b6ac'},
+        {label:'Recusado',value:budgetStatusCounts.recusado,color:'#e8e7e2'}
+      ]);
+  } else {
+    budgetDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Orçamentos por estado</div><div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">Ainda sem orçamentos.</div>`;
+  }
 
   // ── Fases: próxima fase + deteção de atraso, para todos os projetos ativos ──
   let nextPhaseByProject={};
@@ -1607,14 +1761,16 @@ async function loadAdminAllChats(){
   }
 
   list.innerHTML=_adminAllChats.map((c,i)=>`
-    <div class="admin-msg" onclick="openAdminChatThread(${i})" style="cursor:pointer">
-      <div class="admin-msg-left">
-        <div class="admin-msg-name">${escHtml(c.project.name)} ${c.lastMessage.author_role==='client'?'<span class="status-badge status-em_revisao">Por responder</span>':''}</div>
-        <div class="admin-msg-meta"><span class="admin-msg-preview">${c.project.profiles?escHtml(c.project.profiles.full_name):'Cliente'} · ${escHtml(c.lastMessage.content.substring(0,90))}${c.lastMessage.content.length>90?'…':''}</span></div>
+    <div class="chat-card" onclick="openAdminChatThread(${i})">
+      <div class="chat-card-top">
+        <div>
+          <div class="chat-card-name">${escHtml(c.project.name)}</div>
+          <div class="chat-card-client">${c.project.profiles?escHtml(c.project.profiles.full_name):'Cliente'}</div>
+        </div>
+        ${c.lastMessage.author_role==='client'?'<span class="status-badge status-em_revisao">Por responder</span>':''}
       </div>
-      <div class="admin-msg-right">
-        <div class="admin-msg-date">${formatDate(c.lastMessage.created_at)}</div>
-      </div>
+      <div class="chat-card-preview">${escHtml(c.lastMessage.content.substring(0,90))}${c.lastMessage.content.length>90?'…':''}</div>
+      <div class="chat-card-date">${formatDate(c.lastMessage.created_at)}</div>
     </div>`).join('');
 }
 
