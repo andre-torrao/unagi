@@ -1819,9 +1819,29 @@ async function toggleClientActive(clientId,setActive){
 
 async function confirmDeleteClient(clientId,clientName){
   if(!confirm(`Eliminar definitivamente "${clientName}"?\n\nIsto remove a conta de acesso, a ficha, e tudo o que depende dela (orçamentos, pagamentos, projetos associados). Esta ação não pode ser desfeita.\n\nSe preferires manter o histórico, usa "Inativar" em vez de eliminar.`)) return;
-  const {error}=await sb.rpc('admin_delete_client',{p_client_id:clientId});
-  if(error){ alert('Erro ao eliminar cliente: '+error.message); console.error(error); return; }
+
+  const {data:requestId,error:startErr}=await sb.rpc('admin_delete_client_start',{p_client_id:clientId});
+  if(startErr){ alert('Erro ao eliminar cliente: '+startErr.message); console.error(startErr); return; }
+
+  // A ficha já foi eliminada nesta chamada (independentemente da conta Auth);
+  // atualiza a lista já, e confirma a remoção da conta Auth em segundo plano.
   loadAdminClients();
+
+  let attempts=0, result=null;
+  while(attempts<20){
+    await sleep(600);
+    attempts++;
+    const {data:checkResult,error:checkErr}=await sb.rpc('admin_delete_client_check',{p_request_id:requestId});
+    if(checkErr){ console.error(checkErr); return; }
+    result=checkResult;
+    if(result.status!=='pending') break;
+  }
+
+  if(result&&result.status==='error'){
+    alert(result.message);
+  } else if(!result||result.status==='pending'){
+    console.warn('Eliminação da conta Auth ainda pendente após espera — verifica manualmente em Authentication → Users.');
+  }
 }
 
 // ── CRIAR NOVO CLIENTE (Auth + ficha, num só passo) ──
@@ -1865,6 +1885,8 @@ function openCreateClient(){
   document.getElementById('client-modal').classList.add('open');
 }
 
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
 async function submitCreateClient(){
   const email=document.getElementById('nc-email').value.trim();
   const password=document.getElementById('nc-password').value;
@@ -1891,21 +1913,53 @@ async function submitCreateClient(){
 
   const btn=document.getElementById('nc-submit-btn');
   btn.disabled=true; btn.textContent='A criar...';
-  statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar conta e ficha do cliente...';
+  statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar conta de acesso...';
 
-  const {data,error}=await sb.rpc('admin_create_client',{
-    p_email:email, p_password:password, p_full_name:full_name, p_company:company,
-    p_telefone:telefone, p_nif:nif, p_nome_fiscal:nome_fiscal,
-    p_endereco_faturacao:endereco_faturacao, p_email_faturacao:email_faturacao,
-    p_notas_internas:notas_internas
-  });
+  const {data:requestId,error:startErr}=await sb.rpc('admin_create_client_start',{p_email:email,p_password:password});
+  if(startErr){
+    btn.disabled=false; btn.textContent='Criar cliente';
+    statusEl.style.color='#b02020';
+    statusEl.textContent='Erro ao iniciar criação: '+startErr.message+'. Confirma que correste o script supabase_fix_no_internal_polling.sql.';
+    console.error(startErr);
+    return;
+  }
+
+  statusEl.textContent='A aguardar confirmação...';
+
+  // Polling no frontend (cada chamada é independente, sem bloquear nada no Postgres)
+  let attempts=0, result=null;
+  while(attempts<25){
+    await sleep(600);
+    attempts++;
+    const {data:checkResult,error:checkErr}=await sb.rpc('admin_create_client_check',{
+      p_request_id:requestId, p_full_name:full_name, p_company:company,
+      p_telefone:telefone, p_nif:nif, p_nome_fiscal:nome_fiscal,
+      p_endereco_faturacao:endereco_faturacao, p_email_faturacao:email_faturacao,
+      p_notas_internas:notas_internas
+    });
+    if(checkErr){
+      btn.disabled=false; btn.textContent='Criar cliente';
+      statusEl.style.color='#b02020';
+      statusEl.textContent='Erro ao verificar criação: '+checkErr.message;
+      console.error(checkErr);
+      return;
+    }
+    result=checkResult;
+    if(result.status!=='pending') break;
+    statusEl.textContent='A aguardar confirmação... ('+attempts+')';
+  }
 
   btn.disabled=false; btn.textContent='Criar cliente';
 
-  if(error){
+  if(!result||result.status==='pending'){
     statusEl.style.color='#b02020';
-    statusEl.textContent='Erro ao criar cliente: '+error.message+'. Confirma que correste o script supabase_client_management.sql e configuraste app_settings.';
-    console.error(error);
+    statusEl.textContent='A criação está a demorar mais que o esperado. Verifica em Authentication → Users no Supabase se a conta foi criada, e atualiza a lista de clientes.';
+    return;
+  }
+
+  if(result.status==='error'){
+    statusEl.style.color='#b02020';
+    statusEl.textContent='Erro ao criar cliente: '+result.message;
     return;
   }
 
