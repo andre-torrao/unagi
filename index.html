@@ -178,6 +178,43 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .admin-stat{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px}
 .admin-stat-num{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}
 .admin-stat-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.35;margin-top:6px}
+
+/* DASHBOARD — alertas */
+.dash-alert-banner{background:#fdf2f0;border:1px solid #f3d4cf;border-radius:2px;padding:18px 24px;margin-bottom:8px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:background 0.15s}
+.dash-alert-banner:last-child{margin-bottom:0}
+.dash-alert-banner:hover{background:#fbe7e3}
+.dash-alert-icon{font-size:18px;flex-shrink:0}
+.dash-alert-text{font-size:13px;line-height:1.5}
+.dash-alert-text strong{font-weight:700}
+
+/* DASHBOARD — hero (valor mensal em destaque) */
+.dash-hero{background:var(--black);color:var(--white);border-radius:2px;padding:40px 44px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+.dash-hero-main{border-right:1px solid rgba(255,255,255,0.15);padding-right:40px}
+.dash-hero-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.45;margin-bottom:10px}
+.dash-hero-num{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1}
+.dash-hero-side{display:flex;flex-direction:column;gap:22px}
+.dash-hero-side-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.dash-hero-side-item:last-child{border-bottom:none;padding-bottom:0}
+.dash-hero-side-num{font-size:26px;font-weight:900;letter-spacing:-1px}
+.dash-hero-side-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:0.45;text-align:right}
+
+/* DASHBOARD — tabela de projetos compacta */
+.dash-projects-table{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
+.dash-project-row{background:var(--white);padding:18px 24px;display:grid;grid-template-columns:1.6fr 1.3fr 1fr auto;gap:24px;align-items:center;cursor:pointer;transition:background 0.15s}
+.dash-project-row:hover{background:#f8f7f3}
+.dash-project-name{font-size:14px;font-weight:700;letter-spacing:-0.2px}
+.dash-project-client{font-size:12px;opacity:0.4;margin-top:2px}
+.dash-project-phase{font-size:12px;opacity:0.6}
+.dash-project-phase strong{opacity:1;font-weight:600}
+.dash-project-deadline{font-size:12px;font-weight:600}
+.dash-project-deadline.overdue{color:#e24b4a}
+.dash-project-deadline.soon{color:#b07700}
+@media (max-width:768px){
+  .dash-hero{grid-template-columns:1fr;gap:24px}
+  .dash-hero-main{border-right:none;padding-right:0;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:24px}
+  .dash-project-row{grid-template-columns:1fr;gap:6px}
+}
+
 .admin-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--light)}
 .admin-msg-list{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
 .admin-msg{background:var(--white);padding:24px 28px;cursor:pointer;transition:background 0.15s;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
@@ -584,26 +621,37 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
     <!-- DASHBOARD TAB -->
     <div id="admin-tab-dashboard" style="margin-top:32px">
-      <div class="admin-stats">
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="dash-stat-projects-active">—</div>
-          <div class="admin-stat-label">Projetos em curso</div>
+
+      <!-- ALERTAS — só aparece se houver algo a precisar de atenção -->
+      <div id="dash-alerts" style="display:none;margin-bottom:32px"></div>
+
+      <!-- HERO STATS -->
+      <div class="dash-hero">
+        <div class="dash-hero-main">
+          <div class="dash-hero-label">Valor mensal recorrente <span style="opacity:0.5">(orçamentos aceites)</span></div>
+          <div class="dash-hero-num" id="dash-stat-mensal">—</div>
         </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="dash-stat-mensal" style="font-size:22px">—</div>
-          <div class="admin-stat-label">Valor mensal recorrente (aceite)</div>
-        </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="dash-stat-pontual" style="font-size:22px">—</div>
-          <div class="admin-stat-label">Valor pontual a receber (aceite)</div>
-        </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="dash-stat-unread" style="color:#0a0a0a">—</div>
-          <div class="admin-stat-label">Mensagens por ler</div>
+        <div class="dash-hero-side">
+          <div class="dash-hero-side-item">
+            <div class="dash-hero-side-num" id="dash-stat-pontual">—</div>
+            <div class="dash-hero-side-label">Pontual a receber</div>
+          </div>
+          <div class="dash-hero-side-item">
+            <div class="dash-hero-side-num" id="dash-stat-projects-active">—</div>
+            <div class="dash-hero-side-label">Projetos ativos</div>
+          </div>
+          <div class="dash-hero-side-item">
+            <div class="dash-hero-side-num" id="dash-stat-unread">—</div>
+            <div class="dash-hero-side-label">Mensagens por ler</div>
+          </div>
         </div>
       </div>
-      <div class="admin-section-title" style="margin-bottom:16px">Projetos em curso</div>
-      <div class="admin-msg-list" id="dash-projects-list">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;margin-top:36px">
+        <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Projetos ativos</div>
+        <button class="admin-nav-btn-light" onclick="loadAdminDashboard()">↻ Atualizar</button>
+      </div>
+      <div class="dash-projects-table" id="dash-projects-list">
         <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
     </div>
@@ -1439,34 +1487,79 @@ async function loadAdminDashboard(){
   document.getElementById('dash-stat-pontual').textContent=pontualTotal.toFixed(2).replace('.',',')+' €';
   document.getElementById('dash-stat-unread').textContent=unreadMessages+unreadQuotes;
 
+  // ── Fases: próxima fase + deteção de atraso, para todos os projetos ativos ──
+  let nextPhaseByProject={};
+  let overdueCount=0;
+  if(activeProjects.length){
+    const activeIds=activeProjects.map(p=>p.id);
+    const {data:phases}=await sb.from('project_phases').select('*').in('project_id',activeIds).order('deadline',{ascending:true,nullsFirst:false});
+    const today=new Date(); today.setHours(0,0,0,0);
+    (phases||[]).forEach(ph=>{
+      if(ph.status==='concluido') return;
+      if(!nextPhaseByProject[ph.project_id] && ph.deadline){
+        nextPhaseByProject[ph.project_id]=ph;
+      }
+    });
+    Object.values(nextPhaseByProject).forEach(ph=>{
+      if(new Date(ph.deadline)<today) overdueCount++;
+    });
+  }
+
+  // ── Conversas por responder há mais de 48h ──
+  let staleChats=0;
+  if(activeProjects.length){
+    const activeIds=allProjects.map(p=>p.id);
+    const {data:comments}=await sb.from('comments').select('project_id,author_role,created_at').in('project_id',activeIds).order('created_at',{ascending:false});
+    const lastByProject={};
+    (comments||[]).forEach(c=>{ if(!lastByProject[c.project_id]) lastByProject[c.project_id]=c; });
+    const cutoff=new Date(); cutoff.setHours(cutoff.getHours()-48);
+    staleChats=Object.values(lastByProject).filter(c=>c.author_role==='client'&&new Date(c.created_at)<cutoff).length;
+  }
+
+  // ── Render alertas ──
+  const alertsEl=document.getElementById('dash-alerts');
+  let alertsHtml='';
+  if(overdueCount>0){
+    alertsHtml+=`<div class="dash-alert-banner" onclick="document.getElementById('dash-projects-list').scrollIntoView({behavior:'smooth'})">
+      <span class="dash-alert-icon">⚠</span>
+      <span class="dash-alert-text"><strong>${overdueCount} ${overdueCount===1?'fase':'fases'}</strong> com deadline ultrapassado, à espera de atualização.</span>
+    </div>`;
+  }
+  if(staleChats>0){
+    alertsHtml+=`<div class="dash-alert-banner" onclick="showAdminTab('messages')">
+      <span class="dash-alert-icon">💬</span>
+      <span class="dash-alert-text"><strong>${staleChats} ${staleChats===1?'conversa':'conversas'}</strong> com clientes à espera de resposta há mais de 48 horas.</span>
+    </div>`;
+  }
+  alertsEl.innerHTML=alertsHtml;
+  alertsEl.style.display=alertsHtml?'block':'none';
+
   if(!activeProjects.length){
     list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum projeto em curso neste momento.</div>';
     return;
   }
 
-  // Buscar a próxima fase com deadline de cada projeto ativo
-  const activeIds=activeProjects.map(p=>p.id);
-  const {data:phases}=await sb.from('project_phases').select('*').in('project_id',activeIds).order('deadline',{ascending:true,nullsFirst:false});
-  const nextPhaseByProject={};
-  (phases||[]).forEach(ph=>{
-    if(ph.status==='concluido') return;
-    if(!nextPhaseByProject[ph.project_id] && ph.deadline){
-      nextPhaseByProject[ph.project_id]=ph;
-    }
-  });
+  const today=new Date(); today.setHours(0,0,0,0);
+  const soonCutoff=new Date(today); soonCutoff.setDate(soonCutoff.getDate()+7);
 
   list.innerHTML=activeProjects.map(p=>{
     const nextPhase=nextPhaseByProject[p.id];
+    let deadlineClass='', deadlineLabel='Sem deadline';
+    if(nextPhase){
+      const d=new Date(nextPhase.deadline);
+      deadlineLabel=formatDateShort(nextPhase.deadline);
+      if(d<today) deadlineClass='overdue';
+      else if(d<=soonCutoff) deadlineClass='soon';
+    }
     return `
-    <div class="admin-msg">
-      <div class="admin-msg-left">
-        <div class="admin-msg-name">${escHtml(p.name)}</div>
-        <div class="admin-msg-meta"><span class="admin-msg-preview">${p.profiles?escHtml(p.profiles.full_name)+(p.profiles.company?' · '+escHtml(p.profiles.company):''):'Sem cliente'}</span></div>
-        ${nextPhase?`<div style="font-size:12px;opacity:0.5;margin-top:4px">Próxima entrega: <strong>${escHtml(nextPhase.name)}</strong> · ${formatDateShort(nextPhase.deadline)}</div>`:'<div style="font-size:12px;opacity:0.3;margin-top:4px">Sem fases com deadline definido</div>'}
+    <div class="dash-project-row" onclick="showAdminTab('projects')">
+      <div>
+        <div class="dash-project-name">${escHtml(p.name)}</div>
+        <div class="dash-project-client">${p.profiles?escHtml(p.profiles.full_name)+(p.profiles.company?' · '+escHtml(p.profiles.company):''):'Sem cliente'}</div>
       </div>
-      <div class="admin-msg-right">
-        <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
-      </div>
+      <div class="dash-project-phase">${nextPhase?`Próxima: <strong>${escHtml(nextPhase.name)}</strong>`:'Sem fases com deadline'}</div>
+      <div class="dash-project-deadline ${deadlineClass}">${deadlineClass==='overdue'?'Atrasado · ':''}${deadlineLabel}</div>
+      <span class="status-badge status-${p.status}">${statusLabel(p.status)}</span>
     </div>`;
   }).join('');
 }
