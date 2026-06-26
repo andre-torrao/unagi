@@ -616,35 +616,79 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
     <!-- QUOTES TAB -->
     <div id="admin-tab-quotes" style="display:none;margin-top:32px">
-      <div class="admin-stats">
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="quote-stat-total">—</div>
-          <div class="admin-stat-label">Total de pedidos</div>
+      <div style="display:flex;gap:8px;margin-bottom:28px;border-bottom:1px solid #e8e7e2">
+        <button class="portal-subtab active" id="qsub-requests" onclick="switchQuotesSubtab('requests')">Pedidos recebidos</button>
+        <button class="portal-subtab" id="qsub-contracted" onclick="switchQuotesSubtab('contracted')">Orçamentos contratados</button>
+      </div>
+
+      <!-- SUB-TAB: PEDIDOS RECEBIDOS (quote_requests, do formulário do site) -->
+      <div id="quotes-sub-requests">
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="quote-stat-total">—</div>
+            <div class="admin-stat-label">Total de pedidos</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="quote-stat-unread" style="color:#0a0a0a">—</div>
+            <div class="admin-stat-label">Por ler</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="quote-stat-this-month">—</div>
+            <div class="admin-stat-label">Este mês</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="quote-stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
+            <div class="admin-stat-label">Área mais pedida</div>
+          </div>
         </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="quote-stat-unread" style="color:#0a0a0a">—</div>
-          <div class="admin-stat-label">Por ler</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div class="admin-section-title" id="quote-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Pedidos de orçamento</div>
+          <div style="display:flex;gap:8px">
+            <button class="admin-nav-btn-light active" id="btn-qfilter-all" onclick="setQuoteFilter('all')">Todos</button>
+            <button class="admin-nav-btn-light" id="btn-qfilter-unread" onclick="setQuoteFilter('unread')">Não lidos</button>
+          </div>
         </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="quote-stat-this-month">—</div>
-          <div class="admin-stat-label">Este mês</div>
-        </div>
-        <div class="admin-stat">
-          <div class="admin-stat-num" id="quote-stat-services" style="font-size:18px;letter-spacing:-0.5px">—</div>
-          <div class="admin-stat-label">Área mais pedida</div>
+        <div class="admin-msg-list" id="admin-quotes-list">
+          <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-        <div class="admin-section-title" id="quote-list-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Pedidos de orçamento</div>
-        <div style="display:flex;gap:8px">
-          <button class="admin-nav-btn-light active" id="btn-qfilter-all" onclick="setQuoteFilter('all')">Todos</button>
-          <button class="admin-nav-btn-light" id="btn-qfilter-unread" onclick="setQuoteFilter('unread')">Não lidos</button>
+
+      <!-- SUB-TAB: ORÇAMENTOS CONTRATADOS (client_budgets, por cliente) -->
+      <div id="quotes-sub-contracted" style="display:none">
+        <div class="admin-stats">
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="cb-stat-total">—</div>
+            <div class="admin-stat-label">Total de orçamentos</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="cb-stat-aceites" style="color:#2d7a2d">—</div>
+            <div class="admin-stat-label">Aceites</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="cb-stat-pendentes" style="color:#b07700">—</div>
+            <div class="admin-stat-label">Enviados (a aguardar)</div>
+          </div>
+          <div class="admin-stat">
+            <div class="admin-stat-num" id="cb-stat-mensal" style="font-size:22px">—</div>
+            <div class="admin-stat-label">Total contratado/mês (aceites)</div>
+          </div>
         </div>
-      </div>
-      <div class="admin-msg-list" id="admin-quotes-list">
-        <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+          <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Todos os orçamentos</div>
+          <div style="display:flex;gap:8px">
+            <button class="admin-nav-btn-light active" id="btn-cbfilter-all" onclick="setBudgetFilter('all')">Todos</button>
+            <button class="admin-nav-btn-light" id="btn-cbfilter-rascunho" onclick="setBudgetFilter('rascunho')">Rascunho</button>
+            <button class="admin-nav-btn-light" id="btn-cbfilter-enviado" onclick="setBudgetFilter('enviado')">Enviado</button>
+            <button class="admin-nav-btn-light" id="btn-cbfilter-aceite" onclick="setBudgetFilter('aceite')">Aceite</button>
+            <button class="admin-nav-btn-light" id="btn-cbfilter-recusado" onclick="setBudgetFilter('recusado')">Recusado</button>
+          </div>
+        </div>
+        <div class="admin-msg-list" id="admin-budgets-list">
+          <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
+        </div>
       </div>
     </div>
+
 
     <!-- PROJECTS TAB -->
     <div id="admin-tab-projects" style="display:none;margin-top:32px">
@@ -661,14 +705,9 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <div id="admin-tab-clients" style="display:none;margin-top:32px">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
         <div class="admin-section-title" style="margin-bottom:0;border-bottom:none;padding-bottom:0">Clientes</div>
-        <button class="portal-btn secondary" onclick="toggleClientHelpBox()">Como adicionar um novo cliente?</button>
+        <button class="portal-btn" onclick="openCreateClient()">+ Novo cliente</button>
       </div>
-      <div id="client-help-box" style="display:none;background:#fff;border:1px solid #e8e7e2;border-radius:2px;padding:20px 24px;margin:16px 0;font-size:13px;line-height:1.8">
-        <strong>Passo 1 —</strong> No painel do Supabase, vai a <em>Authentication → Users → Add user</em> e cria o email + password do cliente.<br>
-        <strong>Passo 2 —</strong> Volta aqui e clica em "Atualizar lista" abaixo. O cliente aparece automaticamente (é criado um perfil sem precisares de fazer mais nada).<br>
-        <strong>Passo 3 —</strong> Clica no cliente para associar orçamento, identidade de marca e projetos.
-      </div>
-      <p style="font-size:13px;opacity:0.4;margin-bottom:20px">Gere orçamento, identidade de marca e projetos de cada cliente.</p>
+      <p style="font-size:13px;opacity:0.4;margin-bottom:20px">Cria a conta de acesso e a ficha do cliente (faturação, orçamento, identidade de marca) num só passo.</p>
       <div style="margin-bottom:16px">
         <button class="admin-nav-btn-light" onclick="loadAdminClients()">↻ Atualizar lista</button>
       </div>
@@ -676,6 +715,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
         <div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>
       </div>
     </div>
+
 
   </div>
 </div>
@@ -767,6 +807,22 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   </div>
 </div>
 
+<!-- ADMIN CLIENT PROFILE MODAL (wide) -->
+<div class="admin-modal" id="client-modal">
+  <div class="admin-modal-inner" style="max-width:920px">
+    <button class="admin-modal-close" onclick="closeClientModal()">✕</button>
+    <div id="client-modal-content"></div>
+  </div>
+</div>
+
+<!-- ADMIN BUDGET MODAL (create/edit budget + lines) -->
+<div class="admin-modal" id="budget-modal">
+  <div class="admin-modal-inner" style="max-width:640px">
+    <button class="admin-modal-close" onclick="closeBudgetModal()">✕</button>
+    <div id="budget-modal-content"></div>
+  </div>
+</div>
+
 <style>
 /* Portal & extra admin styles */
 .portal-project-card{background:#f5f4f0;padding:28px 32px;cursor:pointer;transition:background 0.15s;display:flex;align-items:center;justify-content:space-between;gap:20px}
@@ -778,6 +834,13 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .status-em_revisao{background:#fef3e2;color:#b07700}
 .status-concluido{background:#e8e8e8;color:#444}
 .status-pausado{background:#fce8e8;color:#b02020}
+.status-rascunho{background:#f0efe9;color:#6b6a64}
+.status-enviado{background:#fef3e2;color:#b07700}
+.status-aceite{background:#e8f4e8;color:#2d7a2d}
+.status-recusado{background:#fce8e8;color:#b02020}
+.status-pago{background:#e8f4e8;color:#2d7a2d}
+.status-em_atraso{background:#fce8e8;color:#b02020}
+.status-por_vencer{background:#f0efe9;color:#6b6a64}
 .milestone-row{padding:16px 20px;background:#fff;border-left:3px solid transparent;margin-bottom:1px;display:flex;align-items:center;gap:16px;border-radius:1px}
 .milestone-row.concluido{border-left-color:#2d7a2d;opacity:0.65}
 .milestone-row.em_curso{border-left-color:#f59e0b}
@@ -1023,9 +1086,20 @@ function showAdminTab(tab){
   document.getElementById('admin-tablink-projects').classList.toggle('active',tab==='projects');
   document.getElementById('admin-tablink-clients').classList.toggle('active',tab==='clients');
   if(tab==='messages') loadAdminMessages();
-  if(tab==='quotes') loadAdminQuotes();
+  if(tab==='quotes') switchQuotesSubtab(_quotesSubtab||'requests');
   if(tab==='projects') loadAdminProjects();
   if(tab==='clients') loadAdminClients();
+}
+
+let _quotesSubtab='requests';
+function switchQuotesSubtab(sub){
+  _quotesSubtab=sub;
+  document.getElementById('qsub-requests').classList.toggle('active',sub==='requests');
+  document.getElementById('qsub-contracted').classList.toggle('active',sub==='contracted');
+  document.getElementById('quotes-sub-requests').style.display = sub==='requests'?'block':'none';
+  document.getElementById('quotes-sub-contracted').style.display = sub==='contracted'?'block':'none';
+  if(sub==='requests') loadAdminQuotes();
+  if(sub==='contracted') loadAdminBudgets();
 }
 
 async function loadAdminMessages(){
@@ -1440,14 +1514,9 @@ async function savePhase(projectId,projectIdx){
 function closeMilestoneModal(){ document.getElementById('milestone-modal').classList.remove('open'); }
 
 // ══════════════════════════════════════════════
-// ADMIN — CLIENTS & BRAND IDENTITY
+// ADMIN — CLIENTS (ficha completa: faturação, orçamento, marca)
 // ══════════════════════════════════════════════
 let _adminClientsFull=[];
-
-function toggleClientHelpBox(){
-  const box=document.getElementById('client-help-box');
-  box.style.display = box.style.display==='none' ? 'block' : 'none';
-}
 
 async function loadAdminClients(){
   const list=document.getElementById('admin-clients-list');
@@ -1456,82 +1525,426 @@ async function loadAdminClients(){
   if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar clientes: ${escHtml(error.message)}</div>`; console.error(error); return; }
   _adminClientsFull=clients||[];
   if(!_adminClientsFull.length){
-    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente registado ainda. Cria a conta no Supabase e depois clica em "Atualizar lista".</div>';
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum cliente registado ainda. Clica em "+ Novo cliente" para criar o primeiro.</div>';
     return;
   }
   list.innerHTML=_adminClientsFull.map((c,i)=>`
     <div class="admin-msg" onclick="openClientProfile(${i})" style="cursor:pointer">
       <div class="admin-msg-left">
         <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')}</div>
-        <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}</span></div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}${c.nif?' · NIF '+escHtml(c.nif):''}</span></div>
       </div>
       <div class="admin-msg-right">
-        <button class="admin-btn-small">Abrir perfil →</button>
+        <button class="admin-btn-small">Abrir ficha →</button>
       </div>
     </div>`).join('');
 }
 
+// ── CRIAR NOVO CLIENTE (Auth + ficha, num só passo) ──
+function openCreateClient(){
+  document.getElementById('client-modal-content').innerHTML=`
+    <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">Novo cliente</div>
+    <p style="font-size:13px;opacity:0.4;margin-bottom:24px">Cria a conta de acesso ao portal e a ficha do cliente num só passo.</p>
+
+    <div class="admin-section-title" style="font-size:13px;margin-bottom:12px;border-bottom:none;padding-bottom:0">Acesso ao portal</div>
+    <label class="admin-label">Email (login)</label>
+    <input id="nc-email" class="admin-input" type="email" placeholder="cliente@empresa.pt">
+    <label class="admin-label">Password inicial</label>
+    <input id="nc-password" class="admin-input" type="text" placeholder="Define uma password temporária">
+
+    <div class="admin-section-title" style="font-size:13px;margin:24px 0 12px;border-bottom:none;padding-bottom:0">Identificação</div>
+    <label class="admin-label">Nome de contacto</label>
+    <input id="nc-name" class="admin-input" placeholder="Nome da pessoa de contacto">
+    <label class="admin-label">Empresa</label>
+    <input id="nc-company" class="admin-input" placeholder="Nome da empresa (opcional)">
+    <label class="admin-label">Telefone</label>
+    <input id="nc-phone" class="admin-input" placeholder="Opcional">
+
+    <div class="admin-section-title" style="font-size:13px;margin:24px 0 12px;border-bottom:none;padding-bottom:0">Faturação</div>
+    <label class="admin-label">NIF</label>
+    <input id="nc-nif" class="admin-input" placeholder="Opcional">
+    <label class="admin-label">Nome fiscal / Razão social</label>
+    <input id="nc-fiscal" class="admin-input" placeholder="Se diferente do nome de contacto">
+    <label class="admin-label">Endereço de faturação</label>
+    <input id="nc-address" class="admin-input" placeholder="Opcional">
+    <label class="admin-label">Email de faturação</label>
+    <input id="nc-billing-email" class="admin-input" placeholder="Se diferente do email de login">
+
+    <label class="admin-label">Notas internas</label>
+    <input id="nc-notes" class="admin-input" placeholder="Visível só para a equipa UNAGI">
+
+    <div id="nc-status" style="font-size:13px;margin-bottom:12px;display:none"></div>
+    <div style="display:flex;gap:12px;margin-top:8px">
+      <button class="portal-btn" id="nc-submit-btn" onclick="submitCreateClient()">Criar cliente</button>
+      <button class="portal-btn secondary" onclick="closeClientModal()">Cancelar</button>
+    </div>`;
+  document.getElementById('client-modal').classList.add('open');
+}
+
+async function submitCreateClient(){
+  const email=document.getElementById('nc-email').value.trim();
+  const password=document.getElementById('nc-password').value;
+  const full_name=document.getElementById('nc-name').value.trim();
+  const company=document.getElementById('nc-company').value.trim()||null;
+  const telefone=document.getElementById('nc-phone').value.trim()||null;
+  const nif=document.getElementById('nc-nif').value.trim()||null;
+  const nome_fiscal=document.getElementById('nc-fiscal').value.trim()||null;
+  const endereco_faturacao=document.getElementById('nc-address').value.trim()||null;
+  const email_faturacao=document.getElementById('nc-billing-email').value.trim()||null;
+  const notas_internas=document.getElementById('nc-notes').value.trim()||null;
+  const statusEl=document.getElementById('nc-status');
+
+  if(!email||!password||!full_name){
+    statusEl.style.display='block'; statusEl.style.color='#b02020';
+    statusEl.textContent='Preenche pelo menos email, password e nome de contacto.';
+    return;
+  }
+  if(password.length<6){
+    statusEl.style.display='block'; statusEl.style.color='#b02020';
+    statusEl.textContent='A password deve ter pelo menos 6 caracteres.';
+    return;
+  }
+
+  const btn=document.getElementById('nc-submit-btn');
+  btn.disabled=true; btn.textContent='A criar...';
+  statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar conta e ficha do cliente...';
+
+  const {data,error}=await sb.rpc('admin_create_client',{
+    p_email:email, p_password:password, p_full_name:full_name, p_company:company,
+    p_telefone:telefone, p_nif:nif, p_nome_fiscal:nome_fiscal,
+    p_endereco_faturacao:endereco_faturacao, p_email_faturacao:email_faturacao,
+    p_notas_internas:notas_internas
+  });
+
+  btn.disabled=false; btn.textContent='Criar cliente';
+
+  if(error){
+    statusEl.style.color='#b02020';
+    statusEl.textContent='Erro ao criar cliente: '+error.message+'. Confirma que correste o script supabase_client_management.sql e configuraste app_settings.';
+    console.error(error);
+    return;
+  }
+
+  statusEl.style.color='#2d7a2d';
+  statusEl.textContent='Cliente criado com sucesso.';
+  setTimeout(()=>{ closeClientModal(); loadAdminClients(); },800);
+}
+
+function closeClientModal(){ document.getElementById('client-modal').classList.remove('open'); }
+
+// ── FICHA DE CLIENTE (3 tabs: Faturação / Orçamento / Marca) ──
 async function openClientProfile(i){
   const c=_adminClientsFull[i];
-  document.getElementById('project-modal-content').innerHTML=`
+  document.getElementById('client-modal-content').innerHTML=`
     <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">${escHtml(c.full_name)}</div>
     <div style="font-size:13px;opacity:0.4;margin-bottom:24px">${c.company?escHtml(c.company):'Sem empresa associada'}</div>
     <div style="display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid #e8e7e2">
-      <button class="portal-subtab active" id="cptab-budget" onclick="switchClientProfileTab('budget',${i})">Orçamento</button>
+      <button class="portal-subtab active" id="cptab-billing" onclick="switchClientProfileTab('billing',${i})">Faturação</button>
+      <button class="portal-subtab" id="cptab-budget" onclick="switchClientProfileTab('budget',${i})">Orçamento</button>
       <button class="portal-subtab" id="cptab-brand" onclick="switchClientProfileTab('brand',${i})">Identidade de Marca</button>
       <button class="portal-subtab" id="cptab-projects" onclick="switchClientProfileTab('projects',${i})">Projetos</button>
     </div>
     <div id="client-profile-tab-content"></div>`;
-  document.getElementById('project-modal').classList.add('open');
-  switchClientProfileTab('budget',i);
+  document.getElementById('client-modal').classList.add('open');
+  switchClientProfileTab('billing',i);
 }
 
 async function switchClientProfileTab(tab,clientIdx){
-  ['budget','brand','projects'].forEach(t=>{
+  ['billing','budget','brand','projects'].forEach(t=>{
     document.getElementById('cptab-'+t).classList.toggle('active',t===tab);
   });
   const content=document.getElementById('client-profile-tab-content');
   content.innerHTML='<div style="padding:32px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+  if(tab==='billing') return renderAdminClientBilling(clientIdx);
   if(tab==='budget') return renderAdminClientBudget(clientIdx);
   if(tab==='brand') return renderAdminClientBrand(clientIdx);
   if(tab==='projects') return renderAdminClientProjects(clientIdx);
 }
 
-// ── ORÇAMENTO (texto editável com data da última edição)
-async function renderAdminClientBudget(clientIdx){
+// ── TAB 1: FATURAÇÃO ──
+function renderAdminClientBilling(clientIdx){
   const c=_adminClientsFull[clientIdx];
-  const {data:budget,error}=await sb.from('client_budgets').select('*').eq('client_id',c.id).maybeSingle();
   const content=document.getElementById('client-profile-tab-content');
-  if(error){
-    content.innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar orçamento: ${escHtml(error.message)}<br>Confirma que correste o script SQL "supabase_client_budget.sql".</div>`;
-    return;
-  }
   content.innerHTML=`
-    <label class="admin-label">Texto do orçamento (visível ao cliente)</label>
-    <textarea id="admin-budget-text" class="portal-textarea" style="min-height:240px">${budget?escHtml(budget.content):''}</textarea>
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px">
-      <span style="font-size:12px;opacity:0.4">${budget&&budget.updated_at?'Última edição: '+formatDate(budget.updated_at)+(budget.updated_by_name?' · '+escHtml(budget.updated_by_name):''):'Ainda não editado'}</span>
-      <button class="portal-btn" onclick="saveClientBudget(${c.id},${clientIdx})">Guardar orçamento</button>
-    </div>
-    <div id="budget-save-status" style="font-size:13px;opacity:0.5;margin-top:8px;display:none"></div>`;
+    <label class="admin-label">Nome de contacto</label>
+    <input id="bill-name" class="admin-input" value="${escHtml(c.full_name||'')}">
+    <label class="admin-label">Empresa</label>
+    <input id="bill-company" class="admin-input" value="${escHtml(c.company||'')}">
+    <label class="admin-label">Telefone</label>
+    <input id="bill-phone" class="admin-input" value="${escHtml(c.telefone||'')}">
+    <label class="admin-label">NIF</label>
+    <input id="bill-nif" class="admin-input" value="${escHtml(c.nif||'')}">
+    <label class="admin-label">Nome fiscal / Razão social</label>
+    <input id="bill-fiscal" class="admin-input" value="${escHtml(c.nome_fiscal||'')}">
+    <label class="admin-label">Endereço de faturação</label>
+    <input id="bill-address" class="admin-input" value="${escHtml(c.endereco_faturacao||'')}">
+    <label class="admin-label">Email de faturação</label>
+    <input id="bill-billing-email" class="admin-input" value="${escHtml(c.email_faturacao||'')}">
+    <label class="admin-label">Notas internas</label>
+    <textarea id="bill-notes" class="portal-textarea" style="min-height:80px">${escHtml(c.notas_internas||'')}</textarea>
+    <div id="bill-save-status" style="font-size:13px;margin:12px 0;display:none"></div>
+    <button class="portal-btn" onclick="saveClientBilling(${clientIdx})">Guardar alterações</button>`;
 }
 
-async function saveClientBudget(clientId,clientIdx){
-  const content=document.getElementById('admin-budget-text').value;
-  const {data:existing}=await sb.from('client_budgets').select('id').eq('client_id',clientId).maybeSingle();
-  const payload={content,updated_at:new Date().toISOString(),updated_by_name:'André Arrátel Torrão'};
-  let error;
-  if(existing){
-    ({error}=await sb.from('client_budgets').update(payload).eq('client_id',clientId));
-  } else {
-    payload.client_id=clientId;
-    ({error}=await sb.from('client_budgets').insert([payload]));
+async function saveClientBilling(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const payload={
+    full_name:document.getElementById('bill-name').value.trim(),
+    company:document.getElementById('bill-company').value.trim()||null,
+    telefone:document.getElementById('bill-phone').value.trim()||null,
+    nif:document.getElementById('bill-nif').value.trim()||null,
+    nome_fiscal:document.getElementById('bill-fiscal').value.trim()||null,
+    endereco_faturacao:document.getElementById('bill-address').value.trim()||null,
+    email_faturacao:document.getElementById('bill-billing-email').value.trim()||null,
+    notas_internas:document.getElementById('bill-notes').value.trim()||null
+  };
+  const statusEl=document.getElementById('bill-save-status');
+  const {error}=await sb.from('profiles').update(payload).eq('id',c.id);
+  statusEl.style.display='block';
+  if(error){ statusEl.style.color='#b02020'; statusEl.textContent='Erro ao guardar: '+error.message; console.error(error); return; }
+  Object.assign(c,payload);
+  statusEl.style.color='#2d7a2d'; statusEl.textContent='Guardado.';
+  loadAdminClients();
+  setTimeout(()=>{ statusEl.style.display='none'; },2000);
+}
+
+// ── TAB 2: ORÇAMENTO (histórico de orçamentos do cliente) ──
+async function renderAdminClientBudget(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const {data:budgets,error}=await sb.from('client_budgets').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
+  const content=document.getElementById('client-profile-tab-content');
+  if(error){
+    content.innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar orçamentos: ${escHtml(error.message)}<br>Confirma que correste o script SQL "supabase_client_management.sql".</div>`;
+    return;
   }
-  if(error){ alert('Erro ao guardar orçamento: '+error.message); console.error(error); return; }
+  window._adminClientBudgets=budgets||[];
+  content.innerHTML=`
+    <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+      <button class="portal-btn" onclick="openCreateBudget(${clientIdx})">+ Novo orçamento</button>
+    </div>
+    <div id="admin-client-budgets-list">
+      ${(budgets||[]).length?(budgets||[]).map((b,bi)=>`
+        <div class="admin-msg" style="cursor:pointer" onclick="openBudgetDetail(${clientIdx},${bi})">
+          <div class="admin-msg-left">
+            <div class="admin-msg-name">${escHtml(b.referencia||'Orçamento sem referência')}</div>
+            <div class="admin-msg-meta"><span class="admin-msg-preview">Criado em ${formatDate(b.created_at)}</span></div>
+          </div>
+          <div class="admin-msg-right"><span class="status-badge status-${b.estado}">${budgetStatusLabel(b.estado)}</span></div>
+        </div>`).join(''):'<div style="opacity:0.3;font-size:13px;padding:24px 0;text-align:center">Este cliente ainda não tem orçamentos. Cria o primeiro.</div>'}
+    </div>`;
+}
+
+function budgetStatusLabel(s){ return {rascunho:'Rascunho',enviado:'Enviado',aceite:'Aceite',recusado:'Recusado'}[s]||s; }
+
+function monthInputValue(dateStr){
+  // converte '2026-07-01' -> '2026-07' para <input type="month">
+  if(!dateStr) return '';
+  return dateStr.substring(0,7);
+}
+function monthToDate(monthStr){
+  // converte '2026-07' -> '2026-07-01'
+  return monthStr?monthStr+'-01':null;
+}
+function formatMonthLabel(dateStr){
+  const d=new Date(dateStr+'T00:00:00');
+  return d.toLocaleDateString('pt-PT',{month:'short',year:'numeric'});
+}
+
+// ── Criar novo orçamento (cabeçalho + linhas mensais) ──
+let _budgetLineDraft=[];
+
+function openCreateBudget(clientIdx){
+  _budgetLineDraft=[];
+  document.getElementById('budget-modal-content').innerHTML=`
+    <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px;margin-bottom:24px">Novo orçamento</div>
+    <label class="admin-label">Referência</label>
+    <input id="nb-ref" class="admin-input" placeholder="Ex: Orçamento Marketing 360 - 2026">
+    <label class="admin-label">Estado</label>
+    <select id="nb-estado" class="admin-select">
+      <option value="rascunho">Rascunho</option>
+      <option value="enviado">Enviado</option>
+      <option value="aceite">Aceite</option>
+      <option value="recusado">Recusado</option>
+    </select>
+    <label class="admin-label">Notas (opcional)</label>
+    <input id="nb-notas" class="admin-input" placeholder="Detalhes adicionais">
+
+    <div class="admin-section-title" style="font-size:13px;margin:20px 0 12px;border-bottom:none;padding-bottom:0">Linhas mensais</div>
+    <p style="font-size:12px;opacity:0.4;margin-bottom:12px">Adiciona uma linha por mês. Para um valor fixo recorrente, repete o mesmo valor em cada mês; para valores variáveis, ajusta cada linha.</p>
+    <div id="nb-lines-list"></div>
+    <div style="display:flex;gap:8px;align-items:flex-end;margin-top:8px;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px">
+        <label class="admin-label" style="margin-bottom:4px">Mês</label>
+        <input id="nb-line-month" type="month" class="admin-input" style="margin-bottom:0">
+      </div>
+      <div style="flex:1;min-width:140px">
+        <label class="admin-label" style="margin-bottom:4px">Valor (€)</label>
+        <input id="nb-line-value" type="number" step="0.01" class="admin-input" style="margin-bottom:0" placeholder="0.00">
+      </div>
+      <div style="flex:2;min-width:160px">
+        <label class="admin-label" style="margin-bottom:4px">Descrição (opcional)</label>
+        <input id="nb-line-desc" class="admin-input" style="margin-bottom:0" placeholder="Ex: Gestão de redes sociais">
+      </div>
+      <button class="admin-btn-small" style="height:46px;padding:0 14px" onclick="addBudgetLineDraft()">+ Adicionar</button>
+    </div>
+    <div style="text-align:right;font-size:13px;font-weight:700;margin-top:12px" id="nb-total">Total: 0,00 €</div>
+
+    <div id="nb-status" style="font-size:13px;margin:12px 0;display:none"></div>
+    <div style="display:flex;gap:12px;margin-top:16px">
+      <button class="portal-btn" onclick="submitCreateBudget(${clientIdx})">Criar orçamento</button>
+      <button class="portal-btn secondary" onclick="closeBudgetModal()">Cancelar</button>
+    </div>`;
+  renderBudgetLineDraft();
+  document.getElementById('budget-modal').classList.add('open');
+}
+
+function addBudgetLineDraft(){
+  const month=document.getElementById('nb-line-month').value;
+  const value=parseFloat(document.getElementById('nb-line-value').value);
+  const desc=document.getElementById('nb-line-desc').value.trim();
+  if(!month||isNaN(value)){ alert('Indica o mês e o valor da linha.'); return; }
+  _budgetLineDraft.push({mes_referencia:monthToDate(month),valor:value,descricao:desc||null});
+  _budgetLineDraft.sort((a,b)=>a.mes_referencia.localeCompare(b.mes_referencia));
+  document.getElementById('nb-line-month').value='';
+  document.getElementById('nb-line-value').value='';
+  document.getElementById('nb-line-desc').value='';
+  renderBudgetLineDraft();
+}
+
+function removeBudgetLineDraft(idx){
+  _budgetLineDraft.splice(idx,1);
+  renderBudgetLineDraft();
+}
+
+function renderBudgetLineDraft(){
+  const list=document.getElementById('nb-lines-list');
+  const total=_budgetLineDraft.reduce((s,l)=>s+Number(l.valor),0);
+  list.innerHTML=_budgetLineDraft.length?_budgetLineDraft.map((l,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0efe9;font-size:13px">
+      <div style="width:90px;font-weight:600">${formatMonthLabel(l.mes_referencia)}</div>
+      <div style="flex:1;opacity:0.6">${l.descricao?escHtml(l.descricao):'—'}</div>
+      <div style="width:90px;text-align:right;font-weight:700">${Number(l.valor).toFixed(2)} €</div>
+      <button class="admin-btn-small danger" onclick="removeBudgetLineDraft(${i})">✕</button>
+    </div>`).join(''):'<div style="opacity:0.3;font-size:12px;padding:8px 0">Ainda sem linhas. Adiciona pelo menos um mês.</div>';
+  document.getElementById('nb-total').textContent='Total: '+total.toFixed(2).replace('.',',')+' €';
+}
+
+async function submitCreateBudget(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const referencia=document.getElementById('nb-ref').value.trim()||null;
+  const estado=document.getElementById('nb-estado').value;
+  const notas=document.getElementById('nb-notas').value.trim()||null;
+  const statusEl=document.getElementById('nb-status');
+  if(!_budgetLineDraft.length){
+    statusEl.style.display='block'; statusEl.style.color='#b02020';
+    statusEl.textContent='Adiciona pelo menos uma linha mensal antes de criar o orçamento.';
+    return;
+  }
+  statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar orçamento...';
+
+  const {data:budget,error}=await sb.from('client_budgets').insert([{client_id:c.id,referencia,estado,notas}]).select().single();
+  if(error){ statusEl.style.color='#b02020'; statusEl.textContent='Erro ao criar orçamento: '+error.message; console.error(error); return; }
+
+  const lines=_budgetLineDraft.map(l=>({budget_id:budget.id,mes_referencia:l.mes_referencia,valor:l.valor,descricao:l.descricao}));
+  const {error:linesErr}=await sb.from('client_budget_lines').insert(lines);
+  if(linesErr){ statusEl.style.color='#b02020'; statusEl.textContent='Orçamento criado, mas falhou ao guardar linhas: '+linesErr.message; console.error(linesErr); return; }
+
+  statusEl.style.color='#2d7a2d'; statusEl.textContent='Orçamento criado.';
+  setTimeout(()=>{ closeBudgetModal(); renderAdminClientBudget(clientIdx); },600);
+}
+
+function closeBudgetModal(){ document.getElementById('budget-modal').classList.remove('open'); }
+
+// ── Detalhe de orçamento existente: ver linhas, mudar estado, gerar cobrança ──
+async function openBudgetDetail(clientIdx,budgetIdx){
+  const budget=window._adminClientBudgets[budgetIdx];
+  const [{data:lines,error},{data:payments}]=await Promise.all([
+    sb.from('client_budget_lines').select('*').eq('budget_id',budget.id).order('mes_referencia'),
+    sb.from('client_payments').select('*').eq('budget_id',budget.id).order('mes_referencia')
+  ]);
+  if(error){ alert('Erro ao carregar linhas: '+error.message); return; }
+  const total=(lines||[]).reduce((s,l)=>s+Number(l.valor),0);
+  document.getElementById('budget-modal-content').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+      <div>
+        <div style="font-size:18px;font-weight:900;letter-spacing:-0.5px">${escHtml(budget.referencia||'Orçamento sem referência')}</div>
+        <div style="font-size:12px;opacity:0.4;margin-top:4px">Criado em ${formatDate(budget.created_at)}</div>
+      </div>
+      <select class="admin-select" style="margin-bottom:0;max-width:160px" onchange="updateBudgetEstado(${budget.id},this.value,${clientIdx},${budgetIdx})">
+        <option value="rascunho" ${budget.estado==='rascunho'?'selected':''}>Rascunho</option>
+        <option value="enviado" ${budget.estado==='enviado'?'selected':''}>Enviado</option>
+        <option value="aceite" ${budget.estado==='aceite'?'selected':''}>Aceite</option>
+        <option value="recusado" ${budget.estado==='recusado'?'selected':''}>Recusado</option>
+      </select>
+    </div>
+    ${budget.notas?`<p style="font-size:13px;opacity:0.5;margin-bottom:16px">${escHtml(budget.notas)}</p>`:''}
+    <div class="admin-section-title" style="font-size:13px;border-bottom:none;padding-bottom:0;margin-bottom:8px">Linhas mensais</div>
+    ${(lines||[]).map(l=>`
+      <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0efe9;font-size:13px">
+        <div style="width:90px;font-weight:600">${formatMonthLabel(l.mes_referencia)}</div>
+        <div style="flex:1;opacity:0.6">${l.descricao?escHtml(l.descricao):'—'}</div>
+        <div style="width:90px;text-align:right;font-weight:700">${Number(l.valor).toFixed(2)} €</div>
+      </div>`).join('')}
+    <div style="text-align:right;font-size:14px;font-weight:900;margin-top:12px">Total contratado: ${total.toFixed(2).replace('.',',')} €</div>
+
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid #e8e7e2">
+      <div class="admin-section-title" style="font-size:13px;border-bottom:none;padding-bottom:0;margin-bottom:8px">Quadro de cobrança</div>
+      <p style="font-size:12px;opacity:0.4;margin-bottom:12px">Gera o quadro de pagamentos mês a mês a partir destas linhas, depois marca cada mês como pago à medida que recebes.</p>
+      <button class="admin-btn-small" onclick="generatePaymentsFromBudget(${budget.id},${clientIdx},${budgetIdx})">Gerar / atualizar quadro de cobrança</button>
+      <div id="gen-payments-status" style="font-size:12px;margin-top:8px;display:none"></div>
+      <div id="budget-payments-list" style="margin-top:14px">
+        ${(payments&&payments.length)?payments.map(p=>`
+          <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid #f0efe9;font-size:13px">
+            <div style="width:90px;font-weight:600">${formatMonthLabel(p.mes_referencia)}</div>
+            <div style="flex:1;opacity:0.6">${Number(p.valor_esperado).toFixed(2)} €${p.data_pagamento?' · pago em '+formatDateShort(p.data_pagamento):''}</div>
+            <button class="admin-btn-small ${p.pago?'':'danger'}" onclick="togglePaymentPaid(${p.id},${!p.pago},${clientIdx},${budgetIdx})">${p.pago?'✓ Pago':'Marcar pago'}</button>
+          </div>`).join(''):'<div style="opacity:0.3;font-size:12px;padding:8px 0">Quadro de cobrança ainda não gerado para este orçamento.</div>'}
+      </div>
+    </div>
+
+    <div style="display:flex;gap:12px;margin-top:24px">
+      <button class="portal-btn secondary" onclick="closeBudgetModal()">Fechar</button>
+      <button class="portal-btn secondary" style="border-color:#e24b4a;color:#e24b4a" onclick="deleteBudget(${budget.id},${clientIdx})">Eliminar orçamento</button>
+    </div>`;
+  document.getElementById('budget-modal').classList.add('open');
+}
+
+async function togglePaymentPaid(paymentId,newPaidState,clientIdx,budgetIdx){
+  const payload={pago:newPaidState,data_pagamento:newPaidState?new Date().toISOString().substring(0,10):null};
+  const {error}=await sb.from('client_payments').update(payload).eq('id',paymentId);
+  if(error){ alert('Erro ao atualizar pagamento: '+error.message); return; }
+  openBudgetDetail(clientIdx,budgetIdx);
+}
+
+async function updateBudgetEstado(budgetId,estado,clientIdx,budgetIdx){
+  const {error}=await sb.from('client_budgets').update({estado}).eq('id',budgetId);
+  if(error){ alert('Erro ao atualizar estado: '+error.message); return; }
+  if(typeof budgetIdx==='number'){
+    if(window._adminClientBudgets&&window._adminClientBudgets[budgetIdx]) window._adminClientBudgets[budgetIdx].estado=estado;
+    openBudgetDetail(clientIdx,budgetIdx);
+  } else {
+    renderAdminClientBudget(clientIdx);
+  }
+}
+
+async function generatePaymentsFromBudget(budgetId,clientIdx,budgetIdx){
+  const statusEl=document.getElementById('gen-payments-status');
+  statusEl.style.display='block'; statusEl.textContent='A gerar...';
+  const {error}=await sb.rpc('generate_payments_from_budget',{p_budget_id:budgetId});
+  if(error){ statusEl.style.color='#b02020'; statusEl.textContent='Erro: '+error.message; console.error(error); return; }
+  statusEl.style.color='#2d7a2d'; statusEl.textContent='Quadro de cobrança gerado/atualizado com sucesso.';
+  setTimeout(()=>openBudgetDetail(clientIdx,budgetIdx),600);
+}
+
+async function deleteBudget(budgetId,clientIdx){
+  if(!confirm('Eliminar este orçamento e todas as suas linhas? Esta ação não pode ser desfeita.')) return;
+  const {error}=await sb.from('client_budgets').delete().eq('id',budgetId);
+  if(error){ alert('Erro ao eliminar: '+error.message); return; }
+  closeBudgetModal();
   renderAdminClientBudget(clientIdx);
 }
 
-// ── PROJETOS DO CLIENTE
+// ── PROJETOS DO CLIENTE ──
 async function renderAdminClientProjects(clientIdx){
   const c=_adminClientsFull[clientIdx];
   const {data:projects,error}=await sb.from('projects').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
@@ -1539,7 +1952,7 @@ async function renderAdminClientProjects(clientIdx){
   if(error){ content.innerHTML=`<div style="padding:24px;font-size:13px;opacity:0.5">Erro ao carregar projetos: ${escHtml(error.message)}</div>`; return; }
   content.innerHTML=`
     <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
-      <button class="portal-btn" onclick="openCreateProjectFor(${c.id})">+ Novo projeto para este cliente</button>
+      <button class="portal-btn" onclick="openCreateProjectFor('${c.id}')">+ Novo projeto para este cliente</button>
     </div>
     ${(projects||[]).length?(projects||[]).map(p=>`
       <div class="admin-msg">
@@ -1553,12 +1966,12 @@ async function renderAdminClientProjects(clientIdx){
 
 function openCreateProjectFor(clientId){
   window._preselectClientId=clientId;
-  closeProjectModal();
+  closeClientModal();
   showAdminTab('projects');
   openCreateProject();
 }
 
-// ── IDENTIDADE DE MARCA (dentro do perfil do cliente)
+// ── TAB 3: IDENTIDADE DE MARCA (dentro da ficha do cliente) ──
 async function renderAdminClientBrand(clientIdx){
   const c=_adminClientsFull[clientIdx];
   const {data:docs,error}=await sb.from('brand_documents').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
@@ -1573,7 +1986,7 @@ async function renderAdminClientBrand(clientIdx){
         <select id="admin-brand-category" class="admin-select" style="margin-bottom:0;max-width:220px">
           ${BRAND_CATEGORIES.map(cat=>`<option value="${cat.key}">${cat.label}</option>`).join('')}
         </select>
-        <input type="file" id="admin-brand-file-input" style="display:none" onchange="uploadAdminBrandDoc(${c.id},${clientIdx})">
+        <input type="file" id="admin-brand-file-input" style="display:none" onchange="uploadAdminBrandDoc('${c.id}',${clientIdx})">
         <button class="admin-btn-small" onclick="document.getElementById('admin-brand-file-input').click()">Carregar ficheiro</button>
       </div>
       <div id="brand-upload-status" style="font-size:13px;opacity:0.5;margin-top:10px;display:none"></div>
@@ -1631,6 +2044,99 @@ async function deleteAdminBrandDoc(docId,clientIdx){
   if(error){ alert('Erro ao eliminar: '+error.message); return; }
   renderAdminClientBrand(clientIdx);
 }
+
+// ══════════════════════════════════════════════
+// ADMIN — ORÇAMENTOS CONTRATADOS (vista global, todos os clientes)
+// ══════════════════════════════════════════════
+let _adminAllBudgets=[];
+let _budgetFilter='all';
+
+async function loadAdminBudgets(){
+  const list=document.getElementById('admin-budgets-list');
+  list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
+  const {data:budgets,error}=await sb.from('client_budgets').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
+  if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar orçamentos: ${escHtml(error.message)}</div>`; console.error(error); return; }
+
+  const budgetIds=(budgets||[]).map(b=>b.id);
+  let linesByBudget={};
+  let allLines=[];
+  if(budgetIds.length){
+    const {data:lines}=await sb.from('client_budget_lines').select('budget_id,valor,mes_referencia').in('budget_id',budgetIds);
+    allLines=lines||[];
+    allLines.forEach(l=>{
+      linesByBudget[l.budget_id]=(linesByBudget[l.budget_id]||0)+Number(l.valor);
+    });
+  }
+  _adminAllBudgets=(budgets||[]).map(b=>({...b,total:linesByBudget[b.id]||0}));
+
+  // Stats
+  const total=_adminAllBudgets.length;
+  const aceites=_adminAllBudgets.filter(b=>b.estado==='aceite');
+  const aceitesIds=new Set(aceites.map(b=>b.id));
+  const pendentes=_adminAllBudgets.filter(b=>b.estado==='enviado').length;
+  // Total contratado/mês = soma das linhas DO MÊS ATUAL, só de orçamentos aceites
+  const now=new Date();
+  const currentMonthPrefix=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
+  const mensalAceite=allLines
+    .filter(l=>aceitesIds.has(l.budget_id) && l.mes_referencia.startsWith(currentMonthPrefix))
+    .reduce((s,l)=>s+Number(l.valor),0);
+  document.getElementById('cb-stat-total').textContent=total;
+  document.getElementById('cb-stat-aceites').textContent=aceites.length;
+  document.getElementById('cb-stat-pendentes').textContent=pendentes;
+  document.getElementById('cb-stat-mensal').textContent=mensalAceite.toFixed(2).replace('.',',')+' €';
+
+  renderAdminBudgetsList();
+}
+
+function setBudgetFilter(filter){
+  _budgetFilter=filter;
+  ['all','rascunho','enviado','aceite','recusado'].forEach(f=>{
+    document.getElementById('btn-cbfilter-'+f).classList.toggle('active',f===filter);
+  });
+  renderAdminBudgetsList();
+}
+
+function renderAdminBudgetsList(){
+  const list=document.getElementById('admin-budgets-list');
+  const filtered=_budgetFilter==='all'?_adminAllBudgets:_adminAllBudgets.filter(b=>b.estado===_budgetFilter);
+  if(!filtered.length){
+    list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Nenhum orçamento encontrado.</div>';
+    return;
+  }
+  list.innerHTML=filtered.map(b=>`
+    <div class="admin-msg" onclick="openBudgetFromGlobalList('${b.id}')" style="cursor:pointer">
+      <div class="admin-msg-left">
+        <div class="admin-msg-name">${escHtml(b.referencia||'Orçamento sem referência')}</div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${b.profiles?escHtml(b.profiles.full_name)+(b.profiles.company?' · '+escHtml(b.profiles.company):''):'Cliente removido'}</span></div>
+      </div>
+      <div class="admin-msg-right">
+        <div class="admin-msg-date">Total: ${b.total.toFixed(2).replace('.',',')} €</div>
+        <span class="status-badge status-${b.estado}">${budgetStatusLabel(b.estado)}</span>
+      </div>
+    </div>`).join('');
+}
+
+async function openBudgetFromGlobalList(budgetId){
+  const budget=_adminAllBudgets.find(b=>String(b.id)===String(budgetId));
+  if(!budget) return;
+  // Reaproveita o modal de detalhe de orçamento; localizamos o índice do cliente
+  // na lista de clientes (carregando-a se ainda não estiver em memória).
+  if(!_adminClientsFull.length){ await loadAdminClients(); }
+  let clientIdx=_adminClientsFull.findIndex(c=>c.id===budget.client_id);
+  if(clientIdx===-1){
+    // cliente não está na lista carregada (ex: filtro diferente) — carregar tudo de novo
+    await loadAdminClients();
+    clientIdx=_adminClientsFull.findIndex(c=>c.id===budget.client_id);
+  }
+  if(clientIdx===-1){ alert('Não foi possível encontrar o cliente associado a este orçamento.'); return; }
+  window._adminClientBudgets=window._adminClientBudgets||[];
+  const existingIdx=window._adminClientBudgets.findIndex(b=>b.id===budget.id);
+  let budgetIdx;
+  if(existingIdx===-1){ window._adminClientBudgets.push(budget); budgetIdx=window._adminClientBudgets.length-1; }
+  else budgetIdx=existingIdx;
+  openBudgetDetail(clientIdx,budgetIdx);
+}
+
 
 // ══════════════════════════════════════════════
 // CLIENT PORTAL — AUTH
