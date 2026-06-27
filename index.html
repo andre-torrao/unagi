@@ -1084,7 +1084,9 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 // ══════════════════════════════════════════════
 const SUPABASE_URL = 'https://mpxxeqrvckrcrecauglb.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1weHhlcXJ2Y2tyY3JlY2F1Z2xiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE2Nzg0OTEsImV4cCI6MjA5NzI1NDQ5MX0.UYU6MffOdlazMFoQ-Al7YrezaNYOOyPg0Qex-EHN8NU';
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: false }
+});
 const ADMIN_PW = 'unagi2024';
 
 // ══════════════════════════════════════════════
@@ -1105,10 +1107,31 @@ function hideEl(id){ document.getElementById(id).style.display='none'; }
 // ══════════════════════════════════════════════
 // ROUTING
 // ══════════════════════════════════════════════
-function checkRoute(){
+async function checkRoute(){
   const hash = location.hash;
-  if(hash==='#/admin') return showAdminLogin();
-  if(hash==='#/portal') return showPortalLogin();
+  if(hash==='#/admin'){
+    if(sessionStorage.getItem('unagi_admin_session')==='1'){
+      hideEl('main-site'); hideEl('admin-login'); hideEl('portal-login'); hideEl('portal-page');
+      showEl('admin-page');
+      renderAdmin();
+      return;
+    }
+    return showAdminLogin();
+  }
+  if(hash==='#/portal'){
+    const {data}=await sb.auth.getSession();
+    if(data&&data.session){
+      _portalUser=data.session.user;
+      const {data:profile}=await sb.from('profiles').select('*').eq('id',_portalUser.id).single();
+      _portalProfile=profile;
+      hideEl('main-site'); hideEl('admin-login'); hideEl('admin-page'); hideEl('portal-login');
+      showEl('portal-page');
+      document.getElementById('portal-client-name').textContent=profile?.full_name||_portalUser.email;
+      await loadPortalProjects();
+      return;
+    }
+    return showPortalLogin();
+  }
   showMainSite();
 }
 
@@ -1128,7 +1151,7 @@ function showPortalLogin(){
   showEl('portal-login'); hideEl('portal-page');
 }
 
-function exitAdmin(){ location.hash=''; showMainSite(); }
+function exitAdmin(){ sessionStorage.removeItem('unagi_admin_session'); location.hash=''; showMainSite(); }
 function exitPortal(){ location.hash=''; showMainSite(); }
 
 window.addEventListener('hashchange', checkRoute);
@@ -1205,6 +1228,7 @@ async function submitQuote(){
 function checkLogin(){
   const pw=document.getElementById('admin-pw').value;
   if(pw===ADMIN_PW){
+    sessionStorage.setItem('unagi_admin_session','1');
     hideEl('admin-login'); showEl('admin-page');
     renderAdmin();
   } else {
