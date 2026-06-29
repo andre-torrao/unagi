@@ -52,6 +52,13 @@
   --light:#e8e7e2;
   --accent:#0a0a0a;
   --serif:'Inter',sans-serif;
+  /* Backoffice — paleta azul */
+  --navy:#0f2942;
+  --navy-light:#16395a;
+  --blue:#2563eb;
+  --blue-soft:#5b8def;
+  --blue-pale:#dbe7fb;
+  --blue-bg:#f4f7fc;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--white);color:var(--black);overflow-x:hidden}
@@ -161,22 +168,37 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .footer-bottom a:hover{text-decoration:underline}
 
 /* ADMIN — hidden page */
-#admin-page{display:none;min-height:100vh;background:#f5f4f0;font-family:'Inter',sans-serif}
-.admin-nav{background:var(--black);color:var(--white);padding:0 40px;height:76px;display:flex;align-items:center;justify-content:space-between}
-.admin-nav-title{font-size:18px;font-weight:900;letter-spacing:-0.3px;color:var(--white)}
-.admin-nav-tag{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;opacity:0.4;color:var(--white)}
-.admin-nav-exit{background:rgba(255,255,255,0.1);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 18px;border-radius:2px;cursor:pointer;transition:background 0.2s}
-.admin-nav-exit:hover{background:rgba(255,255,255,0.18)}
-.admin-nav-btn{background:none;border:none;color:rgba(255,255,255,0.4);font-family:'Inter',sans-serif;font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:10px 16px;cursor:pointer;transition:color 0.2s;border-radius:2px}
-.admin-nav-btn:hover{color:var(--white)}
-.admin-nav-btn.active{color:var(--white);background:rgba(255,255,255,0.1)}
-.admin-nav-btn-light{background:none;border:1px solid var(--light);color:var(--black);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;border-radius:2px;opacity:0.5}
+#admin-page{display:none;min-height:100vh;background:var(--blue-bg);font-family:'Inter',sans-serif}
+.admin-shell{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.admin-sidebar{width:240px;flex-shrink:0;background:var(--navy);color:var(--white);display:flex;flex-direction:column;padding:28px 20px;position:fixed;top:0;left:0;height:100vh;overflow-y:auto}
+.admin-sidebar-logo{font-size:18px;font-weight:900;letter-spacing:-0.3px;color:var(--white);margin-bottom:36px;padding:0 8px}
+.admin-sidebar-section{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin:0 8px 10px}
+.admin-sidebar-nav{display:flex;flex-direction:column;gap:2px;margin-bottom:32px}
+.admin-nav-btn{background:none;border:none;color:rgba(255,255,255,0.65);font-family:'Inter',sans-serif;font-size:14px;font-weight:500;text-align:left;padding:11px 12px;cursor:pointer;transition:background 0.15s,color 0.15s;border-radius:8px;display:flex;align-items:center;gap:10px}
+.admin-nav-btn:hover{background:rgba(255,255,255,0.06);color:var(--white)}
+.admin-nav-btn.active{color:var(--white);background:var(--blue)}
+.admin-nav-icon{width:16px;text-align:center;flex-shrink:0;opacity:0.9}
+.admin-sidebar-spacer{flex:1}
+.admin-nav-exit{background:rgba(255,255,255,0.08);color:var(--white);border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;padding:11px 12px;border-radius:8px;cursor:pointer;transition:background 0.2s;text-align:left;display:flex;align-items:center;gap:10px}
+.admin-nav-exit:hover{background:rgba(255,255,255,0.16)}
+.admin-nav-tag{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,0.4);padding:0 8px;margin-bottom:16px;display:block}
+
+/* TOPBAR (dentro da área de conteúdo, não da sidebar) */
+.admin-topbar{display:flex;align-items:center;justify-content:space-between;padding:24px 40px;background:var(--white);border-bottom:1px solid var(--light)}
+.admin-topbar-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;color:var(--navy)}
+.admin-topbar-sub{font-size:13px;opacity:0.45;margin-top:2px}
+.admin-unread-pill{background:var(--blue);color:var(--white);padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700}
+
+.admin-body{margin-left:240px;flex:1;max-width:1240px;padding:0}
+.admin-body-inner{padding:32px 40px 56px}
+.admin-nav-btn-light{background:none;border:1px solid var(--light);color:var(--navy);font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 12px;cursor:pointer;transition:all 0.2s;border-radius:2px;opacity:0.5}
 .admin-nav-btn-light:hover{opacity:1}
-.admin-nav-btn-light.active{opacity:1;background:var(--black);color:var(--white);border-color:var(--black)}
-.admin-body{max-width:1100px;margin:0 auto;padding:48px 40px}
+.admin-nav-btn-light.active{opacity:1;background:var(--navy);color:var(--white);border-color:var(--navy)}
 .admin-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:48px}
-.admin-stat{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px}
-.admin-stat-num{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1}
+.admin-stat{background:var(--white);border:1px solid var(--light);border-radius:14px;padding:24px}
+.admin-stat-num{font-size:36px;font-weight:900;letter-spacing:-1.5px;line-height:1;color:var(--navy)}
 .admin-stat-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.35;margin-top:6px}
 
 /* DASHBOARD — alertas */
@@ -188,7 +210,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .dash-alert-text strong{font-weight:700}
 
 /* DASHBOARD — hero (valor mensal em destaque) */
-.dash-hero{background:var(--black);color:var(--white);border-radius:2px;padding:40px 44px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center}
+.dash-hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:var(--white);border-radius:16px;padding:40px 44px;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:center;box-shadow:0 8px 24px rgba(15,41,66,0.18)}
 .dash-hero-main{border-right:1px solid rgba(255,255,255,0.15);padding-right:40px}
 .dash-hero-label{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:0.45;margin-bottom:10px}
 .dash-hero-num{font-size:56px;font-weight:900;letter-spacing:-2px;line-height:1}
@@ -199,16 +221,16 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .dash-hero-side-label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;opacity:0.45;text-align:right}
 
 /* DASHBOARD — tabela de projetos compacta */
-.dash-projects-table{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
+.dash-projects-table{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:14px;overflow:hidden;margin-bottom:48px;box-shadow:0 1px 3px rgba(15,41,66,0.06)}
 .dash-project-row{background:var(--white);padding:18px 24px;display:grid;grid-template-columns:1.6fr 1.3fr 1fr auto;gap:24px;align-items:center;cursor:pointer;transition:background 0.15s}
-.dash-project-row:hover{background:#f8f7f3}
-.dash-project-name{font-size:14px;font-weight:700;letter-spacing:-0.2px}
+.dash-project-row:hover{background:var(--blue-pale)}
+.dash-project-name{font-size:14px;font-weight:700;letter-spacing:-0.2px;color:var(--navy)}
 .dash-project-client{font-size:12px;opacity:0.4;margin-top:2px}
 .dash-project-phase{font-size:12px;opacity:0.6}
 .dash-project-phase strong{opacity:1;font-weight:600}
 .dash-project-deadline{font-size:12px;font-weight:600}
 .dash-project-deadline.overdue{color:#e24b4a}
-.dash-project-deadline.soon{color:#b07700}
+.dash-project-deadline.soon{color:#c97a1d}
 @media (max-width:768px){
   .dash-hero{grid-template-columns:1fr;gap:24px}
   .dash-hero-main{border-right:none;padding-right:0;border-bottom:1px solid rgba(255,255,255,0.15);padding-bottom:24px}
@@ -217,12 +239,12 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
 /* CARTÕES — Projetos e Conversas (grid) */
 .proj-cards-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
-.proj-card{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
-.proj-card:hover{border-color:#0a0a0a;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.proj-card{background:var(--white);border:1px solid var(--light);border-radius:14px;padding:24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s,transform 0.15s}
+.proj-card:hover{border-color:var(--blue);box-shadow:0 6px 16px rgba(37,99,235,0.12);transform:translateY(-1px)}
 .proj-card-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
 .proj-card-donut{flex-shrink:0;width:64px;height:64px}
 .proj-card-info{flex:1;min-width:0}
-.proj-card-name{font-size:15px;font-weight:700;letter-spacing:-0.3px;line-height:1.3}
+.proj-card-name{font-size:15px;font-weight:700;letter-spacing:-0.3px;line-height:1.3;color:var(--navy)}
 .proj-card-client{font-size:12px;opacity:0.4;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
 /* DASHBOARD — linha de donuts com legenda */
@@ -235,23 +257,24 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .dash-donut-legend-label{opacity:0.55}
 .dash-donut-legend-num{font-weight:700}
 @media (max-width:768px){ .dash-donuts-row{grid-template-columns:1fr} }
-.proj-card-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid #f0efe9}
+.proj-card-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--light)}
 .proj-card-deadline{font-size:12px;font-weight:600;opacity:0.5}
 @media (max-width:1024px){ .proj-cards-grid{grid-template-columns:repeat(2,1fr)} }
 @media (max-width:640px){ .proj-cards-grid{grid-template-columns:1fr} }
 
 /* CARTÕES — Conversas com clientes */
 .chat-cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:48px}
-.chat-card{background:var(--white);border:1px solid var(--light);border-radius:2px;padding:22px 24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s}
-.chat-card:hover{border-color:#0a0a0a;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+.chat-card{background:var(--white);border:1px solid var(--light);border-radius:14px;padding:22px 24px;cursor:pointer;transition:border-color 0.15s,box-shadow 0.15s,transform 0.15s}
+.chat-card:hover{border-color:var(--blue);box-shadow:0 6px 16px rgba(37,99,235,0.12);transform:translateY(-1px)}
 .chat-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;gap:10px}
-.chat-card-name{font-size:14px;font-weight:700;letter-spacing:-0.2px}
+.chat-card-name{font-size:14px;font-weight:700;letter-spacing:-0.2px;color:var(--navy)}
 .chat-card-client{font-size:12px;opacity:0.4;margin-top:3px}
 .chat-card-preview{font-size:13px;opacity:0.55;line-height:1.5;margin-top:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-card-date{font-size:11px;opacity:0.35;margin-top:12px}
 @media (max-width:768px){ .chat-cards-grid{grid-template-columns:1fr} }
 
 .admin-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--light)}
+#admin-page .admin-section-title{color:var(--navy)}
 .admin-msg-list{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
 .admin-msg{background:var(--white);padding:24px 28px;cursor:pointer;transition:background 0.15s;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
 .admin-msg:hover{background:#f8f7f3}
@@ -274,6 +297,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .admin-modal-val{font-size:15px;font-weight:400;line-height:1.7}
 .admin-modal-msg{background:#f8f7f3;padding:20px;border-radius:2px;font-size:15px;line-height:1.75;color:var(--black);font-weight:300}
 .admin-btn-small{background:none;border:1px solid var(--light);border-radius:2px;font-size:11px;font-family:'Inter',sans-serif;cursor:pointer;padding:4px 8px;color:var(--black);opacity:0.5;transition:opacity 0.15s}
+#admin-page .admin-btn-small{color:var(--navy);border-radius:6px}
+#admin-page .admin-btn-small:hover{border-color:var(--blue);color:var(--blue)}
 .admin-btn-small:hover{opacity:1}
 .admin-btn-small.danger{border-color:#e24b4a;color:#e24b4a}
 .admin-actions{display:flex;gap:12px;margin-top:28px}
@@ -324,8 +349,17 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
   .footer-top{grid-template-columns:1fr 1fr;gap:32px;padding-bottom:40px}
   .footer-bottom{flex-direction:column;align-items:flex-start;gap:16px}
   .admin-stats{grid-template-columns:repeat(2,1fr)}
-  .admin-body{padding:32px 20px}
-  .admin-nav{padding:0 20px}
+  .admin-shell{flex-direction:column}
+  .admin-sidebar{position:relative;width:100%;height:auto;flex-direction:row;align-items:center;padding:14px 16px;overflow-x:auto}
+  .admin-sidebar-logo{margin-bottom:0;margin-right:16px;white-space:nowrap}
+  .admin-sidebar-section{display:none}
+  .admin-sidebar-nav{flex-direction:row;margin-bottom:0;gap:4px}
+  .admin-nav-btn{white-space:nowrap;padding:8px 10px;font-size:13px}
+  .admin-sidebar-spacer{display:none}
+  .admin-nav-exit{white-space:nowrap;margin-left:8px}
+  .admin-body{margin-left:0}
+  .admin-body-inner{padding:24px 20px}
+  .admin-topbar{padding:18px 20px;flex-wrap:wrap;gap:8px}
   .admin-msg{grid-template-columns:1fr;gap:8px}
   .admin-msg-right{text-align:left;display:flex;align-items:center;gap:8px}
   .admin-modal{padding:20px}
@@ -524,10 +558,11 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
         <label>Orçamento estimado</label>
         <select id="f-budget">
           <option value="">Seleciona uma faixa</option>
-          <option>Até 1.000€</option>
-          <option>1.000€ – 5.000€</option>
-          <option>5.000€ – 15.000€</option>
-          <option>Mais de 15.000€</option>
+          <option>Até 100€</option>
+          <option>100€ – 500€</option>
+          <option>500€ – 1.500€</option>
+          <option>1.500€ – 5.000€</option>
+          <option>Mais de 5.000€</option>
           <option>Ainda não sei</option>
         </select>
       </div>
@@ -602,20 +637,29 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 
 <!-- ADMIN PANEL -->
 <div id="admin-page">
-  <nav class="admin-nav">
-    <div style="display:flex;align-items:center;gap:20px">
-      <span class="admin-nav-title">UNAGI. Backoffice</span>
-      <div style="display:flex;gap:8px">
-        <button class="admin-nav-btn active" id="admin-tablink-dashboard" onclick="showAdminTab('dashboard')">Dashboard</button>
-        <button class="admin-nav-btn" id="admin-tablink-clients" onclick="showAdminTab('clients')">Cliente</button>
-        <button class="admin-nav-btn" id="admin-tablink-projects" onclick="showAdminTab('projects')">Projetos</button>
-        <button class="admin-nav-btn" id="admin-tablink-messages" onclick="showAdminTab('messages')">Mensagens</button>
+  <div class="admin-shell">
+    <nav class="admin-sidebar">
+      <div class="admin-sidebar-logo">UNAGI.</div>
+      <div class="admin-sidebar-section">Menu</div>
+      <div class="admin-sidebar-nav">
+        <button class="admin-nav-btn active" id="admin-tablink-dashboard" onclick="showAdminTab('dashboard')"><span class="admin-nav-icon">◆</span> Dashboard</button>
+        <button class="admin-nav-btn" id="admin-tablink-clients" onclick="showAdminTab('clients')"><span class="admin-nav-icon">◇</span> Cliente</button>
+        <button class="admin-nav-btn" id="admin-tablink-projects" onclick="showAdminTab('projects')"><span class="admin-nav-icon">◈</span> Projetos</button>
+        <button class="admin-nav-btn" id="admin-tablink-messages" onclick="showAdminTab('messages')"><span class="admin-nav-icon">◉</span> Mensagens</button>
       </div>
-      <span class="admin-nav-tag" id="admin-unread-badge" style="display:none;background:var(--white);color:var(--black);padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:1px;opacity:1"></span>
-    </div>
-    <button class="admin-nav-exit" onclick="exitAdmin()">← Sair do backoffice</button>
-  </nav>
-  <div class="admin-body">
+      <div class="admin-sidebar-spacer"></div>
+      <button class="admin-nav-exit" onclick="exitAdmin()"><span class="admin-nav-icon">←</span> Sair do backoffice</button>
+    </nav>
+
+    <div class="admin-body">
+      <div class="admin-topbar">
+        <div>
+          <div class="admin-topbar-title" id="admin-topbar-title">Dashboard</div>
+          <div class="admin-topbar-sub" id="admin-topbar-sub">Visão geral de projetos, clientes e orçamentos</div>
+        </div>
+        <span class="admin-unread-pill" id="admin-unread-badge" style="display:none"></span>
+      </div>
+      <div class="admin-body-inner">
 
     <!-- DASHBOARD TAB -->
     <div id="admin-tab-dashboard" style="margin-top:32px">
@@ -837,7 +881,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     </div>
 
 
-
+      </div>
+    </div>
   </div>
 </div>
 
@@ -984,6 +1029,11 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .portal-textarea:focus{border-color:#0a0a0a}
 .portal-btn{background:#0a0a0a;color:#fff;border:none;padding:12px 24px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;border-radius:2px;transition:opacity 0.2s}
 .portal-btn:hover{opacity:0.8}
+/* Dentro do backoffice (paleta azul), os mesmos botões herdam o azul em vez do preto */
+#admin-page .portal-btn{background:var(--blue);border-radius:8px;transition:background 0.2s}
+#admin-page .portal-btn:hover{opacity:1;background:#1d4fc4}
+#admin-page .portal-btn.secondary{background:none;color:var(--navy);border:1px solid var(--light)}
+#admin-page .portal-btn.secondary:hover{background:var(--blue-pale);border-color:var(--blue)}
 .portal-btn.secondary{background:transparent;border:1px solid #e8e7e2;color:#0a0a0a}
 .portal-btn.secondary:hover{background:#f0efe9}
 .progress-bar-wrap{background:#e8e7e2;border-radius:20px;height:6px;margin-top:12px;overflow:hidden}
@@ -997,6 +1047,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .portal-subtab{background:none;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#0a0a0a;opacity:0.35;padding:12px 4px;margin-right:24px;cursor:pointer;border-bottom:2px solid transparent;transition:opacity 0.2s}
 .portal-subtab.active{opacity:1;border-bottom-color:#0a0a0a}
 .portal-subtab:hover{opacity:0.7}
+#admin-page .portal-subtab{color:var(--navy)}
+#admin-page .portal-subtab.active{border-bottom-color:var(--blue)}
 
 /* Timeline (cronograma) */
 .timeline-wrap{display:flex;flex-direction:column}
@@ -1237,6 +1289,14 @@ function showAdminTab(tab){
   document.getElementById('admin-tablink-messages').classList.toggle('active',tab==='messages');
   document.getElementById('admin-tablink-projects').classList.toggle('active',tab==='projects');
   document.getElementById('admin-tablink-clients').classList.toggle('active',tab==='clients');
+  const titles={
+    dashboard:['Dashboard','Visão geral de projetos, clientes e orçamentos'],
+    clients:['Cliente','Fichas de cliente, faturação e orçamentos'],
+    projects:['Projetos','Todos os projetos de clientes e o seu progresso'],
+    messages:['Mensagens','Conversas com clientes e pedidos do site']
+  };
+  document.getElementById('admin-topbar-title').textContent=titles[tab][0];
+  document.getElementById('admin-topbar-sub').textContent=titles[tab][1];
   if(tab==='dashboard') loadAdminDashboard();
   if(tab==='messages') switchMessagesSubtab(_messagesSubtab||'chats');
   if(tab==='projects') loadAdminProjects();
@@ -1453,7 +1513,12 @@ let _adminClients=[];
 
 async function loadAdminProjects(){
   document.getElementById('admin-projects-list').innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:projects}=await sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
+  const {data:projects,error}=await sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
+  if(error){
+    document.getElementById('admin-projects-list').innerHTML=`<div style="padding:40px;text-align:center;opacity:0.5;font-size:13px;grid-column:1/-1">Erro ao carregar projetos: ${escHtml(error.message)}</div>`;
+    console.error(error);
+    return;
+  }
   _adminProjects=projects||[];
 
   // Progresso: % de fases concluídas por projeto
@@ -1506,18 +1571,18 @@ function donutSvg(pct){
   if(pct===null||pct===undefined){
     return `<svg width="64" height="64" viewBox="0 0 64 64">
       <circle cx="32" cy="32" r="26" fill="none" stroke="#e8e7e2" stroke-width="6"/>
-      <text x="32" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#0a0a0a" opacity="0.3" font-family="Inter,sans-serif">—</text>
+      <text x="32" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#0f2942" opacity="0.3" font-family="Inter,sans-serif">—</text>
     </svg>`;
   }
   const r=26, c=2*Math.PI*r, offset=c-(c*pct/100);
   return `<svg width="64" height="64" viewBox="0 0 64 64">
     <circle cx="32" cy="32" r="${r}" fill="none" stroke="#e8e7e2" stroke-width="6"/>
-    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#0a0a0a" stroke-width="6" stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round" transform="rotate(-90 32 32)"/>
-    <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="900" fill="#0a0a0a" font-family="Inter,sans-serif">${pct}%</text>
+    <circle cx="32" cy="32" r="${r}" fill="none" stroke="#2563eb" stroke-width="6" stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round" transform="rotate(-90 32 32)"/>
+    <text x="32" y="37" text-anchor="middle" font-size="15" font-weight="900" fill="#0f2942" font-family="Inter,sans-serif">${pct}%</text>
   </svg>`;
 }
 
-// Donut multi-segmento: items = [{label, value, color}], tons de cinza/preto
+// Donut multi-segmento: items = [{label, value, color}], tons de azul
 function multiDonutSvg(items,total){
   const r=40, cx=56, cy=56, sw=14;
   const c=2*Math.PI*r;
@@ -1530,10 +1595,10 @@ function multiDonutSvg(items,total){
     return seg;
   }).join('');
   return `<svg width="112" height="112" viewBox="0 0 112 112">
-    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#f0efe9" stroke-width="${sw}"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#eef2f9" stroke-width="${sw}"/>
     ${segments}
-    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="24" font-weight="900" fill="#0a0a0a" font-family="Inter,sans-serif">${total}</text>
-    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" font-weight="600" fill="#0a0a0a" opacity="0.4" font-family="Inter,sans-serif" letter-spacing="1">TOTAL</text>
+    <text x="${cx}" y="${cy-4}" text-anchor="middle" font-size="24" font-weight="900" fill="#0f2942" font-family="Inter,sans-serif">${total}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="10" font-weight="600" fill="#0f2942" opacity="0.4" font-family="Inter,sans-serif" letter-spacing="1">TOTAL</text>
   </svg>`;
 }
 
@@ -1609,10 +1674,10 @@ async function loadAdminDashboard(){
   if(allProjects.length){
     projDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Projetos por estado</div>`+
       donutCardWithLegend([
-        {label:'Em curso',value:projectStatusCounts.em_curso,color:'#0a0a0a'},
-        {label:'Em revisão',value:projectStatusCounts.em_revisao,color:'#6b6a64'},
-        {label:'Pausado',value:projectStatusCounts.pausado,color:'#b8b6ac'},
-        {label:'Concluído',value:projectStatusCounts.concluido,color:'#e8e7e2'}
+        {label:'Em curso',value:projectStatusCounts.em_curso,color:'#0f2942'},
+        {label:'Em revisão',value:projectStatusCounts.em_revisao,color:'#2563eb'},
+        {label:'Pausado',value:projectStatusCounts.pausado,color:'#8eb4f0'},
+        {label:'Concluído',value:projectStatusCounts.concluido,color:'#dbe7fb'}
       ]);
   } else {
     projDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Projetos por estado</div><div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">Ainda sem projetos.</div>`;
@@ -1625,10 +1690,10 @@ async function loadAdminDashboard(){
   if((budgets||[]).length){
     budgetDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Orçamentos por estado</div>`+
       donutCardWithLegend([
-        {label:'Aceite',value:budgetStatusCounts.aceite,color:'#0a0a0a'},
-        {label:'Enviado',value:budgetStatusCounts.enviado,color:'#6b6a64'},
-        {label:'Rascunho',value:budgetStatusCounts.rascunho,color:'#b8b6ac'},
-        {label:'Recusado',value:budgetStatusCounts.recusado,color:'#e8e7e2'}
+        {label:'Aceite',value:budgetStatusCounts.aceite,color:'#0f2942'},
+        {label:'Enviado',value:budgetStatusCounts.enviado,color:'#2563eb'},
+        {label:'Rascunho',value:budgetStatusCounts.rascunho,color:'#8eb4f0'},
+        {label:'Recusado',value:budgetStatusCounts.recusado,color:'#dbe7fb'}
       ]);
   } else {
     budgetDonutEl.innerHTML=`<div class="admin-section-title" style="margin-bottom:16px">Orçamentos por estado</div><div style="padding:24px 0;text-align:center;opacity:0.3;font-size:13px">Ainda sem orçamentos.</div>`;
@@ -1951,8 +2016,9 @@ async function saveNewProject(){
   const client_id=document.getElementById('pm-client').value||null;
   const status=document.getElementById('pm-status').value;
   if(!name){ alert('Introduz um nome para o projeto.'); return; }
-  const {error}=await sb.from('projects').insert([{name,description,client_id,status}]);
+  const {data,error}=await sb.from('projects').insert([{name,description,client_id,status}]).select();
   if(error){ alert('Erro ao criar projeto: '+error.message); console.error(error); return; }
+  if(!data||!data.length){ alert('O projeto pode não ter sido criado (resposta vazia do servidor). Verifica a lista e tenta novamente se necessário.'); console.warn('Insert returned no data', data); }
   closeProjectModal(); loadAdminProjects();
 }
 
@@ -2041,13 +2107,13 @@ function renderAdminClientsList(){
     return `
     <div class="admin-msg">
       <div class="admin-msg-left" onclick="openClientProfile(${i})" style="cursor:pointer">
-        <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')} ${c.ativo===false?'<span class="status-badge status-pausado">Inativo</span>':''}</div>
+        <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')} ${c.is_internal?'<span class="status-badge status-em_revisao">Interno</span>':''} ${c.ativo===false?'<span class="status-badge status-pausado">Inativo</span>':''}</div>
         <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}${c.nif?' · NIF '+escHtml(c.nif):''}</span></div>
       </div>
       <div class="admin-msg-right" style="display:flex;gap:6px;align-items:center" onclick="event.stopPropagation()">
         <button class="admin-btn-small" onclick="openClientProfile(${i})">Abrir ficha</button>
         <button class="admin-btn-small" onclick="toggleClientActive('${c.id}',${c.ativo===false})">${c.ativo===false?'Reativar':'Inativar'}</button>
-        <button class="admin-btn-small danger" onclick="confirmDeleteClient('${c.id}','${escHtml(c.full_name||'')}')">Eliminar</button>
+        <button class="admin-btn-small danger" onclick="confirmDeleteClient('${c.id}','${escHtml(c.full_name||'')}',${!!c.is_internal})">Eliminar</button>
       </div>
     </div>`;
   }).join('');
@@ -2059,8 +2125,15 @@ async function toggleClientActive(clientId,setActive){
   loadAdminClients();
 }
 
-async function confirmDeleteClient(clientId,clientName){
-  if(!confirm(`Eliminar definitivamente "${clientName}"?\n\nIsto remove a conta de acesso, a ficha, e tudo o que depende dela (orçamentos, pagamentos, projetos associados). Esta ação não pode ser desfeita.\n\nSe preferires manter o histórico, usa "Inativar" em vez de eliminar.`)) return;
+async function confirmDeleteClient(clientId,clientName,isInternal){
+  if(!confirm(`Eliminar definitivamente "${clientName}"?\n\nIsto remove a ficha e tudo o que depende dela (orçamentos, pagamentos, projetos associados). Esta ação não pode ser desfeita.\n\nSe preferires manter o histórico, usa "Inativar" em vez de eliminar.`)) return;
+
+  if(isInternal){
+    const {error}=await sb.from('profiles').delete().eq('id',clientId);
+    if(error){ alert('Erro ao eliminar registo interno: '+error.message); console.error(error); return; }
+    loadAdminClients();
+    return;
+  }
 
   const {data:requestId,error:startErr}=await sb.rpc('admin_delete_client_start',{p_client_id:clientId});
   if(startErr){ alert('Erro ao eliminar cliente: '+startErr.message); console.error(startErr); return; }
@@ -2092,29 +2165,39 @@ function openCreateClient(){
     <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">Novo cliente</div>
     <p style="font-size:13px;opacity:0.4;margin-bottom:24px">Cria a conta de acesso ao portal e a ficha do cliente num só passo.</p>
 
-    <div class="admin-section-title" style="font-size:13px;margin-bottom:12px;border-bottom:none;padding-bottom:0">Acesso ao portal</div>
-    <label class="admin-label">Email (login)</label>
-    <input id="nc-email" class="admin-input" type="email" placeholder="cliente@empresa.pt">
-    <label class="admin-label">Password inicial</label>
-    <input id="nc-password" class="admin-input" type="text" placeholder="Define uma password temporária">
+    <label class="admin-label">Tipo de cliente</label>
+    <select id="nc-type" class="admin-select" onchange="toggleClientTypeFields()">
+      <option value="externo">Externo (com acesso ao portal)</option>
+      <option value="interno">Interno (organização própria, sem login)</option>
+    </select>
+
+    <div id="nc-auth-fields">
+      <div class="admin-section-title" style="font-size:13px;margin:20px 0 12px;border-bottom:none;padding-bottom:0">Acesso ao portal</div>
+      <label class="admin-label">Email (login)</label>
+      <input id="nc-email" class="admin-input" type="email" placeholder="cliente@empresa.pt">
+      <label class="admin-label">Password inicial</label>
+      <input id="nc-password" class="admin-input" type="text" placeholder="Define uma password temporária">
+    </div>
 
     <div class="admin-section-title" style="font-size:13px;margin:24px 0 12px;border-bottom:none;padding-bottom:0">Identificação</div>
-    <label class="admin-label">Nome de contacto</label>
+    <label class="admin-label" id="nc-name-label">Nome de contacto</label>
     <input id="nc-name" class="admin-input" placeholder="Nome da pessoa de contacto">
     <label class="admin-label">Empresa</label>
     <input id="nc-company" class="admin-input" placeholder="Nome da empresa (opcional)">
     <label class="admin-label">Telefone</label>
     <input id="nc-phone" class="admin-input" placeholder="Opcional">
 
-    <div class="admin-section-title" style="font-size:13px;margin:24px 0 12px;border-bottom:none;padding-bottom:0">Faturação</div>
-    <label class="admin-label">NIF</label>
-    <input id="nc-nif" class="admin-input" placeholder="Opcional">
-    <label class="admin-label">Nome fiscal / Razão social</label>
-    <input id="nc-fiscal" class="admin-input" placeholder="Se diferente do nome de contacto">
-    <label class="admin-label">Endereço de faturação</label>
-    <input id="nc-address" class="admin-input" placeholder="Opcional">
-    <label class="admin-label">Email de faturação</label>
-    <input id="nc-billing-email" class="admin-input" placeholder="Se diferente do email de login">
+    <div id="nc-billing-fields">
+      <div class="admin-section-title" style="font-size:13px;margin:24px 0 12px;border-bottom:none;padding-bottom:0">Faturação</div>
+      <label class="admin-label">NIF</label>
+      <input id="nc-nif" class="admin-input" placeholder="Opcional">
+      <label class="admin-label">Nome fiscal / Razão social</label>
+      <input id="nc-fiscal" class="admin-input" placeholder="Se diferente do nome de contacto">
+      <label class="admin-label">Endereço de faturação</label>
+      <input id="nc-address" class="admin-input" placeholder="Opcional">
+      <label class="admin-label">Email de faturação</label>
+      <input id="nc-billing-email" class="admin-input" placeholder="Se diferente do email de login">
+    </div>
 
     <label class="admin-label">Notas internas</label>
     <input id="nc-notes" class="admin-input" placeholder="Visível só para a equipa UNAGI">
@@ -2127,22 +2210,69 @@ function openCreateClient(){
   document.getElementById('client-modal').classList.add('open');
 }
 
+function toggleClientTypeFields(){
+  const isInternal=document.getElementById('nc-type').value==='interno';
+  document.getElementById('nc-auth-fields').style.display=isInternal?'none':'block';
+  document.getElementById('nc-billing-fields').style.display=isInternal?'none':'block';
+  document.getElementById('nc-name-label').textContent=isInternal?'Nome do projeto/equipa interna':'Nome de contacto';
+  document.getElementById('nc-name').placeholder=isInternal?'Ex: UNAGI — Marketing Próprio':'Nome da pessoa de contacto';
+}
+
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 async function submitCreateClient(){
-  const email=document.getElementById('nc-email').value.trim();
-  const password=document.getElementById('nc-password').value;
+  const isInternal=document.getElementById('nc-type').value==='interno';
   const full_name=document.getElementById('nc-name').value.trim();
   const company=document.getElementById('nc-company').value.trim()||null;
   const telefone=document.getElementById('nc-phone').value.trim()||null;
+  const notas_internas=document.getElementById('nc-notes').value.trim()||null;
+  const statusEl=document.getElementById('nc-status');
+  const btn=document.getElementById('nc-submit-btn');
+
+  if(!full_name){
+    statusEl.style.display='block'; statusEl.style.color='#b02020';
+    statusEl.textContent=isInternal?'Indica o nome do projeto/equipa interna.':'Preenche pelo menos email, password e nome de contacto.';
+    return;
+  }
+
+  // ── CAMINHO INTERNO: insert direto em profiles, sem Auth ──
+  if(isInternal){
+    btn.disabled=true; btn.textContent='A criar...';
+    statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar registo interno...';
+
+    const newId=(crypto.randomUUID?crypto.randomUUID():'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+      const r=Math.random()*16|0; return (c==='x'?r:(r&0x3|0x8)).toString(16);
+    }));
+
+    const {error}=await sb.from('profiles').insert([{
+      id:newId, full_name, company, role:'client', telefone,
+      notas_internas, ativo:true, is_internal:true
+    }]);
+
+    btn.disabled=false; btn.textContent='Criar cliente';
+
+    if(error){
+      statusEl.style.color='#b02020';
+      statusEl.textContent='Erro ao criar registo interno: '+error.message+'. Confirma que correste o script supabase_internal_clients.sql.';
+      console.error(error);
+      return;
+    }
+
+    statusEl.style.color='#2d7a2d';
+    statusEl.textContent='Registo interno criado com sucesso.';
+    setTimeout(()=>{ closeClientModal(); loadAdminClients(); },800);
+    return;
+  }
+
+  // ── CAMINHO EXTERNO: fluxo Auth existente ──
+  const email=document.getElementById('nc-email').value.trim();
+  const password=document.getElementById('nc-password').value;
   const nif=document.getElementById('nc-nif').value.trim()||null;
   const nome_fiscal=document.getElementById('nc-fiscal').value.trim()||null;
   const endereco_faturacao=document.getElementById('nc-address').value.trim()||null;
   const email_faturacao=document.getElementById('nc-billing-email').value.trim()||null;
-  const notas_internas=document.getElementById('nc-notes').value.trim()||null;
-  const statusEl=document.getElementById('nc-status');
 
-  if(!email||!password||!full_name){
+  if(!email||!password){
     statusEl.style.display='block'; statusEl.style.color='#b02020';
     statusEl.textContent='Preenche pelo menos email, password e nome de contacto.';
     return;
@@ -2153,7 +2283,6 @@ async function submitCreateClient(){
     return;
   }
 
-  const btn=document.getElementById('nc-submit-btn');
   btn.disabled=true; btn.textContent='A criar...';
   statusEl.style.display='block'; statusEl.style.color='inherit'; statusEl.textContent='A criar conta de acesso...';
 
