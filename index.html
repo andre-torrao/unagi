@@ -274,7 +274,7 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 @media (max-width:768px){ .chat-cards-grid{grid-template-columns:1fr} }
 
 .admin-section-title{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.35;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--light)}
-#admin-page .admin-section-title{color:var(--navy)}
+#admin-page .admin-section-title,.admin-modal .admin-section-title{color:var(--navy)}
 .admin-msg-list{display:flex;flex-direction:column;gap:1px;background:var(--light);border-radius:2px;overflow:hidden;margin-bottom:48px}
 .admin-msg{background:var(--white);padding:24px 28px;cursor:pointer;transition:background 0.15s;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start}
 .admin-msg:hover{background:#f8f7f3}
@@ -297,8 +297,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .admin-modal-val{font-size:15px;font-weight:400;line-height:1.7}
 .admin-modal-msg{background:#f8f7f3;padding:20px;border-radius:2px;font-size:15px;line-height:1.75;color:var(--black);font-weight:300}
 .admin-btn-small{background:none;border:1px solid var(--light);border-radius:2px;font-size:11px;font-family:'Inter',sans-serif;cursor:pointer;padding:4px 8px;color:var(--black);opacity:0.5;transition:opacity 0.15s}
-#admin-page .admin-btn-small{color:var(--navy);border-radius:6px}
-#admin-page .admin-btn-small:hover{border-color:var(--blue);color:var(--blue)}
+#admin-page .admin-btn-small,.admin-modal .admin-btn-small{color:var(--navy);border-radius:6px}
+#admin-page .admin-btn-small:hover,.admin-modal .admin-btn-small:hover{border-color:var(--blue);color:var(--blue)}
 .admin-btn-small:hover{opacity:1}
 .admin-btn-small.danger{border-color:#e24b4a;color:#e24b4a}
 .admin-actions{display:flex;gap:12px;margin-top:28px}
@@ -1030,10 +1030,10 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .portal-btn{background:#0a0a0a;color:#fff;border:none;padding:12px 24px;font-family:'Inter',sans-serif;font-size:13px;font-weight:700;letter-spacing:0.5px;cursor:pointer;border-radius:2px;transition:opacity 0.2s}
 .portal-btn:hover{opacity:0.8}
 /* Dentro do backoffice (paleta azul), os mesmos botões herdam o azul em vez do preto */
-#admin-page .portal-btn{background:var(--blue);border-radius:8px;transition:background 0.2s}
-#admin-page .portal-btn:hover{opacity:1;background:#1d4fc4}
-#admin-page .portal-btn.secondary{background:none;color:var(--navy);border:1px solid var(--light)}
-#admin-page .portal-btn.secondary:hover{background:var(--blue-pale);border-color:var(--blue)}
+#admin-page .portal-btn,.admin-modal .portal-btn{background:var(--blue);border-radius:8px;transition:background 0.2s}
+#admin-page .portal-btn:hover,.admin-modal .portal-btn:hover{opacity:1;background:#1d4fc4}
+#admin-page .portal-btn.secondary,.admin-modal .portal-btn.secondary{background:none;color:var(--navy);border:1px solid var(--light)}
+#admin-page .portal-btn.secondary:hover,.admin-modal .portal-btn.secondary:hover{background:var(--blue-pale);border-color:var(--blue)}
 .portal-btn.secondary{background:transparent;border:1px solid #e8e7e2;color:#0a0a0a}
 .portal-btn.secondary:hover{background:#f0efe9}
 .progress-bar-wrap{background:#e8e7e2;border-radius:20px;height:6px;margin-top:12px;overflow:hidden}
@@ -1047,8 +1047,8 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
 .portal-subtab{background:none;border:none;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:#0a0a0a;opacity:0.35;padding:12px 4px;margin-right:24px;cursor:pointer;border-bottom:2px solid transparent;transition:opacity 0.2s}
 .portal-subtab.active{opacity:1;border-bottom-color:#0a0a0a}
 .portal-subtab:hover{opacity:0.7}
-#admin-page .portal-subtab{color:var(--navy)}
-#admin-page .portal-subtab.active{border-bottom-color:var(--blue)}
+#admin-page .portal-subtab,.admin-modal .portal-subtab{color:var(--navy)}
+#admin-page .portal-subtab.active,.admin-modal .portal-subtab.active{border-bottom-color:var(--blue)}
 
 /* Timeline (cronograma) */
 .timeline-wrap{display:flex;flex-direction:column}
@@ -2142,11 +2142,13 @@ function renderAdminClientsList(){
   }
   list.innerHTML=filtered.map(c=>{
     const i=_adminClientsFull.indexOf(c);
+    const primary=c.company?escHtml(c.company):escHtml(c.full_name||'(sem nome)');
+    const secondary=c.company?escHtml(c.full_name||''):'';
     return `
     <div class="admin-msg">
       <div class="admin-msg-left" onclick="openClientProfile(${i})" style="cursor:pointer">
-        <div class="admin-msg-name">${escHtml(c.full_name||'(sem nome)')} ${c.is_internal?'<span class="status-badge status-em_revisao">Interno</span>':''} ${c.ativo===false?'<span class="status-badge status-pausado">Inativo</span>':''}</div>
-        <div class="admin-msg-meta"><span class="admin-msg-preview">${c.company?escHtml(c.company):'Sem empresa associada'}${c.nif?' · NIF '+escHtml(c.nif):''}</span></div>
+        <div class="admin-msg-name">${primary} ${c.is_internal?'<span class="status-badge status-em_revisao">Interno</span>':''} ${c.ativo===false?'<span class="status-badge status-pausado">Inativo</span>':''}</div>
+        <div class="admin-msg-meta"><span class="admin-msg-preview">${secondary}${secondary&&c.nif?' · ':''}${c.nif?'NIF '+escHtml(c.nif):''}</span></div>
       </div>
       <div class="admin-msg-right" style="display:flex;gap:6px;align-items:center" onclick="event.stopPropagation()">
         <button class="admin-btn-small" onclick="openClientProfile(${i})">Abrir ficha</button>
@@ -2383,8 +2385,8 @@ function closeClientModal(){ document.getElementById('client-modal').classList.r
 async function openClientProfile(i){
   const c=_adminClientsFull[i];
   document.getElementById('client-modal-content').innerHTML=`
-    <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">${escHtml(c.full_name)}</div>
-    <div style="font-size:13px;opacity:0.4;margin-bottom:24px">${c.company?escHtml(c.company):'Sem empresa associada'}</div>
+    <div style="font-size:20px;font-weight:900;letter-spacing:-0.8px;margin-bottom:4px">${c.company?escHtml(c.company):escHtml(c.full_name||'(sem nome)')}</div>
+    <div style="font-size:13px;opacity:0.4;margin-bottom:24px">${c.company?escHtml(c.full_name||''):'Sem nome de contacto associado'}</div>
     <div style="display:flex;gap:8px;margin-bottom:24px;border-bottom:1px solid #e8e7e2">
       <button class="portal-subtab active" id="cptab-billing" onclick="switchClientProfileTab('billing',${i})">Faturação</button>
       <button class="portal-subtab" id="cptab-budget" onclick="switchClientProfileTab('budget',${i})">Orçamento</button>
@@ -2412,6 +2414,33 @@ async function switchClientProfileTab(tab,clientIdx){
 function renderAdminClientBilling(clientIdx){
   const c=_adminClientsFull[clientIdx];
   const content=document.getElementById('client-profile-tab-content');
+
+  const row=(label,value)=>`
+    <div style="display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid #f0efe9;font-size:13px">
+      <span style="opacity:0.45">${label}</span>
+      <span style="font-weight:600;text-align:right">${value?escHtml(value):'—'}</span>
+    </div>`;
+
+  content.innerHTML=`
+    <div id="bill-readonly">
+      ${row('Nome de contacto',c.full_name)}
+      ${row('Empresa',c.company)}
+      ${row('Telefone',c.telefone)}
+      ${row('NIF',c.nif)}
+      ${row('Nome fiscal / Razão social',c.nome_fiscal)}
+      ${row('Endereço de faturação',c.endereco_faturacao)}
+      ${row('Email de faturação',c.email_faturacao)}
+      <div style="padding:11px 0;font-size:13px">
+        <div style="opacity:0.45;margin-bottom:6px">Notas internas</div>
+        <div style="font-weight:500;white-space:pre-wrap">${c.notas_internas?escHtml(c.notas_internas):'—'}</div>
+      </div>
+      <button class="portal-btn" style="margin-top:16px" onclick="renderAdminClientBillingEdit(${clientIdx})">Editar</button>
+    </div>`;
+}
+
+function renderAdminClientBillingEdit(clientIdx){
+  const c=_adminClientsFull[clientIdx];
+  const content=document.getElementById('client-profile-tab-content');
   content.innerHTML=`
     <label class="admin-label">Nome de contacto</label>
     <input id="bill-name" class="admin-input" value="${escHtml(c.full_name||'')}">
@@ -2430,7 +2459,10 @@ function renderAdminClientBilling(clientIdx){
     <label class="admin-label">Notas internas</label>
     <textarea id="bill-notes" class="portal-textarea" style="min-height:80px">${escHtml(c.notas_internas||'')}</textarea>
     <div id="bill-save-status" style="font-size:13px;margin:12px 0;display:none"></div>
-    <button class="portal-btn" onclick="saveClientBilling(${clientIdx})">Guardar alterações</button>`;
+    <div style="display:flex;gap:12px">
+      <button class="portal-btn" onclick="saveClientBilling(${clientIdx})">Guardar alterações</button>
+      <button class="portal-btn secondary" onclick="renderAdminClientBilling(${clientIdx})">Cancelar</button>
+    </div>`;
 }
 
 async function saveClientBilling(clientIdx){
@@ -2452,7 +2484,7 @@ async function saveClientBilling(clientIdx){
   Object.assign(c,payload);
   statusEl.style.color='#2d7a2d'; statusEl.textContent='Guardado.';
   loadAdminClients();
-  setTimeout(()=>{ statusEl.style.display='none'; },2000);
+  setTimeout(()=>{ renderAdminClientBilling(clientIdx); },700);
 }
 
 // ── TAB 2: ORÇAMENTO (histórico de orçamentos do cliente) ──
