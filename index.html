@@ -1513,13 +1513,26 @@ let _adminClients=[];
 
 async function loadAdminProjects(){
   document.getElementById('admin-projects-list').innerHTML='<div style="padding:40px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:projects,error}=await sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false});
+  const {data:projects,error}=await sb.from('projects').select('*').order('created_at',{ascending:false});
   if(error){
     document.getElementById('admin-projects-list').innerHTML=`<div style="padding:40px;text-align:center;opacity:0.5;font-size:13px;grid-column:1/-1">Erro ao carregar projetos: ${escHtml(error.message)}</div>`;
     console.error(error);
     return;
   }
   _adminProjects=projects||[];
+
+  // Buscar perfis dos clientes separadamente e juntar manualmente
+  // (mais robusto que o embed automático profiles(...), que depende
+  // de existir uma foreign key configurada entre as duas tabelas)
+  const clientIds=[...new Set(_adminProjects.map(p=>p.client_id).filter(Boolean))];
+  if(clientIds.length){
+    const {data:profiles}=await sb.from('profiles').select('id,full_name,company').in('id',clientIds);
+    const profileById={};
+    (profiles||[]).forEach(pr=>{ profileById[pr.id]=pr; });
+    _adminProjects.forEach(p=>{ p.profiles=p.client_id?profileById[p.client_id]||null:null; });
+  } else {
+    _adminProjects.forEach(p=>{ p.profiles=null; });
+  }
 
   // Progresso: % de fases concluídas por projeto
   _adminProjectsProgress={};
@@ -1629,7 +1642,7 @@ async function loadAdminDashboard(){
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
 
   const [{data:projects,error:pErr},{data:budgets},{data:messages},{data:quotes}]=await Promise.all([
-    sb.from('projects').select('*,profiles(full_name,company)').order('created_at',{ascending:false}),
+    sb.from('projects').select('*').order('created_at',{ascending:false}),
     sb.from('client_budgets').select('id,estado,tipo,project_id'),
     sb.from('messages').select('id,read'),
     sb.from('quote_requests').select('id,read')
@@ -1638,6 +1651,20 @@ async function loadAdminDashboard(){
   if(pErr){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar projetos: ${escHtml(pErr.message)}</div>`; console.error(pErr); return; }
 
   const allProjects=projects||[];
+
+  // Juntar perfis dos clientes manualmente (mais robusto que o
+  // embed automático profiles(...), que depende de uma foreign
+  // key configurada entre projects.client_id e profiles.id)
+  const dashClientIds=[...new Set(allProjects.map(p=>p.client_id).filter(Boolean))];
+  if(dashClientIds.length){
+    const {data:dashProfiles}=await sb.from('profiles').select('id,full_name,company').in('id',dashClientIds);
+    const dashProfileById={};
+    (dashProfiles||[]).forEach(pr=>{ dashProfileById[pr.id]=pr; });
+    allProjects.forEach(p=>{ p.profiles=p.client_id?dashProfileById[p.client_id]||null:null; });
+  } else {
+    allProjects.forEach(p=>{ p.profiles=null; });
+  }
+
   const activeProjects=allProjects.filter(p=>p.status==='em_curso'||p.status==='em_revisao');
 
   // Valor mensal recorrente + pontual: só orçamentos ACEITES, ligados (ou não) a projetos
@@ -1784,8 +1811,19 @@ let _adminAllChats=[];
 async function loadAdminAllChats(){
   const list=document.getElementById('admin-chats-list');
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:projects,error:pErr}=await sb.from('projects').select('id,name,client_id,profiles(full_name,company)');
+  const {data:projects,error:pErr}=await sb.from('projects').select('id,name,client_id');
   if(pErr){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar projetos: ${escHtml(pErr.message)}</div>`; console.error(pErr); return; }
+
+  const chatClientIds=[...new Set((projects||[]).map(p=>p.client_id).filter(Boolean))];
+  if(chatClientIds.length){
+    const {data:chatProfiles}=await sb.from('profiles').select('id,full_name,company').in('id',chatClientIds);
+    const chatProfileById={};
+    (chatProfiles||[]).forEach(pr=>{ chatProfileById[pr.id]=pr; });
+    (projects||[]).forEach(p=>{ p.profiles=p.client_id?chatProfileById[p.client_id]||null:null; });
+  } else {
+    (projects||[]).forEach(p=>{ p.profiles=null; });
+  }
+
   const projectIds=(projects||[]).map(p=>p.id);
   if(!projectIds.length){
     list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">Ainda não há projetos com conversas.</div>';
@@ -2777,8 +2815,24 @@ let _budgetFilter='all';
 async function loadAdminBudgets(){
   const list=document.getElementById('admin-budgets-list');
   list.innerHTML='<div style="padding:48px;text-align:center;opacity:0.3;font-size:14px">A carregar...</div>';
-  const {data:budgets,error}=await sb.from('client_budgets').select('*,profiles(full_name,company),projects(name)').order('created_at',{ascending:false});
+  const {data:budgets,error}=await sb.from('client_budgets').select('*').order('created_at',{ascending:false});
   if(error){ list.innerHTML=`<div style="padding:48px;text-align:center;opacity:0.4;font-size:13px">Erro ao carregar orçamentos: ${escHtml(error.message)}</div>`; console.error(error); return; }
+
+  // Juntar perfis de cliente e nomes de projeto manualmente
+  // (mais robusto que embeds automáticos profiles(...)/projects(...),
+  // que dependem de foreign keys configuradas entre as tabelas)
+  const budgetClientIds=[...new Set((budgets||[]).map(b=>b.client_id).filter(Boolean))];
+  const budgetProjectIds=[...new Set((budgets||[]).map(b=>b.project_id).filter(Boolean))];
+  const [{data:budgetProfiles},{data:budgetProjects}]=await Promise.all([
+    budgetClientIds.length?sb.from('profiles').select('id,full_name,company').in('id',budgetClientIds):Promise.resolve({data:[]}),
+    budgetProjectIds.length?sb.from('projects').select('id,name').in('id',budgetProjectIds):Promise.resolve({data:[]})
+  ]);
+  const profileById={}; (budgetProfiles||[]).forEach(pr=>{ profileById[pr.id]=pr; });
+  const projectById={}; (budgetProjects||[]).forEach(pj=>{ projectById[pj.id]=pj; });
+  (budgets||[]).forEach(b=>{
+    b.profiles=b.client_id?profileById[b.client_id]||null:null;
+    b.projects=b.project_id?projectById[b.project_id]||null:null;
+  });
 
   const budgetIds=(budgets||[]).map(b=>b.id);
   let linesByBudget={};
