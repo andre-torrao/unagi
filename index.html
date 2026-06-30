@@ -96,6 +96,11 @@ section{padding:120px 56px}
 .section-tag{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;color:var(--black)}
 #quem .section-tag,#cta-banner .section-tag{color:var(--white)}
 .section-title{font-size:clamp(36px,5vw,60px);font-weight:900;letter-spacing:-2px;line-height:1.05;margin-bottom:48px}
+#privacy-page{background:var(--white);min-height:100vh}
+#privacy-page .section-title{font-size:clamp(28px,4vw,40px);margin-bottom:0}
+.privacy-content h2{font-size:18px;font-weight:800;letter-spacing:-0.3px;margin:40px 0 12px}
+.privacy-content h2:first-child{margin-top:0}
+.privacy-content p{font-size:15px;line-height:1.8;font-weight:300}
 
 /* SOBRE NÓS — split */
 #sobre{background:var(--white);border-top:1px solid var(--light)}
@@ -116,6 +121,8 @@ section{padding:120px 56px}
 .quem-photo-img{width:100%;height:100%;object-fit:cover;display:block}
 .quem-photo-badge{position:absolute;bottom:20px;left:20px;background:var(--white);color:var(--black);font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:1px}
 .quem-content{padding-top:8px}
+.quem-partners-icons{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:140px}
+.quem-partners-icons span{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;font-size:26px;border:1px solid rgba(255,255,255,0.15);border-radius:50%;color:var(--white)}
 .quem-name{font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:8px;color:var(--white)}
 .quem-role{font-size:14px;font-weight:500;letter-spacing:0.5px;color:var(--white);margin-bottom:36px;line-height:1.5}
 .quem-bio{font-size:16px;line-height:1.8;font-weight:300;color:var(--white);margin-bottom:40px}
@@ -462,6 +469,18 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
       </div>
     </div>
   </div>
+
+  <div class="quem-grid" style="margin-top:80px;padding-top:64px;border-top:1px solid rgba(255,255,255,0.1)">
+    <div class="quem-partners-icons">
+      <span>◐</span><span>◍</span><span>◎</span><span>◉</span>
+    </div>
+    <div class="quem-content">
+      <h2 class="quem-name" style="font-size:clamp(28px,3.2vw,40px)">Parceiros</h2>
+      <p class="quem-role">Uma rede de especialistas, escolhida a dedo</p>
+      <p class="quem-bio">A UNAGI não trabalha sozinha. Cada projeto reúne a equipa certa para o desafio certo — uma rede de parceiros de confiança em Design, UX/UI, Produção e Desenvolvimento, que partilham o mesmo rigor e a mesma ambição por bons resultados.</p>
+      <p class="quem-bio">É esta combinação entre direção estratégica próxima e talento especializado que nos permite entregar trabalho de agência grande, com a agilidade e a atenção de uma equipa pequena.</p>
+    </div>
+  </div>
 </section>
 
 <!-- ÁREAS DE TRABALHO -->
@@ -610,13 +629,68 @@ footer{background:var(--black);color:var(--white);padding:72px 56px 48px}
     <p>© UNAGI. 2024</p>
     <div style="display:flex;gap:24px">
       <a href="#/portal">Área de Cliente</a>
-      <a href="#">Política de Privacidade</a>
-      <a href="#">Termos e Condições</a>
+      <a href="#/privacidade">Política de Privacidade e Cookies</a>
     </div>
   </div>
 </footer>
 
 </div><!-- /main-site -->
+
+<!-- PRIVACY POLICY PAGE -->
+<div id="privacy-page" style="display:none">
+  <nav>
+    <a href="#" class="nav-logo">UNAGI.</a>
+    <div class="nav-links">
+      <a href="#" onclick="location.hash='';return false">← Voltar ao site</a>
+    </div>
+  </nav>
+  <div style="max-width:760px;margin:0 auto;padding:160px 24px 120px">
+    <div class="section-tag">Legal</div>
+    <h1 class="section-title" style="margin-bottom:8px">Política de Privacidade e Cookies</h1>
+    <p style="font-size:13px;opacity:0.45;margin-bottom:56px">Última atualização: junho de 2026</p>
+
+    <div class="privacy-content">
+      <h2>1. Quem somos</h2>
+      <p>A UNAGI. ("nós", "a nossa agência") é responsável pelo tratamento dos dados pessoais recolhidos através deste website. Para qualquer questão relacionada com privacidade ou proteção de dados, podes contactar-nos através de ola@unagi.pt.</p>
+
+      <h2>2. Que dados recolhemos</h2>
+      <p>Recolhemos os dados que nos fornece diretamente, nomeadamente através dos formulários de contacto e de pedido de orçamento neste site: nome, email, empresa, telefone, e a informação que decida partilhar sobre o seu projeto. Não recolhemos dados sensíveis nem dados de menores de idade de forma consciente.</p>
+
+      <h2>3. Para que usamos os seus dados</h2>
+      <p>Usamos os dados recolhidos exclusivamente para responder ao seu pedido de contacto ou orçamento, para gerir a relação comercial caso se torne cliente, e para lhe enviar comunicações relacionadas com os serviços contratados. Não vendemos nem partilhamos os seus dados com terceiros para fins de marketing alheios à UNAGI.</p>
+
+      <h2>4. Base legal do tratamento</h2>
+      <p>O tratamento dos seus dados assenta no seu consentimento explícito, dado ao submeter os formulários deste site, e no interesse legítimo da UNAGI em responder a pedidos de contacto e gerir relações contratuais com clientes.</p>
+
+      <h2>5. Quanto tempo guardamos os seus dados</h2>
+      <p>Os dados de contacto são conservados pelo tempo necessário para responder ao seu pedido e, caso se torne cliente, durante a vigência da relação comercial e pelo período legalmente exigido para fins fiscais e contabilísticos. Pode solicitar a eliminação dos seus dados a qualquer momento, salvo quando exista obrigação legal de conservação.</p>
+
+      <h2>6. Os seus direitos</h2>
+      <p>Nos termos do Regulamento Geral de Proteção de Dados (RGPD), tem direito a aceder, retificar, apagar ou limitar o tratamento dos seus dados pessoais, bem como o direito à portabilidade dos dados e o direito de oposição ao tratamento. Pode exercer estes direitos a qualquer momento através de ola@unagi.pt.</p>
+
+      <h2>7. Cookies</h2>
+      <p>Este site pode utilizar cookies essenciais ao seu funcionamento (como a manutenção da sua sessão na Área de Cliente ou no Backoffice). Não utilizamos cookies de publicidade nem de rastreamento de terceiros. Pode gerir ou desativar cookies através das definições do seu navegador, ainda que isso possa afetar o funcionamento de algumas áreas do site, nomeadamente a Área de Cliente.</p>
+
+      <h2>8. Portal de Cliente e Backoffice</h2>
+      <p>Caso seja cliente da UNAGI com acesso à Área de Cliente, os dados associados à sua conta (orçamentos, projetos, documentos, mensagens) são armazenados de forma segura e só são acessíveis por si e pela equipa UNAGI responsável pela gestão da sua conta.</p>
+
+      <h2>9. Alterações a esta política</h2>
+      <p>Esta política pode ser atualizada periodicamente para refletir alterações nas nossas práticas ou por motivos legais. Recomendamos que a consulte regularmente. A data da última atualização está indicada no topo desta página.</p>
+
+      <h2>10. Contacto</h2>
+      <p>Para qualquer questão sobre esta política ou sobre o tratamento dos seus dados pessoais, contacte-nos através de ola@unagi.pt.</p>
+    </div>
+  </div>
+
+  <footer style="margin-top:0">
+    <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:32px">
+      <p>© UNAGI. 2024</p>
+      <div style="display:flex;gap:24px">
+        <a href="#" onclick="location.hash='';return false">Voltar ao site</a>
+      </div>
+    </div>
+  </footer>
+</div>
 
 <!-- ADMIN LOGIN -->
 <div id="admin-login" style="display:none">
@@ -1125,7 +1199,7 @@ async function checkRoute(){
   const hash = location.hash;
   if(hash==='#/admin'){
     if(sessionStorage.getItem('unagi_admin_session')==='1'){
-      hideEl('main-site'); hideEl('admin-login'); hideEl('portal-login'); hideEl('portal-page');
+      hideEl('main-site'); hideEl('admin-login'); hideEl('portal-login'); hideEl('portal-page'); hideEl('privacy-page');
       showEl('admin-page');
       renderAdmin();
       return;
@@ -1138,13 +1212,19 @@ async function checkRoute(){
       _portalUser=data.session.user;
       const {data:profile}=await sb.from('profiles').select('*').eq('id',_portalUser.id).single();
       _portalProfile=profile;
-      hideEl('main-site'); hideEl('admin-login'); hideEl('admin-page'); hideEl('portal-login');
+      hideEl('main-site'); hideEl('admin-login'); hideEl('admin-page'); hideEl('portal-login'); hideEl('privacy-page');
       showEl('portal-page');
       document.getElementById('portal-client-name').textContent=profile?.full_name||_portalUser.email;
       await loadPortalProjects();
       return;
     }
     return showPortalLogin();
+  }
+  if(hash==='#/privacidade'){
+    hideEl('main-site'); hideEl('admin-login'); hideEl('admin-page'); hideEl('portal-login'); hideEl('portal-page');
+    showEl('privacy-page');
+    window.scrollTo(0,0);
+    return;
   }
   showMainSite();
 }
@@ -1153,6 +1233,7 @@ function showMainSite(){
   showEl('main-site');
   hideEl('admin-login'); hideEl('admin-page');
   hideEl('portal-login'); hideEl('portal-page');
+  hideEl('privacy-page');
 }
 
 function showAdminLogin(){
