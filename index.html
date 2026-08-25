@@ -144,7 +144,15 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 .s-publicos-left .s-eyebrow{margin-bottom:28px}
 .s-publicos-title{font-size:clamp(28px,3.8vw,48px);font-weight:900;letter-spacing:-1.5px;line-height:1.05;margin-top:0}
 .s-publicos-title .green{color:#c8ff00}
-.s-publicos-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.s-publicos-cards-wrap{position:relative}
+.s-publicos-cards{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none}
+.s-publicos-cards::-webkit-scrollbar{display:none}
+.s-publico-card{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start}
+.s-publicos-nav{display:flex;gap:12px;margin-top:24px}
+.s-publicos-nav-btn{width:44px;height:44px;border-radius:50%;border:1px solid rgba(0,0,0,0.15);background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#0a0a0a;transition:background .2s,color .2s,border-color .2s}
+.s-publicos-nav-btn:hover{background:#0a0a0a;color:#fff;border-color:#0a0a0a}
+.s-publicos-nav-btn:disabled{opacity:0.3;cursor:default}
+.s-publicos-nav-btn:disabled:hover{background:#fff;color:#0a0a0a;border-color:rgba(0,0,0,0.15)}
 .s-publico-card{background:#0a0a0a;color:#fff;padding:28px 24px;border-radius:4px}
 .s-publico-icon{width:52px;height:52px;background:rgba(255,255,255,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.8);margin-bottom:18px}
 .s-publico-name{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
@@ -215,7 +223,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 .quem-photo-badge{position:absolute;bottom:20px;left:20px;background:#fff;color:#0a0a0a;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:8px 14px;border-radius:1px}
 
 /* RESPONSIVE */
-@media(max-width:1100px){.s-servicos-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.s-servicos-grid{grid-template-columns:repeat(2,1fr)}.s-publico-card{flex-basis:calc((100% - 20px)/2)}}
 @media(max-width:768px){
   #site-nav{padding:0 20px}
   .snav-links{display:none}
@@ -228,7 +236,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
   .s-filosofia-grid{grid-template-columns:1fr;gap:40px}
   #s-publicos{padding:64px 20px}
   .s-publicos-grid{grid-template-columns:1fr;gap:32px}
-  .s-publicos-cards{grid-template-columns:1fr}
+  .s-publico-card{flex-basis:78%}
   #s-cta-final{padding:64px 20px;grid-template-columns:1fr;text-align:center;gap:24px}
   .s-cta-icon{margin:0 auto}
   .s-cta-btn{justify-content:center}
@@ -242,7 +250,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 @media(max-width:480px){
   .s-servicos-grid{grid-template-columns:repeat(2,1fr)}
   .s-footer-top{grid-template-columns:1fr}
-  .s-publicos-cards{grid-template-columns:1fr}
+  .s-publico-card{flex-basis:90%}
 }
 
 /* ADMIN — hidden page */
@@ -563,32 +571,42 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
   <div class="s-publicos-grid">
     <div class="s-publicos-left">
       <div class="s-eyebrow">A quem se destina</div>
-      <h2 class="s-publicos-title">Para quem quer comunicar melhor e crescer de <span class="green">verdade.</span></h2>
+      <h2 class="s-publicos-title">Para quem quer comunicar melhor e ter uma presença online <span class="green">relevante.</span></h2>
     </div>
-    <div class="s-publicos-cards">
-      <div class="s-publico-card">
-        <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
-        <div class="s-publico-name">Pequenos Negócios</div>
-        <p class="s-publico-desc">Que querem marcar a diferença na sua comunidade.</p>
-        <div class="s-publico-line"></div>
+    <div class="s-publicos-cards-wrap">
+      <div class="s-publicos-cards" id="publicos-track">
+        <div class="s-publico-card">
+          <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+          <div class="s-publico-name">Pequenos Negócios</div>
+          <p class="s-publico-desc">Que querem marcar a diferença na sua comunidade.</p>
+          <div class="s-publico-line"></div>
+        </div>
+        <div class="s-publico-card">
+          <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6M3 15h6M15 9h3M15 15h3"/></svg></div>
+          <div class="s-publico-name">Empresas em Crescimento</div>
+          <p class="s-publico-desc">Que precisam de estrutura, consistência e resultados.</p>
+          <div class="s-publico-line"></div>
+        </div>
+        <div class="s-publico-card">
+          <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+          <div class="s-publico-name">Equipas e Startups</div>
+          <p class="s-publico-desc">Que precisam de comunicação ágil, criativa e com impacto.</p>
+          <div class="s-publico-line"></div>
+        </div>
+        <div class="s-publico-card">
+          <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="s-publico-name">Organizações e ONG's</div>
+          <p class="s-publico-desc">Que querem gerar mudança e envolver mais pessoas.</p>
+          <div class="s-publico-line"></div>
+        </div>
       </div>
-      <div class="s-publico-card">
-        <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h6M3 15h6M15 9h3M15 15h3"/></svg></div>
-        <div class="s-publico-name">Empresas em Crescimento</div>
-        <p class="s-publico-desc">Que precisam de estrutura, consistência e resultados.</p>
-        <div class="s-publico-line"></div>
-      </div>
-      <div class="s-publico-card">
-        <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <div class="s-publico-name">Equipas e Startups</div>
-        <p class="s-publico-desc">Que precisam de comunicação ágil, criativa e com impacto.</p>
-        <div class="s-publico-line"></div>
-      </div>
-      <div class="s-publico-card">
-        <div class="s-publico-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
-        <div class="s-publico-name">Organizações e ONG's</div>
-        <p class="s-publico-desc">Que querem gerar mudança e envolver mais pessoas.</p>
-        <div class="s-publico-line"></div>
+      <div class="s-publicos-nav">
+        <button class="s-publicos-nav-btn" id="publicos-prev" onclick="publicosSlide(-1)" aria-label="Anterior">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="s-publicos-nav-btn" id="publicos-next" onclick="publicosSlide(1)" aria-label="Seguinte">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
     </div>
   </div>
@@ -1268,6 +1286,33 @@ function closeSiteNav(){
   document.getElementById('snav-mobile').classList.remove('open');
   document.body.style.overflow='';
 }
+
+// ── SITE PÚBLICO — slider "A quem se destina" ──
+function publicosSlide(dir){
+  const track=document.getElementById('publicos-track');
+  if(!track)return;
+  const card=track.querySelector('.s-publico-card');
+  const gap=20;
+  const amount=(card.offsetWidth+gap)*dir;
+  track.scrollBy({left:amount,behavior:'smooth'});
+}
+function publicosUpdateNav(){
+  const track=document.getElementById('publicos-track');
+  const prev=document.getElementById('publicos-prev');
+  const next=document.getElementById('publicos-next');
+  if(!track||!prev||!next)return;
+  const max=track.scrollWidth-track.clientWidth-4;
+  prev.disabled=track.scrollLeft<=4;
+  next.disabled=track.scrollLeft>=max;
+}
+(function(){
+  const track=document.getElementById('publicos-track');
+  if(track){
+    track.addEventListener('scroll',publicosUpdateNav);
+    window.addEventListener('resize',publicosUpdateNav);
+    publicosUpdateNav();
+  }
+})();
 
 // ── SITE PÚBLICO — modal de contacto ──
 function openContactModal(){
