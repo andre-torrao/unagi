@@ -216,10 +216,26 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 .s-footer-bottom a:hover{color:rgba(0,0,0,0.7)}
 
 /* PRIVACIDADE — manter */
-#privacy-page{background:#fff;min-height:100vh}
-.privacy-content h2{font-size:18px;font-weight:800;letter-spacing:-0.3px;margin:40px 0 12px}
+#privacy-page{background:#fff;min-height:100vh;color:#0a0a0a}
+.privacy-nav{position:sticky;top:0;background:#0a0a0a;padding:20px 48px;display:flex;justify-content:space-between;align-items:center;z-index:10}
+.privacy-nav-logo{color:#fff;font-size:20px;font-weight:900;letter-spacing:-0.5px;text-decoration:none}
+.privacy-nav-logo .dot{color:#c8ff00}
+.privacy-nav-back{color:rgba(255,255,255,0.6);text-decoration:none;font-size:13px;font-weight:500;transition:color .15s}
+.privacy-nav-back:hover{color:#fff}
+.privacy-tag{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#0a0a0a;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.privacy-tag::after{content:'';width:32px;height:2px;background:#1a6bff;border-radius:2px;display:block}
+.privacy-title{font-size:clamp(30px,4vw,46px);font-weight:900;letter-spacing:-1.3px;margin-bottom:8px;line-height:1.1}
+.privacy-updated{font-size:13px;color:rgba(0,0,0,0.4);margin-bottom:56px}
+.privacy-content h2{font-size:18px;font-weight:800;letter-spacing:-0.3px;margin:40px 0 12px;color:#0a0a0a;padding-left:14px;border-left:3px solid #1a6bff}
 .privacy-content h2:first-child{margin-top:0}
-.privacy-content p{font-size:15px;line-height:1.8;font-weight:300}
+.privacy-content p{font-size:15px;line-height:1.8;font-weight:400;color:#444}
+.privacy-footer{background:#fff;border-top:1px solid rgba(0,0,0,0.08);padding:28px 48px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:rgba(0,0,0,0.4)}
+.privacy-footer a{color:rgba(0,0,0,0.4);text-decoration:none;transition:color .15s}
+.privacy-footer a:hover{color:#1a6bff}
+@media(max-width:640px){
+  .privacy-nav{padding:16px 20px}
+  .privacy-footer{padding:20px;flex-direction:column;gap:10px;text-align:center}
+}
 /* CSS do quem-somos/parceiros (portal interno) */
 .quem-side-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 .quem-side-block{display:flex;flex-direction:column}
@@ -734,7 +750,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
       <div class="s-footer-col-title">Contactos</div>
       <p>ola.unagi@gmail.com</p>
       <p>+351 918 239 713</p>
-      <p>Portugal &nbsp;|&nbsp; Remoto</p>
+      <p>Portugal</p>
     </div>
   </div>
   <div class="s-footer-bottom">
@@ -750,16 +766,14 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 
 <!-- PRIVACY POLICY PAGE -->
 <div id="privacy-page" style="display:none">
-  <nav>
-    <a href="#" class="nav-logo">UNAGI.</a>
-    <div class="nav-links">
-      <a href="#" onclick="location.hash='';return false">← Voltar ao site</a>
-    </div>
+  <nav class="privacy-nav">
+    <a href="#" class="privacy-nav-logo" onclick="location.hash='';return false">UNAGI<span class="dot">.</span></a>
+    <a href="#" class="privacy-nav-back" onclick="location.hash='';return false">← Voltar ao site</a>
   </nav>
-  <div style="max-width:760px;margin:0 auto;padding:160px 24px 120px">
-    <div class="section-tag">Legal</div>
-    <h1 class="section-title" style="margin-bottom:8px">Política de Privacidade e Cookies</h1>
-    <p style="font-size:13px;opacity:0.45;margin-bottom:56px">Última atualização: junho de 2026</p>
+  <div style="max-width:760px;margin:0 auto;padding:80px 24px 100px">
+    <div class="privacy-tag">Legal</div>
+    <h1 class="privacy-title">Política de Privacidade e Cookies</h1>
+    <p class="privacy-updated">Última atualização: junho de 2026</p>
 
     <div class="privacy-content">
       <h2>1. Quem somos</h2>
@@ -794,14 +808,10 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
     </div>
   </div>
 
-  <footer style="margin-top:0">
-    <div class="footer-bottom" style="border-top:1px solid rgba(255,255,255,0.1);padding-top:32px">
-      <p>© UNAGI. 2024</p>
-      <div style="display:flex;gap:24px">
-        <a href="#" onclick="location.hash='';return false">Voltar ao site</a>
-      </div>
-    </div>
-  </footer>
+  <div class="privacy-footer">
+    <p>© 2026 UNAGI.Comms Todos os direitos reservados.</p>
+    <a href="#" onclick="location.hash='';return false">Voltar ao site</a>
+  </div>
 </div>
 
 <!-- ADMIN LOGIN -->
