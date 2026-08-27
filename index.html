@@ -99,9 +99,9 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 .snav-mobile .snav-cta{margin-top:16px;justify-content:center;font-size:15px;padding:14px 20px;border-radius:3px}
 
 /* HERO */
-#s-hero{min-height:100vh;background:#0a0a0a;color:#fff;padding:120px 48px 80px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden}
-.s-hero-right{display:flex;align-items:center;justify-content:center;min-width:0}
-.s-hero-right img{width:100%;max-width:480px;height:auto;display:block}
+#s-hero{min-height:100vh;background:#0a0a0a;color:#fff;padding:120px 0 80px 48px;display:grid;grid-template-columns:1fr 1.1fr;gap:20px;align-items:center;position:relative;overflow:hidden}
+.s-hero-right{display:flex;align-items:center;justify-content:flex-end;min-width:0}
+.s-hero-right img{width:100%;max-width:680px;height:auto;display:block}
 .s-hero-left{position:relative;z-index:1;max-width:680px;min-width:0}
 .s-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:28px}
 .s-hero-title{font-size:clamp(52px,7vw,88px);font-weight:900;line-height:0.95;letter-spacing:-2px;text-transform:uppercase;margin-bottom:0}
@@ -264,7 +264,8 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
   .snav-links{display:none}
   .snav-burger{display:flex}
   #s-hero{padding:100px 20px 60px;min-height:auto;grid-template-columns:1fr}
-  .s-hero-right img{max-width:260px;margin:32px auto 0;display:block}
+  .s-hero-right{justify-content:flex-end;margin-right:-20px}
+  .s-hero-right img{max-width:78%;margin:32px 0 0;display:block}
   #s-servicos{padding:64px 20px}
   .s-servicos-grid{grid-template-columns:1fr;gap:36px}
   #s-filosofia{padding:64px 20px}
