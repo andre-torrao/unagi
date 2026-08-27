@@ -143,13 +143,14 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
 .s-sobre-title{font-size:clamp(30px,4vw,46px);font-weight:900;letter-spacing:-1.2px;line-height:1.1;color:#0a0a0a}
 .s-sobre-title .blue{color:#1a6bff}
 .s-sobre-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
-.s-sobre-avatar{width:150px;height:150px;border-radius:50%;object-fit:cover;object-position:center 25%;margin-bottom:24px;display:block}
-.s-sobre-founder-name{font-size:21px;font-weight:800;color:#0a0a0a;margin-bottom:4px;letter-spacing:-0.3px}
-.s-sobre-founder-role{font-size:12px;font-weight:700;letter-spacing:1.2px;color:#1a6bff;text-transform:uppercase;margin-bottom:16px}
-.s-sobre-founder-bio{font-size:15px;line-height:1.75;color:#444;margin-bottom:14px}
+.s-sobre-avatar{width:150px;height:150px;border-radius:50%;object-fit:cover;object-position:center 25%;margin:0 auto 24px;display:block}
+.s-sobre-founder-role{font-size:12px;font-weight:700;letter-spacing:1.2px;color:#1a6bff;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.s-sobre-founder-name{font-size:21px;font-weight:800;color:#0a0a0a;margin-bottom:20px;letter-spacing:-0.3px;text-align:center}
+.s-sobre-founder-bio{font-size:15px;line-height:1.75;color:#444;margin-bottom:14px;text-align:left}
 .s-sobre-founder-bio:last-child{margin-bottom:0}
-.s-sobre-partners-title{font-size:21px;font-weight:800;color:#0a0a0a;margin-bottom:14px;letter-spacing:-0.3px}
-.s-sobre-partners-desc{font-size:15px;line-height:1.75;color:#444;margin-bottom:14px}
+.s-sobre-icon-circle{width:150px;height:150px;border-radius:50%;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+.s-sobre-partners-title{font-size:21px;font-weight:800;color:#0a0a0a;margin-bottom:14px;letter-spacing:-0.3px;text-align:center}
+.s-sobre-partners-desc{font-size:15px;line-height:1.75;color:#444;margin-bottom:14px;text-align:left}
 .s-sobre-partners-desc:last-child{margin-bottom:0}
 .s-publicos-grid{display:grid;grid-template-columns:1fr 2fr;gap:80px;align-items:start}
 .s-publicos-left .s-eyebrow{margin-bottom:28px}
@@ -298,6 +299,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
   .s-filosofia-quote-text{font-size:21px}
   .s-sobre-title{font-size:8.5vw}
   .s-sobre-avatar{width:120px;height:120px}
+  .s-sobre-icon-circle{width:120px;height:120px}
   .s-publicos-title{font-size:8vw}
   .s-cta-title{font-size:9vw}
   .s-cta-form-wrap{padding:20px}
@@ -616,6 +618,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
       <p class="s-sobre-founder-bio">Sem complicar o que pode ser simples.<br>E, idealmente, com algum sentido de humor pelo caminho.</p>
     </div>
     <div class="s-sobre-partners">
+      <div class="s-sobre-icon-circle"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2.3"/><circle cx="5" cy="19" r="2.3"/><circle cx="19" cy="19" r="2.3"/><line x1="12" y1="7.3" x2="6.3" y2="16.9"/><line x1="12" y1="7.3" x2="17.7" y2="16.9"/><line x1="7.3" y1="19" x2="16.7" y2="19"/></svg></div>
       <div class="s-sobre-partners-title">Uma rede que acrescenta valor</div>
       <p class="s-sobre-partners-desc">Por trás de cada projeto está uma rede alargada de parceiros, especialistas e profissionais com quem trabalhamos de forma próxima.</p>
       <p class="s-sobre-partners-desc">Esta rede permite-nos ir mais longe, reunir diferentes competências e encontrar, para cada desafio, as pessoas e soluções certas. Porque cada projeto é único e deve ter acesso ao que realmente precisa para ser concretizado da melhor forma.</p>
@@ -777,7 +780,7 @@ body{font-family:'Inter',sans-serif;background:#fff;color:#0a0a0a;overflow-x:hid
     <div class="s-footer-col">
       <div class="s-footer-col-title">Contactos</div>
       <p>ola.unagi@gmail.com</p>
-      <p>+351 918 239 713</p>
+      <a href="https://wa.me/351918239713" target="_blank" rel="noopener">WhatsApp</a>
       <p>Portugal</p>
     </div>
   </div>
